@@ -31,7 +31,7 @@ def query_sparql(endpoint, query, graph_iri):
     return results
 
 
-with open("QueryMetaBrainz_context.txt", "r") as f:
+with open("Query_context.txt", "r") as f:
     context = f.readlines()
 with open("question_0.txt", 'r') as f:
     question = f.readlines()
