@@ -5,7 +5,7 @@ http://sample/musicbrainz/reconciled,
 The properties and types of instances are reconciled with Wikidata as much as possible. So regarding queries across
 different databases, we may also use the external Wikidata.
 
-As for TheSession database, please see the mapping relations between its attributes and properties of Wikidata.
+As for TheSession database, please see the mapping relations between its attributes and the properties from Wikidata.
 {
     "address": "http://www.wikidata.org/prop/direct/P6375",
     "alias": "http://www.wikidata.org/prop/direct/P742",
