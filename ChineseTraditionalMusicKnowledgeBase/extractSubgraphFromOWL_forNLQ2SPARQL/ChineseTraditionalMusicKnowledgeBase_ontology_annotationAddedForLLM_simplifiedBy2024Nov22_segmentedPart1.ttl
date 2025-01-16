@@ -348,7 +348,7 @@ ctm:musicTypePrincipalInstrument rdf:type owl:ObjectProperty ;
                                  rdfs:domain ctm:MusicType ;
                                  rdfs:range mo:Instrument ;
                                  rdfs:comment "主奏乐器是在乐种乐队编制中居主导地位的乐器，它有时也是该乐种的定律乐器" ;
-                                 rdfs:label "乐种的主奏(主要)乐器有" .
+                                 rdfs:label "乐种的主奏乐器有、乐种的主要乐器有" .
 
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#musicType_Instrument
