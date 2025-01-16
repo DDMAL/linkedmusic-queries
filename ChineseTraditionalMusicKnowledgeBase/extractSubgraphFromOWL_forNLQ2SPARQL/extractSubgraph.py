@@ -23,11 +23,11 @@ def callGPT(prompt):
 
 
 # Read the context and question from the file:
-with open("中华传统音乐文化知识库本体_2023年12月(turtle格式)_增加利于LLM的annotation_simplifiedBy2024Nov22_segmentedPart1.ttl", "r") as f1: 
+with open("ChineseTraditionalMusicKnowledgeBase_ontology_annotationAddedForLLM_simplifiedBy2024Nov22_segmentedPart1.ttl", "r") as f1: 
     context1 = f1.readlines()
-with open("中华传统音乐文化知识库本体_2023年12月(turtle格式)_增加利于LLM的annotation_simplifiedBy2024Nov22_segmentedPart2.ttl", "r") as f2: 
+with open("ChineseTraditionalMusicKnowledgeBase_ontology_annotationAddedForLLM_simplifiedBy2024Nov22_segmentedPart2.ttl", "r") as f2: 
     context2 = f2.readlines()
-with open("中华传统音乐文化知识库本体_2023年12月(turtle格式)_增加利于LLM的annotation_simplifiedBy2024Nov22_segmentedPart3.ttl", "r") as f3: 
+with open("ChineseTraditionalMusicKnowledgeBase_ontology_annotationAddedForLLM_simplifiedBy2024Nov22_segmentedPart3.ttl", "r") as f3: 
     context3 = f3.readlines()  
 with open("question_NationalInstrumentalMusic_Instrument.txt", 'r') as f:
     question = f.readlines()
