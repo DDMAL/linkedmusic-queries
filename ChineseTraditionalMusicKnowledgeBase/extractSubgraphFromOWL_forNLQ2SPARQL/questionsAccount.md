@@ -7,6 +7,7 @@
     *. :NationalInstrumentalMusic->mo:Instrument
         expectedExtractedEntities: {ctm:MusicType mo:Instrument}{ctm:musicTypePrincipalInstrument}
 *. :MusicType->:PieceWithPerformance->mo:Instrument
+    expectedExtractedEntities: {ctm:MusicType ctm:PieceWithPerformance mo:Instrument}{bf:instrument ctm:representativePiece ctm:samplePieceWithPerformance} # This involves both objectProperty and dataProperty
 3. :MusicType<-:SpecialIndependentResource->bf:Place
 
 *. mo:Instrument->:MusicType

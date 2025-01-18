@@ -352,6 +352,7 @@ ctm:piecePrincipalInstrument rdf:type owl:ObjectProperty ;
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#pieceType
 ctm:pieceType rdf:type owl:ObjectProperty ;
+              owl:inverseOf ctm:samplePieceWithPerformance ;
               rdfs:domain ctm:PieceWithPerformance ;
               rdfs:range ctm:MusicType ;
               rdfs:comment "关联“演出的曲目”和它涉及的乐种或所属的音乐类型，或关联“演出的曲目”和它涉及的体裁。实际上，该属性的值域主要是音乐类型(乐种)" ;
@@ -461,6 +462,18 @@ ctm:representativeMusicType rdf:type owl:ObjectProperty ;
                             rdfs:range ctm:MusicType ;
                             rdfs:comment "关联民族(族群)和音乐类型(乐种)" ;
                             rdfs:label "民族有…代表性乐种" .
+
+
+###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#samplePieceWithPerformance
+ctm:samplePieceWithPerformance rdf:type owl:ObjectProperty ;
+                               rdfs:domain [ rdf:type owl:Class ;
+                                             owl:unionOf ( mo:Instrument
+                                                           ctm:MusicType
+                                                         )
+                                           ] ;
+                               rdfs:range ctm:PieceWithPerformance ;
+                               rdfs:comment "关联一个乐器和它的代表曲目，或关联一个音乐类型(乐种)和它的代表曲目" ;
+                               rdfs:label "示例曲目的演出" .
 
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#traditionalMusicBranch
