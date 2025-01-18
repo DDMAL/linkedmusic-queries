@@ -6,6 +6,7 @@
 @prefix dbo: <http://dbpedia.org/ontology/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix opus: <http://lsdis.cs.uga.edu/projects/semdis/opus#> .
@@ -18,62 +19,8 @@
 @prefix cidoc-crm: <http://www.cidoc-crm.org/cidoc-crm/> .
 @prefix dbpedia-owl: <https://dbpedia.org/ontology/> .
 @prefix musicbrainz: <http://musicbrainz.org/ns/mmd-2.0#> .
+@base <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
 
-
-<https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music> rdf:type owl:Ontology ;
-                                                                   owl:imports <http://www.w3.org/2004/02/skos/core> ;
-                                                                   owl:versionInfo "1.1 simplified"^^rdfs:Literal .
-
-#################################################################
-#    Annotation properties
-#################################################################
-
-###  http://purl.org/dc/terms/title
-dcterms:title rdfs:range rdfs:Literal .
-
-
-###  http://www.w3.org/2004/02/skos/core#definition
-skos:definition rdf:type owl:AnnotationProperty ;
-                rdfs:range rdfs:Literal .
-
-
-###  http://www.w3.org/2004/02/skos/core#relatedMatch
-skos:relatedMatch rdf:type owl:AnnotationProperty ;
-                  rdfs:range cidoc-crm:E55_Type .
-
-
-###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#deprecatedComment
-ctm:deprecatedComment rdf:type owl:AnnotationProperty .
-
-
-###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#intactFragmentIdentifier
-ctm:intactFragmentIdentifier rdf:type owl:AnnotationProperty ;
-                             rdfs:comment """就对此label的称谓，可参考《本体与数字图书馆》p.130
-此标注的识别符也通常遵循谓语式的表达习惯，即间于定义域、值域之间，易于构成完整、通顺的陈述
-此标注的识别符也是原识别符，后因考虑到本体元素名不宜过于冗长，故精简而保留此原记录""" ;
-                             rdfs:label "完整片段识别符" .
-
-
-###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#logForUpdating
-ctm:logForUpdating rdf:type owl:AnnotationProperty ;
-                   rdfs:comment "版本更新的日志" .
-
-
-#################################################################
-#    Datatypes
-#################################################################
-
-###  http://www.w3.org/2001/XMLSchema#date
-xsd:date rdf:type rdfs:Datatype .
-
-
-###  http://www.w3.org/2001/XMLSchema#time
-xsd:time rdf:type rdfs:Datatype .
-
-
-#################################################################
-#    Object Properties
-#################################################################
 
 ###  http://dbpedia.org/ontology/ethnicity
 dbo:ethnicity rdf:type owl:ObjectProperty ;
@@ -145,13 +92,18 @@ bf:partOf rdf:type owl:ObjectProperty ;
 
 ###  http://id.loc.gov/ontologies/bibframe/place
 bf:place rdf:type owl:ObjectProperty ;
+         owl:inverseOf ctm:placeHasMusicTypeOrInstrument ;
          rdfs:domain [ rdf:type owl:Class ;
                        owl:unionOf ( bf:MusicInstrument
                                      ctm:MusicType
                                      ctm:WindAndDrumMusic
                                    )
                      ] ;
-         rdfs:range bf:Place ;
+         rdfs:range [ rdf:type owl:Class ;
+                      owl:unionOf ( bf:Place
+                                    places:Province
+                                  )
+                    ] ;
          rdfs:comment "关联一个音乐类型(乐种)和它的分布地域，或关联一个乐器和它的分布地域" ;
          rdfs:label "分布于" ,
                     "分布地域" .
@@ -204,11 +156,16 @@ skos:relatedMatch rdfs:domain cidoc-crm:E55_Type .
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#ethnicGroup
 ctm:ethnicGroup rdf:type owl:ObjectProperty ;
                 rdfs:domain [ rdf:type owl:Class ;
-                              owl:unionOf ( ctm:MusicType
+                              owl:unionOf ( mo:Instrument
+                                            ctm:MusicType
                                             ctm:OrientalMusicalInstrument
                                           )
                             ] ;
-                rdfs:range dbpedia-owl:EthnicGroup ;
+                rdfs:range [ rdf:type owl:Class ;
+                             owl:unionOf ( dbpedia-owl:EthnicGroup
+                                           ctm:ChineseNation
+                                         )
+                           ] ;
                 rdfs:comment "关联一个乐种或乐器对应的族群或民族信息" ;
                 rdfs:label "对应…族群(民族)" .
 
@@ -395,6 +352,7 @@ ctm:piecePrincipalInstrument rdf:type owl:ObjectProperty ;
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#pieceType
 ctm:pieceType rdf:type owl:ObjectProperty ;
+              owl:inverseOf ctm:samplePieceWithPerformance ;
               rdfs:domain ctm:PieceWithPerformance ;
               rdfs:range ctm:MusicType ;
               rdfs:comment "关联“演出的曲目”和它涉及的乐种或所属的音乐类型，或关联“演出的曲目”和它涉及的体裁。实际上，该属性的值域主要是音乐类型(乐种)" ;
@@ -403,7 +361,11 @@ ctm:pieceType rdf:type owl:ObjectProperty ;
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#placeHasMusicTypeOrInstrument
 ctm:placeHasMusicTypeOrInstrument rdf:type owl:ObjectProperty ;
-                                  rdfs:domain bf:Place ;
+                                  rdfs:domain [ rdf:type owl:Class ;
+                                                owl:unionOf ( bf:Place
+                                                              places:Province
+                                                            )
+                                              ] ;
                                   rdfs:range [ rdf:type owl:Class ;
                                                owl:unionOf ( bf:MusicInstrument
                                                              ctm:MusicType
@@ -412,7 +374,7 @@ ctm:placeHasMusicTypeOrInstrument rdf:type owl:ObjectProperty ;
                                              ] ;
                                   rdfs:comment "关联某地域和某音乐类型(乐种)，如某地的某音乐类型(乐种)" ,
                                                "或关联某地域和某乐器，如某地的某乐器" ;
-                                  rdfs:label "地域有音乐类型(乐种)或乐器" .            
+                                  rdfs:label "地域有音乐类型(乐种)或乐器" .
 
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#recordingAddress
@@ -446,6 +408,7 @@ ctm:relatesInstrument rdf:type owl:ObjectProperty ;
                       rdfs:domain ctm:SpecialIndependentResource ;
                       rdfs:range [ rdf:type owl:Class ;
                                    owl:unionOf ( mo:Instrument
+                                                 ctm:ChineseInstrument
                                                  ctm:OrientalMusicalInstrument
                                                )
                                  ] ;
@@ -499,3 +462,74 @@ ctm:representativeMusicType rdf:type owl:ObjectProperty ;
                             rdfs:range ctm:MusicType ;
                             rdfs:comment "关联民族(族群)和音乐类型(乐种)" ;
                             rdfs:label "民族有…代表性乐种" .
+
+
+###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#samplePieceWithPerformance
+ctm:samplePieceWithPerformance rdf:type owl:ObjectProperty ;
+                               rdfs:domain [ rdf:type owl:Class ;
+                                             owl:unionOf ( mo:Instrument
+                                                           ctm:MusicType
+                                                         )
+                                           ] ;
+                               rdfs:range ctm:PieceWithPerformance ;
+                               rdfs:comment "关联一个乐器和它的代表曲目，或关联一个音乐类型(乐种)和它的代表曲目" ;
+                               rdfs:label "示例曲目的演出" .
+
+
+###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#traditionalMusicBranch
+ctm:traditionalMusicBranch rdf:type owl:ObjectProperty ;
+                           rdfs:domain ctm:MusicType ;
+                           rdfs:range ctm:TraditionalMusicBranch ;
+                           rdfs:comment "指一个乐种对应的传统音乐支脉或分支" ;
+                           rdfs:label "对应的传统音乐支脉" .
+
+
+###  https://www.geonames.org/ontology#neighbour
+gn:neighbour rdf:type owl:ObjectProperty ;
+             rdfs:domain places:City ;
+             rdfs:range places:City ;
+             rdfs:label "市级行政单位与另一市级行政单位毗邻" .
+
+
+###  https://www.geonames.org/ontology#parentADM1
+gn:parentADM1 rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf gn:parentFeature ;
+              rdfs:domain places:City ;
+              rdfs:range places:Province ;
+              rdfs:comment "关联一个中国的市级行政单位和它所隶属的某个上一层级即省级行政单位" ;
+              rdfs:label "市级行政单位地域隶属于" .
+
+
+###  https://www.geonames.org/ontology#parentADM2
+gn:parentADM2 rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf gn:parentFeature ;
+              rdfs:domain places:County ;
+              rdfs:range places:City ;
+              rdfs:comment "关联一个中国的县、区级行政单位和它所隶属的某个上一层级即市级行政单位" ;
+              rdfs:label "县、区级行政单位地域隶属于" .
+
+
+###  https://www.geonames.org/ontology#parentADM3
+gn:parentADM3 rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf gn:parentFeature ;
+              rdfs:domain ctm:Town ;
+              rdfs:range places:County ;
+              rdfs:comment "关联一个中国的乡、镇级行政单位和它所隶属的某个上一层级即县级或区级行政单位" ;
+              rdfs:label "乡、镇级行政单位地域隶属于" .
+
+
+###  https://www.geonames.org/ontology#parentADM4
+gn:parentADM4 rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf gn:parentFeature ;
+              rdfs:domain places:Village ;
+              rdfs:range ctm:Town ;
+              rdfs:comment "关联一个中国的村、社区级行政单位和它所隶属的某个上一层级即乡、镇级行政单位" ;
+              rdfs:label "村、社区级行政单位地域隶属于" .
+
+
+###  https://www.geonames.org/ontology#parentFeature
+gn:parentFeature rdf:type owl:ObjectProperty ;
+                 rdfs:domain bf:Place ;
+                 rdfs:range bf:Place ;
+                 rdfs:comment "关联一块地域和它所从属的更广阔的地域，即体现局部和整体的关系（部分和整体的关系）" ;
+                 rdfs:label "地域隶属于" .
