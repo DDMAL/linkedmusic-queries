@@ -310,7 +310,11 @@ ctm:instrumentFormerName rdf:type owl:ObjectProperty ;
 ctm:instrumentRepresentativeMusicType rdf:type owl:ObjectProperty ;
                                       owl:inverseOf ctm:musicType_Instrument ;
                                       rdfs:domain mo:Instrument ;
-                                      rdfs:range ctm:MusicType ;
+                                      rdfs:range [ rdf:type owl:Class ;
+                                                   owl:unionOf ( ctm:MusicType
+                                                                 ctm:NationalInstrumentalMusic
+                                                               )
+                                                 ] ;
                                       rdfs:label "乐器的代表性乐种有" .
 
 
