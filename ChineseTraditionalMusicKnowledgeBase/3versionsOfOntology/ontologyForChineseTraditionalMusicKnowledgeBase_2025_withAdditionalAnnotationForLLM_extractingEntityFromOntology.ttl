@@ -536,6 +536,14 @@ ctm:instrumentFormerName rdf:type owl:ObjectProperty ;
                          ctm:intactFragmentIdentifier "instrumentWasCalled(FormerName)" .
 
 
+###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#instrumentRepresentativeMusicType
+ctm:instrumentRepresentativeMusicType rdf:type owl:ObjectProperty ;
+                                      owl:inverseOf ctm:musicType_Instrument ;
+                                      rdfs:domain mo:Instrument ;
+                                      rdfs:range ctm:MusicType ;
+                                      rdfs:label "乐器的代表性乐种有" .
+
+
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#instrument_broaderTerm
 ctm:instrument_broaderTerm rdf:type owl:ObjectProperty ;
                            rdfs:subPropertyOf cidoc-crm:P127_has_broader_term ;
@@ -627,6 +635,7 @@ ctm:musicType_Instrument rdf:type owl:ObjectProperty ;
                          rdfs:range mo:Instrument ;
                          rdfs:comment "关联一个音乐类型(乐种)和它使用的乐器。如果该乐种属于民族器乐类型，则该属性值不能为空。该属性也可反映乐种（器乐合奏）的乐队编制（乐器编制）信息" ;
                          rdfs:label "乐种使用…乐器" ;
+                         skos:note "\":musicType_Instrument\" should be changed to \":musicType_instrument\"" ;
                          ctm:intactFragmentIdentifier "musicTypeUsesInstrumentOf" .
 
 
@@ -1135,7 +1144,11 @@ dcterms:subject rdf:type owl:DatatypeProperty ;
 
 
 ###  http://purl.org/dc/terms/title
-dcterms:title rdf:type owl:DatatypeProperty .
+dcterms:title rdf:type owl:DatatypeProperty ;
+              rdfs:range rdfs:Literal ;
+              rdfs:comment "不用CIDOC-CRM中的P102 has title，其是对象属性" ;
+              rdfs:label "标题" ;
+              skos:definition "A name given to the resource." .
 
 
 ###  http://purl.org/spar/fabio/hasCopyrightYear
