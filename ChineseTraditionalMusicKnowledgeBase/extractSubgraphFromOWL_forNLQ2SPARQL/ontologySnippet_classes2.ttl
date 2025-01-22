@@ -100,6 +100,7 @@ ctm:MusicType_YueWuXi rdf:type owl:Class ;
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#Musicologist
 ctm:Musicologist rdf:type owl:Class ;
+                 rdfs:subClassOf mo:SoloMusicArtist ;
                  rdfs:label "音乐学者" .
 
 

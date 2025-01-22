@@ -306,6 +306,14 @@ ctm:instrumentFormerName rdf:type owl:ObjectProperty ;
                          rdfs:label "乐器曾用名" .
 
 
+###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#instrumentRepresentativeMusicType
+ctm:instrumentRepresentativeMusicType rdf:type owl:ObjectProperty ;
+                                      owl:inverseOf ctm:musicType_Instrument ;
+                                      rdfs:domain mo:Instrument ;
+                                      rdfs:range ctm:MusicType ;
+                                      rdfs:label "乐器的代表性乐种有" .
+
+
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#instrument_broaderTerm
 ctm:instrument_broaderTerm rdf:type owl:ObjectProperty ;
                            owl:inverseOf ctm:instrument_narrowerTerm ;
@@ -1221,6 +1229,7 @@ ctm:MusicType_YueWuXi rdf:type owl:Class ;
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#Musicologist
 ctm:Musicologist rdf:type owl:Class ;
+                 rdfs:subClassOf mo:SoloMusicArtist ;
                  rdfs:label "音乐学者" .
 
 
