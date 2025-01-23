@@ -514,6 +514,18 @@ ctm:relatesPlace rdf:type owl:ObjectProperty ;
                  rdfs:label "特藏独立资源涉及…地域" .
 
 
+###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#relatesWork
+ctm:relatesWork rdf:type owl:ObjectProperty ;
+                rdfs:domain [ rdf:type owl:Class ;
+                              owl:unionOf ( mo:Instrument
+                                            ctm:MusicType
+                                          )
+                            ] ;
+                rdfs:range ctm:SpecialIndependentResource ;
+                rdfs:comment "可用于音乐类型(乐种)涉及特藏独立资源_作品，也可用于乐器涉及特藏独立资源_作品" ;
+                rdfs:label "涉及...特藏独立资源" .
+
+
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#representativeFolkMusician
 ctm:representativeFolkMusician rdf:type owl:ObjectProperty ;
                                rdfs:domain ctm:MusicType ;
