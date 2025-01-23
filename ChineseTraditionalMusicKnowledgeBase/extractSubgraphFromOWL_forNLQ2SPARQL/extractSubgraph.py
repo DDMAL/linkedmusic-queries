@@ -1,3 +1,4 @@
+# Note: to activate virtual enviroment for python, please exectue `source /directory/of/your/virtual/environment/folder/bin/activate`, e.g., `source /Users/caojunjun/venv_extractSubgraphForLLMsGeneratingSPARQL/bin/activate`
 import json
 # import pandas as pd 
 from openai import OpenAI
@@ -35,7 +36,7 @@ with open("ontologySnippet_objectProperties.ttl", "r") as context3:
 with open("ontologySnippet_dataProperties.ttl", "r") as context4:
     context_ontology_dataProperty = context4.readlines()
 # The natural language question is read from a text file:
-with open("question_MusicType_PieceWithPerformance_Instrument.txt", 'r') as f:
+with open("question4_MusicType_SpecialIndependentResource.txt", 'r') as f:
     question = f.readlines()
 
 # Identify and extract the relevant classes and properties from the given natural language question. Match them with the corresponding entities (classes or properties) defined in the provided ontology and present the results exclusively in a list format.
@@ -185,8 +186,8 @@ combined_results = list(set(result1_list + result2_list + result3_list + result4
 class_list = sorted([item for item in combined_results if item.split(":")[1][0].isupper()])
 property_list = sorted([item for item in combined_results if item.split(":")[1][0].islower()])
 # Print the sorted lists
-print("ClassList =", class_list)
-print("PropertyList =", property_list)
+#print("ClassList =", class_list)
+#print("PropertyList =", property_list)
 # Transform the format of ClassList and PropertyList
 class_list_str = "{" + " ".join(class_list)
 property_list_str = "{" + " ".join(property_list) + "}"
