@@ -35,7 +35,9 @@
                                                                    owl:imports <http://www.w3.org/2004/02/skos/core> ;
                                                                    dcterms:creator "曹军军（中国音乐学院中国音乐研究基地），中国音乐学院图书馆技术部、数字人文工作坊全体成员" ;
                                                                    dcterms:description "以中国音乐学院图书馆“中华传统音乐文化资源库”的实践为基础，尤其结合其“影像志”特点，进行基础本体方案设计；再结合传统音乐文化关联多领域的特点，构建相应类、关系和语义约束方式，如涉及乐种、乐器、民族主题词表，及对曲目、乐人、地域、文字文献等领域的语义关联。该方案将有利于传统音乐分类研究和垂直领域的知识检索，且具有音乐地理学、音乐人类学社群分析等方向上的应用前景。相关论文可参考《中国传统音乐知识库的“元数据本体”构建研究》（《数字人文研究》2022年第4期）。联系我们：①邮箱：529360500@qq.com，②微信：MusicDHumanities" ;
-                                                                   owl:versionInfo 1.1 ;
+                                                                   owl:versionInfo 1.1 ,
+                                                                                   """（这一版其实还是参考了 BibFrame 模型的bf:Work类）
+This version uses bf:Work of BibFrame model, which may bring about some inconsistency with the original intention of the model:...""" ;
                                                                    ctm:logForUpdating """从领域知识角度来看，已知目前知识推理尚存在问题：
 （1）:ethnicGroup
 （2）:representativeInstrument
@@ -1824,7 +1826,9 @@ bf:Text rdf:type owl:Class ;
 
 ###  http://id.loc.gov/ontologies/bibframe/Work
 bf:Work rdf:type owl:Class ;
-        rdfs:comment "指创作性作品，是最高层级的抽象概念，反映了编目资源的概念本质，包括作者、语言和关于什么（主题），与FRBR模型中“作品”概念类似（《语义网与数字图书馆》，p.93）" ;
+        rdfs:comment """指创作性作品，是最高层级的抽象概念，反映了编目资源的概念本质，包括作者、语言和关于什么（主题），与FRBR模型中“作品”概念类似（《语义网与数字图书馆》，p.93）
+
+According to BibFrame, the classes like bf:Audio, bf:MovingImage, bf:NotatedMusic, bf:StillImage, and bf:Text are typically subclasses of bf:Work""" ;
         rdfs:label "独立资源_作品" .
 
 
