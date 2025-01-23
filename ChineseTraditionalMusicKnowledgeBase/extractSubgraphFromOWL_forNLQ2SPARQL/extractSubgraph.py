@@ -36,7 +36,7 @@ with open("ontologySnippet_objectProperties.ttl", "r") as context3:
 with open("ontologySnippet_dataProperties.ttl", "r") as context4:
     context_ontology_dataProperty = context4.readlines()
 # The natural language question is read from a text file:
-with open("question4_MusicType_SpecialIndependentResource.txt", 'r') as f:
+with open("question_MusicType_SpecialIndependentResource_Instrument.txt", 'r') as f:
     question = f.readlines()
 
 # Identify and extract the relevant classes and properties from the given natural language question. Match them with the corresponding entities (classes or properties) defined in the provided ontology and present the results exclusively in a list format.
@@ -104,7 +104,7 @@ Please extract the entities from the natural language question:
 {question}
 E.g., 
     (1)if the question is "打溜子会用到什么乐器，这些乐器中，哪些又是桑植县的？", you can extract the entities in this format: `VALUES {"打溜子", "乐器", "桑植县"}`.
-    (2)if the entity is in 《》, please maintain it with the entity, e.g., `VALUES {"《打溜子》", "乐器", "桑植县"}`.
+    (2)if the entity is in 《》, please prepare 2 versions, with one maintaining the 《》, e.g., `VALUES {"《彩云追月》", "彩云追月"}`.
 Please embed the extracted entities in a SPARQL query to retrieve the classes of the entities, e.g.:
 ```
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
