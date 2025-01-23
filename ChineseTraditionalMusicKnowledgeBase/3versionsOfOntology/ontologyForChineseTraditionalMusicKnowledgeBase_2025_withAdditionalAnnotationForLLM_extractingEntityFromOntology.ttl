@@ -805,7 +805,7 @@ ctm:relatesPlace rdf:type owl:ObjectProperty ;
 ctm:relatesWork rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf bf:relatedTo ;
                 rdfs:comment "可用于音乐类型(乐种)涉及特藏独立资源_作品，也可用于乐器涉及特藏独立资源_作品" ;
-                rdfs:label "涉及…特藏独立资源" .
+                rdfs:label "涉及…特藏独立资源_作品" .
 
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#representativeFolkMusician
