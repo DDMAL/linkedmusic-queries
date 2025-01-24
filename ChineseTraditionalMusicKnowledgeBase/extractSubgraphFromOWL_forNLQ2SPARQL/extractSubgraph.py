@@ -26,17 +26,17 @@ def callGPT(prompt):
 
 # Read the context and question from the file:
 # The classes ontology snippets are divided into two parts to avoid exceeding the token limit of the OpenAI API:
-with open("ontologySnippet_classes1.ttl", "r") as context1: 
+with open("ontologySnippet_classes1_simplified.ttl", "r") as context1: 
     context_ontology_class1 = context1.readlines()
-with open("ontologySnippet_classes2.ttl", "r") as context2: 
+with open("ontologySnippet_classes2_simplified.ttl", "r") as context2: 
     context_ontology_class2 = context2.readlines()
 # The object and data properties ontology snippets are read separately:
-with open("ontologySnippet_objectProperties.ttl", "r") as context3: 
+with open("ontologySnippet_objectProperties_simplified.ttl", "r") as context3: 
     context_ontology_objectProperty = context3.readlines()
-with open("ontologySnippet_dataProperties.ttl", "r") as context4:
+with open("ontologySnippet_dataProperties_simplified.ttl", "r") as context4:
     context_ontology_dataProperty = context4.readlines()
 # The natural language question is read from a text file:
-with open("question_MusicType_EthnicGroup.txt", 'r') as f:
+with open("question_SpecialIndependentResource_MusicType,Instrument,EthnicGroup.txt", 'r') as f:
     question = f.readlines()
 
 # Identify and extract the relevant classes and properties from the given natural language question. Match them with the corresponding entities (classes or properties) defined in the provided ontology and present the results exclusively in a list format.
