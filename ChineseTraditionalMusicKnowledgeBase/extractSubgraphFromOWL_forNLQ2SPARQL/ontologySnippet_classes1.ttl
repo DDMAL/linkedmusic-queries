@@ -183,7 +183,8 @@ foaf:Person rdf:type owl:Class ;
 ###  https://dbpedia.org/ontology/EthnicGroup
 dbpedia-owl:EthnicGroup rdf:type owl:Class ;
                         rdfs:subClassOf cidoc-crm:E55_Type ;
-                        rdfs:label "民族(或族群)" .
+                        rdfs:label "民族(或族群)" ;
+                        rdfs:comment "包括中华民族、外国或外国民族（如东亚、东南亚等各民族）" .
 
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#BambooFlute
