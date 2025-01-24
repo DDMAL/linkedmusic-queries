@@ -1,0 +1,120 @@
+@prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ctm:Guan rdfs:label "管",
+        "管子" .
+
+ctm:GudiSystem rdfs:label "民族器乐-鼓笛系",
+        "鼓笛系乐种" .
+
+ctm:InstrumentalSolo rdfs:label "民族器乐独奏" .
+
+ctm:IslamicMusic rdfs:label "伊斯兰教音乐" .
+
+ctm:LiteratiMusic rdfs:label "文人音乐" ;
+    rdfs:comment "文人音乐，指的是历代由具有一定文化修养的知识阶层人士创作或参与演奏、享用的传统音乐。主要包括 ：古琴音乐、词调音乐和其他文人雅集型的音乐" .
+
+ctm:LiveMusicActivities rdfs:label "现场音乐表演活动" ;
+    rdfs:comment "这里也可能会包括一些音乐会，但其强调的是原生态环境下的音乐活动的特征，而非音乐厅、沙龙式的仪式感。强调抓拍而非摆拍" .
+
+ctm:MusicCeremony rdfs:label "仪式音乐",
+        "音乐仪式" .
+
+ctm:MusicOfTalkingAndSinging rdfs:label "说唱音乐" ;
+    rdfs:comment "是民间音乐中的说唱音乐的简称，又简称说唱乐。若从形态上进行分类的话，说唱音乐其实可以分为两个大类，即牌子曲类和鼓书类。这两类其实对应说唱文学中的乐曲系和诗赞系" .
+
+ctm:MusicType rdfs:label "乐种",
+        "音乐类型(乐种)" .
+
+ctm:MusicType_YueShengXi rdfs:label "乐声系乐种" ;
+    rdfs:comment "以器乐与声乐两部分组成的乐种体系" .
+
+ctm:MusicType_YueWuXi rdfs:label "乐舞系乐种" ;
+    rdfs:comment "宫廷乐舞有可能纳入乐舞系乐种的范畴" .
+
+ctm:Musicologist rdfs:label "音乐学者" .
+
+ctm:NationalInstrumentalMusic rdfs:label "民族器乐" .
+
+ctm:NumberedMusicalNotation rdfs:label "简谱" .
+
+ctm:OralHistory rdfs:label "口述史" .
+
+ctm:OrientalMusicalInstrument rdfs:label "东方乐器" .
+
+ctm:PercussionMusicalInstrument rdfs:label "打击类乐器" ;
+    rdfs:comment "打击乐器，可细分为“锣、鼓、钹（铙钹类，或镲类）、梆板类”" .
+
+ctm:PieceWithPerformance rdfs:label "曲目",
+        "曲目的演出",
+        "演出的曲目" ;
+    rdfs:comment "对应二次创作，如以具体的表演行为表达出的作品" .
+
+ctm:PluckedStringInstrument rdfs:label "弹弦类乐器" .
+
+ctm:Portrait rdfs:label "人物照片" .
+
+ctm:ReligiousMusic rdfs:label "宗教音乐" ;
+    rdfs:comment "也包括祭祀音乐" .
+
+ctm:ReshotMaterialObject rdfs:label "翻拍的实物" .
+
+ctm:ReshotMusicScore rdfs:label "翻拍的乐谱" .
+
+ctm:ScannedProgramList rdfs:label "扫描的节目单" .
+
+ctm:Scene rdfs:label "场景" .
+
+ctm:ShengPipeAndGuanSystem rdfs:label "民族器乐-笙管系",
+        "笙管系乐种" .
+
+ctm:SingingAndDancingMusic rdfs:label "歌舞音乐" .
+
+ctm:SizhuMusic rdfs:label "丝竹乐",
+        "丝竹系乐种",
+        "民族器乐-丝竹乐" .
+
+ctm:SpecialIndependentResource rdfs:label "特藏独立资源_作品",
+        "馆藏作品" .
+
+ctm:StagedPhotography rdfs:label "摆拍" .
+
+ctm:Staves rdfs:label "五线谱" .
+
+ctm:Surnay rdfs:label "唢呐" .
+
+ctm:SurnaySystem rdfs:label "唢呐系乐种",
+        "民族器乐-唢呐系" .
+
+ctm:TaoistMusic rdfs:label "道教音乐" .
+
+ctm:Town rdfs:label "乡、镇级行政单位(含城市中的街道)" .
+
+ctm:TraditionalMusicBranch rdfs:label "传统音乐支脉" ;
+    rdfs:comment "中国传统音乐的支脉、分支等等" .
+
+ctm:TraditionalOperaMusic rdfs:label "戏曲音乐" ;
+    rdfs:comment "也是剧种或声腔" .
+
+ctm:Video-AcademicConference rdfs:label "视频-学术会议" ;
+    rdfs:comment "含研讨会、表彰会、座谈会、追悼会、追思会、发布会等" .
+
+ctm:Video-InARecordingStudio rdfs:label "视频-棚内录像" ;
+    rdfs:comment "主要指在录音棚对音乐表演活动的记录" .
+
+ctm:Video-Interview rdfs:label "视频-访谈" .
+
+ctm:Video-InterviewOrFieldTrip rdfs:label "视频-采风或实地考察" ;
+    rdfs:comment "对于某些影像内容，如果既不是音乐的摆拍，也不是音乐的现场记录，而是诸如随意采集的生活中的影像资料、猎奇等，也可直接用此标签标注，是为“实地”考察" .
+
+ctm:Video-LectureOrClassEtc rdfs:label "视频-讲座或课堂等" ;
+    rdfs:comment "包括课堂活动、学位答辩、考试、测试，甚至包括专题片等" .
+
+ctm:Video-MusicFest_Concert_Contest_Etc rdfs:label "视频-音乐节、音乐会、比赛等" ;
+    rdfs:comment "还包括展览、（汇报）演出、广场演出等活动，多集中于城市、音乐厅，较“正式”地发生。它们的共性是，面对大众、观众，或以小型“沙龙”的方式展现" .
+
+ctm:WindAndDrumMusic rdfs:label "鼓吹乐" .
+
+ctm:XiansuoMusic rdfs:label "弦索系乐种",
+        "民族器乐-弦索乐" .
+

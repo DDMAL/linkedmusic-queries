@@ -1,0 +1,119 @@
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix cidoc-crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
+@prefix dbpedia-owl: <https://dbpedia.org/ontology/> .
+@prefix event: <http://purl.org/NET/c4dm/event.owl#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix kanzaki: <http://www.kanzaki.com/ns/music#> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix places: <http://purl.org/ontology/places#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://dbtune.org/musicbrainz/page/instrument/68> rdfs:label "笙" .
+
+bf:Audio rdfs:label "录音作品" .
+
+bf:MovingImage rdfs:label "视频作品" .
+
+bf:MusicInstrument rdfs:label "乐器" .
+
+bf:NotatedMusic rdfs:label "乐谱" ;
+    rdfs:comment "乐谱、曲谱等" .
+
+bf:Place rdfs:label "地域",
+        "地点" .
+
+bf:StillImage rdfs:label "图片" ;
+    rdfs:comment "包括幻灯片" .
+
+bf:Text rdfs:label "文字文献" .
+
+event:Event rdfs:label "事件" .
+
+mo:Composer rdfs:label "作曲者" .
+
+mo:Conductor rdfs:label "指挥家" .
+
+mo:Instrument rdfs:label "乐器" .
+
+mo:MusicGroup rdfs:label "音乐组织" .
+
+mo:SoloMusicArtist rdfs:label "音乐人" .
+
+places:City rdfs:label "市级行政单位" .
+
+places:County rdfs:label "县、区级行政单位" ;
+    rdfs:comment "包括“……旗”等" .
+
+places:Province rdfs:label "省级行政单位" .
+
+places:Town rdfs:label "镇级行政单位" .
+
+places:Township rdfs:label "乡级行政单位" .
+
+places:Village rdfs:label "村、社区级行政单位" ;
+    rdfs:comment "村级也包括寨" .
+
+cidoc-crm:E55_Type rdfs:label "文化遗产的类型" .
+
+kanzaki:Player rdfs:label "演奏家",
+        "演奏者" .
+
+kanzaki:Singer rdfs:label "演唱家",
+        "演唱者" .
+
+foaf:Agent rdfs:label "施动者" .
+
+foaf:Person rdfs:label "人" .
+
+dbpedia-owl:EthnicGroup rdfs:label "民族(或族群)" ;
+    rdfs:comment "包括中华民族、外国或外国民族（如东亚、东南亚等各民族）" .
+
+ctm:BambooFlute rdfs:label "笛" .
+
+ctm:BlowPipeInstrument rdfs:label "吹管类乐器" .
+
+ctm:BowedStringInstrument rdfs:label "拉弦类乐器" .
+
+ctm:BuddhistMusic rdfs:label "佛教音乐" .
+
+ctm:ChinaJurisdiction rdfs:label "中华人民共和国的行政管辖范围" .
+
+ctm:ChineseInstrument rdfs:label "中华民族乐器" ;
+    rdfs:comment "主要指中国传统民族民间器乐中使用的乐器" .
+
+ctm:ChineseNation rdfs:label "中华民族" ;
+    rdfs:comment "包括汉族、55个少数民族及其支系" .
+
+ctm:ChristianMusic rdfs:label "基督教音乐" .
+
+ctm:ChuidaMusic rdfs:label "吹打乐",
+        "吹打系乐种",
+        "民族器乐-吹打乐" .
+
+ctm:CourtMusic rdfs:label "宫廷音乐" .
+
+ctm:DrumAndCymbalSystem rdfs:label "民族器乐-鼓钹系",
+        "锣鼓乐",
+        "鼓钹系乐种" ;
+    rdfs:comment "以鼓、锣、钹类乐器为乐队组合核心的乐种体系" .
+
+ctm:EventOfRecording rdfs:label "采录事项" .
+
+ctm:FolkMusic rdfs:label "民间音乐" .
+
+ctm:FolkMusicOrganization rdfs:label "民间音乐组织" ;
+    rdfs:comment "或者也可以称其为乐社、乐种班社" .
+
+ctm:FolkMusician rdfs:label "民间乐人",
+        "民间艺人" ;
+    rdfs:comment "相当一部分民间乐人都是非遗传承人" .
+
+ctm:FolkSong rdfs:label "民歌" ;
+    rdfs:comment "全称民间歌曲，主要包括劳动号子、山歌、小调和长歌" .
+
+ctm:ForeignNation rdfs:label "外国或外国民族" ;
+    rdfs:comment "其“外国民族”是指几乎不在中国国内存在、有分布的民族" .
+
+ctm:GongCheMusicScore rdfs:label "工尺谱" .
+
