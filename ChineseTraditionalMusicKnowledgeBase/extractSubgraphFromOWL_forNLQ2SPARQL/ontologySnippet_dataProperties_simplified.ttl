@@ -1,0 +1,84 @@
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix gn: <https://www.geonames.org/ontology#> .
+@prefix musicbrainz: <http://musicbrainz.org/ns/mmd-2.0#> .
+@prefix opus: <http://lsdis.cs.uga.edu/projects/semdis/opus#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+dbo:birthYear rdfs:label "出生年" .
+
+dbo:deathYear rdfs:label "卒年" .
+
+dbo:formerName rdfs:label "音乐类型(乐种)曾用名/乐器曾用名" ;
+    rdfs:comment "指一个乐种或音乐类型的曾用名，或指一件东方乐器的曾用名。注意将它区别于对象属性中的曾用名" .
+
+bf:subject rdfs:label "主题" ;
+    rdfs:comment "即采录事件（采录事项）或特藏独立资源的名称、题名" .
+
+opus:year rdfs:label "创作年" ;
+    rdfs:comment "曲目创作的年份" .
+
+musicbrainz:title rdfs:label "演出曲目的标题" ;
+    rdfs:comment "指演出的曲目的标题、曲目名称、曲目题名、曲名" .
+
+<http://purl.org/NET/c4dm/timeline.owl#end> rdfs:label "采录结束日期" ;
+    rdfs:comment "指一个采录事项的采录结束日期（或摄制结束日期）" .
+
+<http://purl.org/NET/c4dm/timeline.owl#start> rdfs:label "采录开始日期" ;
+    rdfs:comment "指一个采录事项的采录开始日期（或摄制开始日期），也可以指一个\"特藏独立资源_作品\"的采录开始日期" .
+
+foaf:gender rdfs:label "性别" .
+
+foaf:name rdfs:label "姓名" ;
+    rdfs:comment "专门指一个agent（尤其是一个人）的名称/姓名是什么" .
+
+ctm:GenreOfPiece rdfs:label "曲目的音乐体裁" .
+
+ctm:acousticClassification rdfs:label "声学分类" ;
+    rdfs:comment "指一件乐器根据霍萨分类法对应的分类类目，霍萨分类法是一种声学角度的分类方法" .
+
+ctm:administrative_unit_code rdfs:label "各级行政单位编码" .
+
+ctm:ethnicGroupAlias rdfs:label "民族别称" .
+
+ctm:hasResearchArea rdfs:label "研究领域" .
+
+ctm:introOfPerformedPiece rdfs:label "曲目的演出的简介" .
+
+ctm:languageAdopted rdfs:label "中华民族采用…语言" .
+
+ctm:languageBranch rdfs:label "属于…语族" ;
+    rdfs:comment "关联一个（中华民族范畴内的）民族和它所属的语族" .
+
+ctm:languageFamily rdfs:label "属于…语系" ;
+    rdfs:comment "关联一个民族和其对应的语系，比如南岛语系、南亚语系、汉藏语系……" .
+
+ctm:musicGenre rdfs:label "涉及…(西方)音乐体裁" ;
+    rdfs:comment "关联一个\"特藏独立资源_作品\"和它的体裁，如歌曲、艺术歌曲、室内乐、钢琴音乐、合唱音乐、交响乐、歌剧……" .
+
+ctm:musicSystem rdfs:label "属于…音乐体系" ;
+    rdfs:comment "在中华民族范畴内，关联一个民族（族群、汉族或其他中国或周边的少数民族）和其所属的音乐体系，主要是三大音乐体系，即中国音乐体系、欧洲音乐体系、波斯—阿拉伯音乐体系" .
+
+ctm:musicianAlias rdfs:label "音乐人别称" .
+
+ctm:nameOfMusicTypeOrInstrument rdfs:label "音乐类型(乐种)或乐器的名称" ;
+    rdfs:comment "指一个\"音乐类型(乐种)\"的名称，或指一个\"乐器\"的名称。而对这二者，其名称则不用rdfs:label来表示" .
+
+ctm:originationPeriod rdfs:label "起源自…时期" ;
+    rdfs:comment "指一个乐种或音乐类型起源自某历史时期" .
+
+ctm:representativePiece rdfs:label "有代表曲目或剧目" ;
+    rdfs:comment "专指乐种或乐器的代表曲目（或剧目），一般用书名号表示（对于曲牌，则用半角中括号表示" .
+
+ctm:representativeQupai rdfs:label "有代表曲牌" ;
+    rdfs:comment "指一个乐种或音乐类型的代表性曲牌" .
+
+ctm:workKeyword rdfs:label "特藏独立资源有…关键词" .
+
+gn:alternateName rdfs:label "地域又名" .
+
+gn:historicalName rdfs:label "地域史称" ;
+    rdfs:comment "地域曾用名、旧称" .
+
