@@ -722,12 +722,9 @@ ctm:recordingAddress rdf:type owl:ObjectProperty ;
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#relatesEthnicGroup
 ctm:relatesEthnicGroup rdf:type owl:ObjectProperty ;
                        rdfs:subPropertyOf bf:relatedTo ;
-                       rdfs:domain [ owl:intersectionOf ( ctm:SpecialIndependentResource
-                                                          [ rdf:type owl:Class ;
-                                                            owl:complementOf ctm:PieceWithPerformance
-                                                          ]
-                                                        ) ;
-                                     rdf:type owl:Class
+                       rdfs:domain ctm:SpecialIndependentResource ,
+                                   [ rdf:type owl:Class ;
+                                     owl:complementOf ctm:PieceWithPerformance
                                    ] ;
                        rdfs:range dbpedia-owl:EthnicGroup ;
                        rdfs:comment "姑且置于bf:relatedTo之下，其实可以复用cidoc-crm:hasType" ,
