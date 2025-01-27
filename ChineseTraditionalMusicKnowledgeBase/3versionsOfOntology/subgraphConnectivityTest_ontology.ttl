@@ -1,0 +1,76 @@
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
+@prefix event: <http://purl.org/NET/c4dm/event.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+bf:place rdf:type owl:ObjectProperty ;
+         rdfs:domain [ rdf:type owl:Class ; # unionOf
+                                owl:unionOf ( bf:MusicInstrument
+                                              ctm:MusicType
+                                            )
+                     ] ;
+         rdfs:range bf:Place .
+         
+ctm:property rdf:type owl:ObjectProperty ;
+             rdfs:domain bf:MusicInstrument ;
+             rdfs:range bf:Place .
+
+ctm:p2 rdf:type owl:ObjectProperty ;
+                rdfs:domain bf:Place ;
+                rdfs:range ctm:C .
+
+ctm:p3 rdf:type owl:ObjectProperty ;
+                rdfs:domain ctm:C ;
+                rdfs:range ctm:C2 .
+
+ctm:p4 rdf:type owl:ObjectProperty ;
+                rdfs:domain ctm:C2 ;
+                rdfs:range ctm:C3 .
+
+ctm:p5 rdf:type owl:ObjectProperty ;
+                rdfs:domain ctm:C4 ;
+                rdfs:range ctm:C3 .
+
+ctm:p6 rdf:type owl:DataProperty ;
+                rdfs:domain ctm:C3 ;
+                rdfs:range rdfs:Literal .
+
+ctm:p7 rdf:type owl:DataProperty ;
+                rdfs:domain ctm:C4 ;
+                rdfs:range rdfs:Literal .
+
+ctm:p8 rdf:type owl:DataProperty ;
+                rdfs:domain ctm:C5 ,
+                            [ rdf:type owl:Class ; # complementOf
+                              owl:complementOf ctm:C10
+                            ] ;
+                rdfs:range rdfs:Literal .
+
+ctm:p9 rdf:type owl:ObjectProperty ;
+                rdfs:domain ctm:C8 , # intersectionOf 
+                            ctm:C9 ;
+                rdfs:range ctm:C2 .
+
+ctm:p0 rdf:type owl:ObjectProperty ;
+                rdfs:domain ctm:C2 , 
+                            [ rdf:type owl:Class ; # complementOf
+                              owl:complementOf ctm:C
+                            ] ;
+                rdfs:range ctm:C6 ,
+                            [ rdf:type owl:Class ; # complementOf
+                              owl:complementOf ctm:C7
+                            ] .
+
+ctm:p10 rdf:type owl:DataProperty ;
+         rdfs:domain [ rdf:type owl:Class ; # unionOf
+                                owl:unionOf ( ctm:C10
+                                              ctm:C11
+                                            )
+                     ] ;
+         rdfs:range rdfs:Literal .
+
+ctm:p11 rdf:type owl:ObjectProperty ;
+        rdfs:domain ctm:MusicType ;
+        rdfs:range ctm:MusicType . 
