@@ -901,8 +901,6 @@ bf:MovingImage rdf:type owl:Class ;
 bf:MusicInstrument rdf:type owl:Class ;
                    owl:equivalentClass mo:Instrument ;
                    rdfs:subClassOf cidoc-crm:E55_Type ;
-                   owl:hasKey ( ctm:nameOfMusicTypeOrInstrument
-                              ) ;
                    rdfs:label "乐器" .
 
 
