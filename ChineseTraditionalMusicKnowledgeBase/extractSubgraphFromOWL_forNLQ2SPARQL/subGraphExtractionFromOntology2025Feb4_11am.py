@@ -3,20 +3,21 @@
 This script loads an OWL ontology (in Turtle format) from a file,
 then extracts a “connected subgraph” based on a set of given classes and properties.
 
-Rules:
+Extraction rules:
   - For an ObjectProperty: if at least one given class appears in its domain AND
-    at least one given class appears in its range, include that property and the matching classes.
-  - For a DataProperty: if at least one given class appears in its domain, include that property,
+    at least one given class appears in its range, then include that property and the matching classes.
+  - For a DataProperty: if at least one given class appears in its domain, then include that property,
     the matching domain classes, and add rdfs:Literal.
     
-The code processes union, intersection, and ignores owl:complementOf expressions.
+The code handles owl:unionOf and owl:intersectionOf constructs and ignores any branch using owl:complementOf.
 """
 
 from rdflib import Graph, URIRef, BNode, RDF, RDFS, OWL
 
 def process_rdf_list(graph, list_node):
     """
-    Process an RDF list (used for owl:unionOf or owl:intersectionOf) and return a set of class URIs.
+    Process an RDF list (used for owl:unionOf or owl:intersectionOf)
+    and return a set of class URIs.
     """
     items = set()
     while list_node and list_node != RDF.nil:
@@ -29,6 +30,7 @@ def process_rdf_list(graph, list_node):
 def extract_valid_classes_from_node(graph, node):
     """
     Recursively extract “positive” class URIs from a class expression node.
+    
     - If the node is a URIRef, it is a class.
     - If the node is a BNode with owl:unionOf or owl:intersectionOf, process its RDF list.
     - Any branch with owl:complementOf is ignored.
@@ -43,17 +45,22 @@ def extract_valid_classes_from_node(graph, node):
         # Process owl:intersectionOf
         for inter in graph.objects(node, OWL.intersectionOf):
             valid.update(process_rdf_list(graph, inter))
-        # Do not add anything if owl:complementOf is used.
+        # Ignore any branch that has owl:complementOf (negative assertion)
     return valid
 
 def get_property_type(graph, prop):
     """
-    Return the type of the property as a string: "object" for owl:ObjectProperty or "data" for owl:DatatypeProperty.
+    Determine the property type by iterating over its rdf:type values.
+    Returns:
+      - "object" if the property is an owl:ObjectProperty,
+      - "data" if the property is an owl:DatatypeProperty,
+      - None otherwise.
     """
-    if (prop, RDF.type, OWL.ObjectProperty) in graph:
-        return "object"
-    elif (prop, RDF.type, OWL.DatatypeProperty) in graph:
-        return "data"
+    for o in graph.objects(prop, RDF.type):
+        if o == OWL.ObjectProperty:
+            return "object"
+        if o == OWL.DatatypeProperty:
+            return "data"
     return None
 
 def resolve_curie(graph, curie):
@@ -70,21 +77,21 @@ def resolve_curie(graph, curie):
 
 def extract_connected_subgraph_from_owl(owl_file_path, given_classes, given_properties):
     """
-    Load the OWL ontology from the specified file (in Turtle format), then extract and return
+    Load the OWL ontology from the specified file (in Turtle format) then extract and return
     the subgraph that meets the criteria.
-
+    
     Parameters:
       - owl_file_path: Full path to the ontology file.
       - given_classes: A set of class names (in CURIE or full URI form).
       - given_properties: A set of property names (in CURIE or full URI form).
-
+    
     Returns:
       A tuple (extracted_classes, extracted_properties) where each is a set of strings.
     """
     graph = Graph()
-    # Parse the ontology file in Turtle format.
+    # Parse the ontology file (format is Turtle)
     graph.parse(owl_file_path, format="turtle")
-
+    
     # Resolve given classes and properties to full URIs.
     given_classes_resolved = set()
     for c in given_classes:
@@ -97,15 +104,14 @@ def extract_connected_subgraph_from_owl(owl_file_path, given_classes, given_prop
     
     extracted_properties = set()
     extracted_classes = set()
-
-    # Process each given property (even if it doesn't appear as a subject of a triple).
+    
+    # Process each given property (by its resolved full URI)
     for prop_str in given_properties_resolved:
         prop = URIRef(prop_str)
         ptype = get_property_type(graph, prop)
         if ptype is None:
-            # If we cannot determine its type, skip it.
-            continue
-
+            continue  # Skip if type is not determined.
+    
         # Process rdfs:domain for the property.
         domain_nodes = list(graph.objects(prop, RDFS.domain))
         domain_valid = set()
@@ -114,7 +120,7 @@ def extract_connected_subgraph_from_owl(owl_file_path, given_classes, given_prop
                 domain_valid.add(str(d))
             else:
                 domain_valid.update(extract_valid_classes_from_node(graph, d))
-                
+    
         if ptype == "object":
             # Process rdfs:range for object properties.
             range_nodes = list(graph.objects(prop, RDFS.range))
@@ -130,11 +136,13 @@ def extract_connected_subgraph_from_owl(owl_file_path, given_classes, given_prop
                 extracted_classes.update(domain_valid & given_classes_resolved)
                 extracted_classes.update(range_valid & given_classes_resolved)
         elif ptype == "data":
-            # For a DataProperty, require at least one matching class in the domain.
+            # For a DataProperty, if at least one given class is in its domain,
+            # include that property and add matching domain classes plus "rdfs:Literal".
             if domain_valid & given_classes_resolved:
                 extracted_properties.add(prop_str)
                 extracted_classes.update(domain_valid & given_classes_resolved)
                 extracted_classes.add("rdfs:Literal")
+    
     return extracted_classes, extracted_properties
 
 def main():
@@ -146,11 +154,11 @@ def main():
     owl_file_path = "/Users/caojunjun/WPS_Synchronized_Folder/McGill_DDMAL/GitHub/linkedmusic-queries/ChineseTraditionalMusicKnowledgeBase/3versionsOfOntology/subgraphConnectivityTest_ontology.ttl"  # e.g., "C:/ontologies/myontology.ttl"
     
     # 2. Provide the given classes.
-    # For example, for test case (5) use classes: ctm:C2 and ctm:C3.
+    # For test case (5), for example, use:
     given_classes = {"ctm:C2", "ctm:C3"}
     
     # 3. Provide the given properties.
-    # For example, for test case (5) use properties: ctm:p3, ctm:p4, and ctm:p6.
+    # For test case (5), for example, use:
     given_properties = {"ctm:p3", "ctm:p4", "ctm:p6"}
     
     # =====================================================
