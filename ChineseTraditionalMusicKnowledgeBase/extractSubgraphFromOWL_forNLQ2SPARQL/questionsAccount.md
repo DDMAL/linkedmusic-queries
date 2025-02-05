@@ -34,7 +34,8 @@
     --it doesn't clarify whether it's "or (union of)" or it's "and (intersection of)"
     expectedExtractedEntities: {:SpecialIndependentResource :MusicType mo:Instrument dbpedia-owl:EthnicGroup}{:relatesMusicType :relatesInstrument :ethnicGroup}
 *. :MusicType<-:SpecialIndependentResource->bf:Place
-    e.g.,我馆有什么特藏独立资源涉及甘美兰音乐，该资源涉及的地域在哪？[or make it more complicated: 我馆有什么特藏独立资源_作品涉及甘美兰音乐，该资源是在哪里（涉及的地域）采录到的？]
+    e.g.,我馆有什么特藏资源涉及甘美兰音乐，该资源涉及的地域在哪？[or make it more complicated: 我馆有什么特藏独立资源_作品涉及甘美兰音乐，该资源是在哪里（涉及的地域）采录到的？]
+    expectedExtractedEntities: {:SpecialIndependentResource :MusicType bf:Place}{:relatesMusicType :relatesPlace}
 
 # Start with bf:Place
 *. bf:Place->:MusicType->mo:Instrument->dbpedia-owl:EthnicGroup
