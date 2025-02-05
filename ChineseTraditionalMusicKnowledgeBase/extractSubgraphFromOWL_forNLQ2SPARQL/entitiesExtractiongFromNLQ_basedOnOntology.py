@@ -5,6 +5,7 @@ from openai import OpenAI
 from SPARQLWrapper import SPARQLWrapper, JSON # SPARQLWrapper is a Python wrapper around a SPARQL service; is also a library for executing SPARQL queries on an RDF endpoint and retrieving the results.
 
 
+# 1. SubGraph Extraction
 # Invoke the OpenAI API:
 client = OpenAI(
     api_key="sk-lIjVysUlrOO0Ywpk34FdCa7719C544B4B90e6d316cC68e2f",
@@ -36,7 +37,7 @@ with open("ontologySnippet_objectProperties_simplified.ttl", "r") as context3:
 with open("ontologySnippet_dataProperties_simplified.ttl", "r") as context4:
     context_ontology_dataProperty = context4.readlines()
 # The natural language question is read from a text file:
-with open("question_SpecialIndependentResource_MusicType,Instrument,EthnicGroup.txt", 'r') as f:
+with open("question_MusicType_SpecialIndependentResource_Place.txt", 'r') as f:
     question = f.readlines()
 
 # Identify and extract the relevant classes and properties from the given natural language question. Match them with the corresponding entities (classes or properties) defined in the provided ontology and present the results exclusively in a list format.
@@ -107,6 +108,7 @@ E.g.,
     (2)if the entity is in 《》, please prepare 2 versions, with one maintaining the 《》, e.g., `VALUES {"《彩云追月》", "彩云追月"}`.
 Please embed the extracted entities in a SPARQL query to retrieve the classes of the entities, e.g.:
 ```
+define input:inference 'urn:owl.ccmusicrules'
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 select ?class where {{
@@ -135,8 +137,8 @@ def query_sparql(endpoint, query, graph_iri):
     return results
 
 # Query the SPARQL endpoint:
-sparql_endpoint = "https://virtuoso.staging.simssa.ca/sparql"
-graph_iri = "http://ChineseTraditionalMusicCultureKnowledgeBase"
+sparql_endpoint = "http://www.usources.cn:8891/sparql" # We can also use the endpoint "https://virtuoso.staging.simssa.ca/sparql"
+graph_iri = "https://lib.ccmusic.edu.cn/graph/music" # We can also use the graph IRI "http://ChineseTraditionalMusicCultureKnowledgeBase"
 sparql_results = query_sparql(sparql_endpoint, sparql_query, graph_iri)
 print('sparql_results:', sparql_results)
 # # Save sparql_results to a .json file:
@@ -186,8 +188,8 @@ combined_results = list(set(result1_list + result2_list + result3_list + result4
 class_list = sorted([item for item in combined_results if item.split(":")[1][0].isupper()])
 property_list = sorted([item for item in combined_results if item.split(":")[1][0].islower()])
 # Print the sorted lists
-#print("ClassList =", class_list)
-#print("PropertyList =", property_list)
+# print("ClassList =", class_list)
+# print("PropertyList =", property_list)
 # Transform the format of ClassList and PropertyList
 class_list_str = "{" + " ".join(class_list)
 property_list_str = "{" + " ".join(property_list) + "}"
@@ -201,6 +203,8 @@ class_list_str += " rdfs:Literal}"
 print("Transformed ClassList =", class_list_str)
 print("Transformed PropertyList =", property_list_str)
 
+
+# 2. SubGraph Assembly
 
 # According to the ontology snippet graph,...
 # prompt = f"""
