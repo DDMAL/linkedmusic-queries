@@ -1,13 +1,26 @@
-The code is not correct. My requirement is: If a given class fails to be engaged in a "domain->property->range" pattern with 
-some of the other given classes and properties, you should not return the class. 
+Known:
+An ontology represented in OWL can be metaphorized/visualized as a directed graph, where classes function as nodes and properties serve as edges. The `rdfs:domain` and `rdfs:range` of a property establish typed connections between different classes, shaping the structural framework of the ontology. 
+Additionally, object properties (owl:ObjectProperty) link classes, while datatype properties (owl:DatatypeProperty) connect classes to literals (data values), which belong to datatypes such as `rdfs:Literal`.
 
-In other words, to clarify, by "forming a pattern", 
-I mean, 
-(1) if one of the given classes appear in the domain of one of the given ObjectProperties and one of the given classes appear in the range of that ObjectProperty, 
-then you return the classes and the ObjectProperty in the pattern, plus the triples where the classes and the ObjectProperty are subjects. 
-(2) if one of the given classes appear in the domain of one of the given DataProperty
-For example, here
-is an OWL code:
+Please develop a Python program that ensures the following:
+Given a set of specified classes and properties from a general ontology (metaphorized as a general graph), the program should extract and return a "subgraph" of the ontology. That subgraph consists exclusively of some from the specified classes and properties.
+
+The key concept is to identify "subject-predicate-object" semantic patterns formed by the given classes and properties. Here's a breakdown of the criteria: 
+(1) if one of the given classes appears in the domain of one of the given ObjectProperties and one of the given classes appears in the range of that ObjectProperty, 
+then you return the classes and that ObjectProperty. 
+(2) if one of the given classes appears in the domain of one of the given DataProperties,
+then you return the class and that DataProperty, plus a class `rdfs:Literal`.
+
+Specifically, it includes several special situations:
+(3) if the domain of a property is a union of more than one class, then as long as a class is found in the union, the class is regarded as appearing in the domain of the property; so it is with "if the range of a property is a union of..."
+(4) if the domain of a property is an intersection of more than one class, then as long as a class is found in the intersection, the class is regarded as appearing in the domain of the property; so it is with "if the range of a property is an intersection of..."
+(5) if the domain of a property includes an `owl:complementOf` assertion, which is like a negative assertion, then even if a class is found as the value of `owl:complementOf`, it on the contrary, 
+doesn't mean that class appears in the domain of the property; so it is with "if the range of a property include an `owl:complementOf`..."
+(6) otherwise: If a given class fails to composite a "domain->property->range" pattern with any from the given classes or properties, you should not return the class; 
+If a given property fails to composite a "domain->property->range" pattern with any from the given classes or properties, you should not return the property either
+
+
+For example, here is an ontology represented by OWL:
 ```
 @prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
 @prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
@@ -53,7 +66,10 @@ ctm:p7 rdf:type owl:DataProperty ;
                 rdfs:range rdfs:Literal .
 
 ctm:p8 rdf:type owl:DataProperty ;
-                rdfs:domain ctm:C5 ;
+                rdfs:domain ctm:C5 ,
+                            [ rdf:type owl:Class ; # complementOf
+                              owl:complementOf ctm:C10
+                            ] ;
                 rdfs:range rdfs:Literal .
 
 ctm:p9 rdf:type owl:ObjectProperty ;
@@ -70,12 +86,79 @@ ctm:p0 rdf:type owl:ObjectProperty ;
                             [ rdf:type owl:Class ; # complementOf
                               owl:complementOf ctm:C7
                             ] .
-```
-based on this code:
-(1) Given classes ctm:MusicType, bf:Place, ctm:C3, ctm:C4 and given properties bf:place, ctm:p4; 
-it will return:
-classes ctm:MusicType, bf:Place and property bf:place
 
-(2) Give classes ctm:C3, ctm:C and properties ctm:p6, ctm:p3;
-it will return:
-class ctm:C3, rdfs:Literal and property ctm:p6
+ctm:p10 rdf:type owl:DataProperty ;
+         rdfs:domain [ rdf:type owl:Class ; # unionOf
+                                owl:unionOf ( ctm:C10
+                                              ctm:C11
+                                            )
+                     ] ;
+         rdfs:range rdfs:Literal .
+
+ctm:p11 rdf:type owl:ObjectProperty ;
+        rdfs:domain ctm:MusicType ;
+        rdfs:range ctm:MusicType .                         
+```
+
+based on the upper code and instructions:
+(0) Given classes ctm:MusicType, bf:MusicInstrument and given property ctm:p11,
+the python program should return:
+class ctm:MusicType and property ctm:p11
+
+(1) Given classes bf:Place, ctm:C, ctm:C2 and given property ctm:p2,
+the python program should return:
+classes bf:Place, ctm:C and property ctm:p2
+
+(2) Given classes bf:Place, ctm:C and given properties ctm:p2, ctm:p4,
+the python program should return:
+classes bf:Place, ctm:C and property ctm:p2
+
+(3) Given classes bf:Place, ctm:C, ctm:C2, ctm:C3 and given properties ctm:p2, ctm:p4,
+the python program should return:
+classes bf:Place, ctm:C, ctm:C2, ctm:C3 and properties ctm:p2 ctm:p4
+
+(4) Given classes bf:Place, ctm:C, ctm:C2, ctm:C3 and given properties ctm:p2, ctm:p4, ctm:p5,
+the python program should return:
+classes bf:Place, ctm:C, ctm:C2, ctm:C3 and properties ctm:p2 ctm:p4
+
+# for DataProperty's case
+(5) Given classes ctm:C2, ctm:C3 and properties ctm:p3, ctm:p4, ctm:p6; (note: ctm:p6 is a DataProperty),
+the python program should return:
+classes ctm:C2, ctm:C3, rdfs:Literal and properties ctm:p4, ctm:p6
+
+# for union-of's case
+(6) Given classes ctm:MusicType, bf:Place, ctm:C and properties bf:place
+the python program should return:
+classes: ctm:MusicType, bf:Place and property bf:place
+
+# for union-of's case
+(7) Given classes ctm:C4, ctm:C10 and property ctm:p10,
+it wil return:
+class: ctm:C10 rdfs:Literal and property ctm:p10
+
+# for owl:complementOf's case
+(8) Given classes ctm:C, ctm:C2, ctm:C6, ctm:C7, ctm:C3 and ObjectProperty ctm:p0,
+the python program should return:
+classes ctm:C2, ctmC6 and ObjectProperty ctm:p0
+
+# for owl:complementOf's case
+(9) Given classes ctm:C5, ctm:C10, ctm:C4 and DataProperty ctm:p8,
+the python program should return:
+classe ctm:C5, rdfs:Literal and property ctm:p8  
+
+# for intersection-of's case
+(10) Given classes ctm:C8, ctm:C2, ctm:C3 and ObjectProperty ctm:p9,
+the python program should return:
+classes ctm:C8, ctm:C2 and property ctm:p9
+
+
+--based on all above, please generate the python program.
+Such as this desired python function:
+```
+def extract_connected_subgraph(ontology, classes, properties):
+  # Implement the logic to extract the connected subgraph based on the criteria
+  # ...
+  return extracted_classes, extracted_properties
+```
+Caution: The eventual python program should withstand the verification of the test cases (0),(1),(2),(3),(4),(5),(6),(7),(8),(9),(10) as above.
+After generating the program, you can rehearse the test cases via the program to check if the returned results align with the expected ones in the upper prompt.
