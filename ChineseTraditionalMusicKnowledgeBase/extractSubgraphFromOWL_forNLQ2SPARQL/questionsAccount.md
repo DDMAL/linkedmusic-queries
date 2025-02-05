@@ -32,7 +32,7 @@
 *. :SpecialIndependentResource->:MusicType,:mo:Instrument,:dbpedia-owl:EthnicGroup
     e.g.,《越南闲愁》涉及到什么音乐类型(乐种)、乐器、民族？
     --it doesn't clarify whether it's "or (union of)" or it's "and (intersection of)"
-    expectedExtractedEntities: {:SpecialIndependentResource :MusicType mo:Instrument dbpedia-owl:EthnicGroup}{:relatesMusicType :relatesInstrument dbpedia-owl:EthnicGroup}
+    expectedExtractedEntities: {:SpecialIndependentResource :MusicType mo:Instrument dbpedia-owl:EthnicGroup}{:relatesMusicType :relatesInstrument :ethnicGroup}
 *. :MusicType<-:SpecialIndependentResource->bf:Place
 
 # Start with bf:Place
