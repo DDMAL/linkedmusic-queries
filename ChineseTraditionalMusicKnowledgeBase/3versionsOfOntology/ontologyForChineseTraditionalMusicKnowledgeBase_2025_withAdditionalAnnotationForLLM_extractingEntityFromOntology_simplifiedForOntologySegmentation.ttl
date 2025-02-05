@@ -1081,10 +1081,7 @@ ctm:ChineseInstrument rdf:type owl:Class ;
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#ChineseNation
 ctm:ChineseNation rdf:type owl:Class ;
-                  rdfs:subClassOf dbpedia-owl:EthnicGroup ,
-                                  [ rdf:type owl:Class ;
-                                    owl:complementOf ctm:ForeignNation
-                                  ] ;
+                  rdfs:subClassOf dbpedia-owl:EthnicGroup ;
                   rdfs:comment "包括汉族、55个少数民族及其支系" ;
                   rdfs:label "中华民族" .
 
