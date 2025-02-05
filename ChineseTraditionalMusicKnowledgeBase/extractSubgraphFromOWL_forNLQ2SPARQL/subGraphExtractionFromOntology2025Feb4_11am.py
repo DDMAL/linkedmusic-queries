@@ -45,21 +45,32 @@ def extract_valid_classes_from_node(graph, node):
         # Process owl:intersectionOf
         for inter in graph.objects(node, OWL.intersectionOf):
             valid.update(process_rdf_list(graph, inter))
-        # Ignore any branch that has owl:complementOf (negative assertion)
+        # Do not add anything for owl:complementOf branches.
     return valid
 
 def get_property_type(graph, prop):
     """
-    Determine the property type by iterating over its rdf:type values.
+    Determine the property type by first checking its explicit rdf:type values.
+    If none of those indicate owl:DatatypeProperty or owl:ObjectProperty,
+    then infer a data property if its range is (or ends with) "Literal".
+    
     Returns:
-      - "object" if the property is an owl:ObjectProperty,
-      - "data" if the property is an owl:DatatypeProperty,
-      - None otherwise.
+      - "data" for a DatatypeProperty,
+      - "object" for an ObjectProperty,
+      - None if the type cannot be determined.
     """
-    for o in graph.objects(prop, RDF.type):
-        if o == OWL.ObjectProperty:
-            return "object"
-        if o == OWL.DatatypeProperty:
+    # Try explicit rdf:type declarations.
+    types = set(graph.objects(prop, RDF.type))
+    if OWL.DatatypeProperty in types:
+        return "data"
+    if OWL.ObjectProperty in types:
+        return "object"
+    
+    # Otherwise, infer type by examining the rdfs:range.
+    range_nodes = list(graph.objects(prop, RDFS.range))
+    for r in range_nodes:
+        # If the range is explicitly rdfs:Literal or its URI ends with "Literal", assume a data property.
+        if r == RDFS.Literal or str(r).endswith("Literal"):
             return "data"
     return None
 
@@ -89,10 +100,10 @@ def extract_connected_subgraph_from_owl(owl_file_path, given_classes, given_prop
       A tuple (extracted_classes, extracted_properties) where each is a set of strings.
     """
     graph = Graph()
-    # Parse the ontology file (format is Turtle)
+    # Parse the ontology file (format is Turtle).
     graph.parse(owl_file_path, format="turtle")
     
-    # Resolve given classes and properties to full URIs.
+    # Resolve the given classes and properties to full URIs.
     given_classes_resolved = set()
     for c in given_classes:
         uri = resolve_curie(graph, c)
@@ -105,14 +116,14 @@ def extract_connected_subgraph_from_owl(owl_file_path, given_classes, given_prop
     extracted_properties = set()
     extracted_classes = set()
     
-    # Process each given property (by its resolved full URI)
+    # Process each given property.
     for prop_str in given_properties_resolved:
         prop = URIRef(prop_str)
         ptype = get_property_type(graph, prop)
         if ptype is None:
-            continue  # Skip if type is not determined.
+            continue  # Skip if the type cannot be determined.
     
-        # Process rdfs:domain for the property.
+        # Process rdfs:domain.
         domain_nodes = list(graph.objects(prop, RDFS.domain))
         domain_valid = set()
         for d in domain_nodes:
@@ -120,9 +131,9 @@ def extract_connected_subgraph_from_owl(owl_file_path, given_classes, given_prop
                 domain_valid.add(str(d))
             else:
                 domain_valid.update(extract_valid_classes_from_node(graph, d))
-    
+                
         if ptype == "object":
-            # Process rdfs:range for object properties.
+            # Process rdfs:range for ObjectProperties.
             range_nodes = list(graph.objects(prop, RDFS.range))
             range_valid = set()
             for r in range_nodes:
@@ -151,15 +162,15 @@ def main():
     # =====================================================
     
     # 1. Provide the full path (and file name) of your ontology file (in Turtle format).
-    owl_file_path = "/Users/caojunjun/WPS_Synchronized_Folder/McGill_DDMAL/GitHub/linkedmusic-queries/ChineseTraditionalMusicKnowledgeBase/3versionsOfOntology/subgraphConnectivityTest_ontology.ttl"  # e.g., "C:/ontologies/myontology.ttl"
+    owl_file_path = "/Users/caojunjun/WPS_Synchronized_Folder/McGill_DDMAL/GitHub/linkedmusic-queries/ChineseTraditionalMusicKnowledgeBase/3versionsOfOntology/ontologyForChineseTraditionalMusicKnowledgeBase_2025_withAdditionalAnnotationForLLM_extractingEntityFromOntology_simplifiedForOntologySegmentation.ttl"  # e.g., "C:/ontologies/myontology.ttl"
     
     # 2. Provide the given classes.
-    # For test case (5), for example, use:
-    given_classes = {"ctm:C2", "ctm:C3"}
+    # For test case (*), for example, use:
+    given_classes = {"mo:Instrument", "dbpedia-owl:EthnicGroup", "foaf:Agent"}
     
     # 3. Provide the given properties.
-    # For test case (5), for example, use:
-    given_properties = {"ctm:p3", "ctm:p4", "ctm:p6"}
+    # For test case (*), for example, use:
+    given_properties = {"ctm:ethnicGroup"}
     
     # =====================================================
     # End of user configuration.
