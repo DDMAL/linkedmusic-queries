@@ -191,3 +191,49 @@ def main():
 if __name__ == '__main__':
     owl_file_path, extracted_classes, extracted_properties = main()
 
+
+def retrieve_specific_subset(owl_file_path, extracted_classes, extracted_properties):
+    import rdflib
+    from rdflib import URIRef, BNode
+
+    g = rdflib.Graph()
+    g.parse(owl_file_path, format='ttl')
+
+    # Convert classes and properties to URI refs if possible
+    seeds = []
+    for item in set(extracted_classes).union(extracted_properties):
+        if item.startswith('http'):
+            seeds.append(URIRef(item))
+
+    visited = set()
+    queue = list(seeds)
+    subset_triples = []
+
+    # BFS to include blank node details
+    while queue:
+        current = queue.pop(0)
+        if current not in visited:
+            visited.add(current)
+            for s, p, o in g.triples((current, None, None)):
+                subset_triples.append((s, p, o))
+                if isinstance(o, BNode):
+                    queue.append(o)
+
+    return subset_triples
+
+# owl_file_path = "/Users/caojunjun/WPS_Synchronized_Folder/McGill_DDMAL/GitHub/linkedmusic-queries/ChineseTraditionalMusicKnowledgeBase/3versionsOfOntology/ontologyForChineseTraditionalMusicKnowledgeBase_2025_withAdditionalAnnotationForLLM_extractingEntityFromOntology_simplifiedForOntologySegmentation.ttl"
+triple_subset = retrieve_specific_subset(
+    owl_file_path, extracted_classes, extracted_properties
+)
+print ("Assembled Ontology as a Subgraph:")
+for s, p, o in triple_subset:
+    print(s, p, o)
+
+# according to above `print(s, p, o)`, the output is nonstandard or tedious:
+    # The URIs have no angle brackets; 
+    # the dataProperty values are not wrapped by "";
+    # there lacks period after each triple; 
+    # namespace prefixes are not fully utilized for the concise expression.
+    # the blanknodes's ID shouldn't be exposed; 
+        # otherwise, blanknodes should be rendered with square brackets [];
+        # you shouldn't use `rdf:first`, `rdf:rest`, or `rdf:nil`; please leverage Turtle’s list notation `(...)`
