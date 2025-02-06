@@ -154,7 +154,7 @@ def extract_connected_subgraph_from_owl(owl_file_path, given_classes, given_prop
                 extracted_classes.update(domain_valid & given_classes_resolved)
                 extracted_classes.add("rdfs:Literal")
     
-    return extracted_classes, extracted_properties
+    return owl_file_path, extracted_classes, extracted_properties
 
 def main():
     # =====================================================
@@ -166,17 +166,17 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"bf:Place", "ctm:ChinaJurisdiction", "ctm:ChineseNation", "ctm:EventOfRecording", "ctm:SpecialIndependentResource", "places:City", "places:County", "places:Province", "places:Town", "places:Township", "places:Village", "ctm:MusicType", "cidoc-crm:E55_Type", "rdfs:Literal"}
+    given_classes = {"ctm:PieceWithPerformance", "mo:Instrument"}
     
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"bf:subject", "ctm:musicSystem", "ctm:relatesMusicType", "ctm:relatesPlace", "gn:alternateName", "gn:historicalName"}
+    given_properties = {"ctm:piecePrincipalInstrument", "ctm:pieceType"}
     
     # =====================================================
     # End of user configuration.
     # =====================================================
     
-    extracted_classes, extracted_properties = extract_connected_subgraph_from_owl(
+    owl_file_path, extracted_classes, extracted_properties = extract_connected_subgraph_from_owl(
         owl_file_path, given_classes, given_properties
     )
     
@@ -186,6 +186,7 @@ def main():
     print("Extracted Properties:")
     for p in sorted(extracted_properties):
         print("  ", p)
+    return owl_file_path, extracted_classes, extracted_properties
 
 if __name__ == '__main__':
-    main()
+    owl_file_path, extracted_classes, extracted_properties = main()
