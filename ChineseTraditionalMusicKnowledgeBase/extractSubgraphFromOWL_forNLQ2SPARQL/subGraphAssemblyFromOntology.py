@@ -190,3 +190,4 @@ def main():
 
 if __name__ == '__main__':
     owl_file_path, extracted_classes, extracted_properties = main()
+
