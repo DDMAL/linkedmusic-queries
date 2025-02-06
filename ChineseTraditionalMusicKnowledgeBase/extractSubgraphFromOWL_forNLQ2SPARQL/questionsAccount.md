@@ -39,6 +39,8 @@
 
 # Start with bf:Place
 *. bf:Place->:MusicType->mo:Instrument->dbpedia-owl:EthnicGroup
+    e.g.,云南省有哪些音乐类型_乐种，这些乐种可能用到什么乐器，这些乐器又可能涉及哪些族群？
+    expectedExtractedEntities: {bf:Place ctm:MusicType mo:Instrument dbpedia-owl:EthnicGroup}{ctm:placeHasMusicTypeOrInstrument ctm:musicType_Instrument ctm:ethnicGroup}
 
 # Start with dbpedia-owl:EthnicGroup
 *. dbpedia-owl:EthnicGroup->:MusicType->bf:Place
