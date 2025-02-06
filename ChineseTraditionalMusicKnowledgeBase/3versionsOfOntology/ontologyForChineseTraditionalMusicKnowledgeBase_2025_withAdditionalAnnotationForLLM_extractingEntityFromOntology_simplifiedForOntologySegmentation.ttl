@@ -520,6 +520,9 @@ ctm:relatesWork rdf:type owl:ObjectProperty ;
                               owl:unionOf ( mo:Instrument
                                             ctm:MusicType
                                           )
+                            ] ,
+                            [ rdf:type owl:Class ;
+                              owl:complementOf ctm:SpecialIndependentResource
                             ] ;
                 rdfs:range ctm:SpecialIndependentResource ;
                 rdfs:comment "可用于音乐类型(乐种)涉及特藏独立资源_作品，也可用于乐器涉及特藏独立资源_作品" ;
@@ -950,8 +953,6 @@ mo:Conductor rdf:type owl:Class ;
 ###  http://purl.org/ontology/mo/Instrument
 mo:Instrument rdf:type owl:Class ;
               rdfs:subClassOf cidoc-crm:E55_Type ;
-              owl:hasKey ( ctm:nameOfMusicTypeOrInstrument
-                         ) ;
               rdfs:label "乐器" .
 
 
@@ -1355,6 +1356,7 @@ ctm:SizhuMusic rdf:type owl:Class ;
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#SpecialIndependentResource
 ctm:SpecialIndependentResource rdf:type owl:Class ;
                                rdfs:label "特藏独立资源_作品" ,
+                                          "特藏资源" ,
                                           "馆藏作品" .
 
 
