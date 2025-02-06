@@ -140,7 +140,7 @@ def query_sparql(endpoint, query, graph_iri):
 sparql_endpoint = "http://www.usources.cn:8891/sparql" # We can also use the endpoint "https://virtuoso.staging.simssa.ca/sparql"
 graph_iri = "https://lib.ccmusic.edu.cn/graph/music" # We can also use the graph IRI "http://ChineseTraditionalMusicCultureKnowledgeBase"
 sparql_results = query_sparql(sparql_endpoint, sparql_query, graph_iri)
-print('sparql_results:', sparql_results)
+print('sparql_results:', sparql_results) # rendered in JSON format
 # # Save sparql_results to a .json file:
 # with open('sparql_results.json', 'w') as json_file:
 #     json.dump(sparql_results, json_file, indent=4)
@@ -183,20 +183,20 @@ result3_list = parse_result(result3)
 result4_list = parse_result(result4)
 
 # Combine upper results into a single list and remove duplicates
-combined_results = list(set(result1_list + result2_list + result3_list + result4_list))
+combined_results = list(set(result1_list + result2_list + result3_list + result4_list)) # uses set(...) to remove duplicates before converting back to a list
 # Sort items into classes and properties, and arrange them in ascending order
-class_list = sorted([item for item in combined_results if item.split(":")[1][0].isupper()])
+class_list = sorted([item for item in combined_results if item.split(":")[1][0].isupper()]) # `item.split(":")[1][0]`: The code splits the string “item” at the colon, takes the second part ([1]), then retrieves its first character ([0])
 property_list = sorted([item for item in combined_results if item.split(":")[1][0].islower()])
 # Print the sorted lists
-# print("ClassList =", class_list)
-# print("PropertyList =", property_list)
+    # print("ClassList =", class_list)
+    # print("PropertyList =", property_list)
 # Transform the format of ClassList and PropertyList
 class_list_str = "{" + " ".join(class_list)
 property_list_str = "{" + " ".join(property_list) + "}"
 
 # Add the values of "value" in the JSON rendered sparql_results to the ClassList, with the <> wrapping
-for binding in sparql_results['results']['bindings']:
-    class_uri = binding['class']['value']
+for binding in sparql_results['results']['bindings']: # navigate to 'results' key, then to 'bindings' key
+    class_uri = binding['class']['value'] # navigate to 'class' key, then to 'value' key
     class_list_str += f" <{class_uri}>"
 class_list_str += " rdfs:Literal}"
 
