@@ -191,16 +191,57 @@ property_list = sorted([item for item in combined_results if item.split(":")[1][
     # print("ClassList =", class_list)
     # print("PropertyList =", property_list)
 # Transform the format of ClassList and PropertyList
-class_list_str = "{" + " ".join(class_list)
+class_list_str = " ".join(class_list)
 property_list_str = "{" + " ".join(property_list) + "}"
 
-# Add the values of "value" in the JSON rendered sparql_results to the ClassList, with the <> wrapping
-for binding in sparql_results['results']['bindings']: # navigate to 'results' key, then to 'bindings' key
-    class_uri = binding['class']['value'] # navigate to 'class' key, then to 'value' key
-    class_list_str += f" <{class_uri}>"
-class_list_str += " rdfs:Literal}"
 
-print("Transformed ClassList =", class_list_str)
+import rdflib  # 1) Import the rdflib library to handle RDF data
+from rdflib import URIRef  # 2) We specifically need URIRef to convert strings into URI references
+
+def shorten_uri(uri, graph):
+    """Convert a full URI into a prefixed form using the graph's known namespaces."""
+    # 3) Turn the URI string into a URIRef object
+    uri_ref = URIRef(uri)
+    # 4) Use graph.qname(...) to get the prefixed form of the URI (e.g., ctm:Instrument)
+    return graph.qname(uri_ref)
+
+def render_classes_with_prefix(sparql_results, class_list_str):
+    """Parse the local TTL file to retrieve all namespace prefixes, then convert SPARQL results to prefixed URIs."""
+    # 5) Create an empty graph
+    g = rdflib.Graph()
+    # 6) Parse the local TTL file to load its prefixes and triples
+    g.parse(
+        "/Users/caojunjun/WPS_Synchronized_Folder/McGill_DDMAL/GitHub/linkedmusic-queries/ChineseTraditionalMusicKnowledgeBase/3versionsOfOntology/ontologyForChineseTraditionalMusicKnowledgeBase_2025_withAdditionalAnnotationForLLM_extractingEntityFromOntology_simplifiedForOntologySegmentation.ttl",
+        format="ttl"
+    )
+    
+    # 2) Process the SPARQL results to get prefixed URIs.
+    sparql_classes = []
+    for binding in sparql_results['results']['bindings']:
+        # Extract the full URI from the SPARQL result.
+        class_uri = binding['class']['value']
+        # Convert the full URI to its prefixed form.
+        short_name = shorten_uri(class_uri, g)
+        sparql_classes.append(short_name)
+    
+    # 3) Process the original class_list_str.
+    #    (Since class_list_str is defined as " ".join(class_list), we split it using space.)
+    original_classes = class_list_str.split()
+    
+    # 4) Merge both lists and remove duplicates.
+    merged_set = set(sparql_classes) | set(original_classes)
+    # Optionally, sort the merged list (if desired).
+    merged_list = sorted(merged_set)
+    
+    # 5) Build the final merged string.
+    merged = "{ " + " ".join(merged_list) + " rdfs:Literal }"
+    
+    # 6) Print and return the merged result.
+    print("Transformed ClassList =", merged)
+    return merged
+
+# Later in your code, call the function, for example:
+merged_class_list = render_classes_with_prefix(sparql_results, class_list_str)
 print("Transformed PropertyList =", property_list_str)
 
 
