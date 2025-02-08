@@ -231,7 +231,7 @@ if __name__ == '__main__':
     # according to above `print(s, p, o)`, the output is nonstandard and tedious:
         # The URIs have no angle brackets like <> ; 
         # the dataProperty values are not wrapped by "";
-        # there lacks period after each triple; 
+        # each triple is missing a dot at the end; 
         # namespace prefixes are not fully utilized for the concise expression.
         # the blanknode's ID shouldn't be exposed; 
             # otherwise, blanknodes should be rendered with square brackets [];
