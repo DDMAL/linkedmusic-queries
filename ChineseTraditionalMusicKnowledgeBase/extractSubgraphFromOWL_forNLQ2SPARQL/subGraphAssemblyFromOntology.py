@@ -170,7 +170,7 @@ def main():
     
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"ctm:piecePrincipalInstrument", "ctm:pieceType"}
+    given_properties = {"ctm:piecePrincipalInstrument"}
     
     # =====================================================
     # End of user configuration.
@@ -187,10 +187,6 @@ def main():
     for p in sorted(extracted_properties):
         print("  ", p)
     return owl_file_path, extracted_classes, extracted_properties
-
-if __name__ == '__main__':
-    owl_file_path, extracted_classes, extracted_properties = main()
-
 
 def retrieve_specific_subset(owl_file_path, extracted_classes, extracted_properties):
     import rdflib
@@ -221,19 +217,22 @@ def retrieve_specific_subset(owl_file_path, extracted_classes, extracted_propert
 
     return subset_triples
 
-# owl_file_path = "/Users/caojunjun/WPS_Synchronized_Folder/McGill_DDMAL/GitHub/linkedmusic-queries/ChineseTraditionalMusicKnowledgeBase/3versionsOfOntology/ontologyForChineseTraditionalMusicKnowledgeBase_2025_withAdditionalAnnotationForLLM_extractingEntityFromOntology_simplifiedForOntologySegmentation.ttl"
-triple_subset = retrieve_specific_subset(
-    owl_file_path, extracted_classes, extracted_properties
-)
-print ("Assembled Ontology as a Subgraph:")
-for s, p, o in triple_subset:
-    print(s, p, o)
 
-# according to above `print(s, p, o)`, the output is nonstandard or tedious:
-    # The URIs have no angle brackets; 
-    # the dataProperty values are not wrapped by "";
-    # there lacks period after each triple; 
-    # namespace prefixes are not fully utilized for the concise expression.
-    # the blanknodes's ID shouldn't be exposed; 
-        # otherwise, blanknodes should be rendered with square brackets [];
-        # you shouldn't use `rdf:first`, `rdf:rest`, or `rdf:nil`; please leverage Turtle’s list notation `(...)`
+if __name__ == '__main__':
+    owl_file_path, extracted_classes, extracted_properties = main()
+    # owl_file_path = "/Users/caojunjun/WPS_Synchronized_Folder/McGill_DDMAL/GitHub/linkedmusic-queries/ChineseTraditionalMusicKnowledgeBase/3versionsOfOntology/ontologyForChineseTraditionalMusicKnowledgeBase_2025_withAdditionalAnnotationForLLM_extractingEntityFromOntology_simplifiedForOntologySegmentation.ttl"
+    triple_subset = retrieve_specific_subset(
+        owl_file_path, extracted_classes, extracted_properties
+    )
+    print ("Assembled Ontology as a Subgraph:")
+    for s, p, o in triple_subset:
+        print(s, p, o)
+
+    # according to above `print(s, p, o)`, the output is nonstandard and tedious:
+        # The URIs have no angle brackets like <> ; 
+        # the dataProperty values are not wrapped by "";
+        # there lacks period after each triple; 
+        # namespace prefixes are not fully utilized for the concise expression.
+        # the blanknode's ID shouldn't be exposed; 
+            # otherwise, blanknodes should be rendered with square brackets [];
+            # you shouldn't use `rdf:first`, `rdf:rest`, or `rdf:nil`; please leverage Turtle’s list notation `(...)`
