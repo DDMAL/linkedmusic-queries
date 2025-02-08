@@ -13,6 +13,7 @@ The code handles owl:unionOf and owl:intersectionOf constructs and ignores any b
 """
 
 from rdflib import Graph, URIRef, BNode, RDF, RDFS, OWL
+import rdflib
 
 def process_rdf_list(graph, list_node):
     """
@@ -154,7 +155,7 @@ def extract_connected_subgraph_from_owl(owl_file_path, given_classes, given_prop
                 extracted_classes.update(domain_valid & given_classes_resolved)
                 extracted_classes.add("rdfs:Literal")
     
-    return extracted_classes, extracted_properties
+    return owl_file_path, extracted_classes, extracted_properties
 
 def main():
     # =====================================================
@@ -166,26 +167,76 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"bf:Place", "ctm:ChinaJurisdiction", "ctm:ChineseNation", "ctm:EventOfRecording", "ctm:SpecialIndependentResource", "places:City", "places:County", "places:Province", "places:Town", "places:Township", "places:Village", "ctm:MusicType", "cidoc-crm:E55_Type", "rdfs:Literal"}
+    given_classes = {"ctm:PieceWithPerformance", "mo:Instrument"}
     
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"bf:subject", "ctm:musicSystem", "ctm:relatesMusicType", "ctm:relatesPlace", "gn:alternateName", "gn:historicalName"}
+    given_properties = {"ctm:piecePrincipalInstrument"}
     
     # =====================================================
     # End of user configuration.
     # =====================================================
     
-    extracted_classes, extracted_properties = extract_connected_subgraph_from_owl(
+    owl_file_path, extracted_classes, extracted_properties = extract_connected_subgraph_from_owl(
         owl_file_path, given_classes, given_properties
     )
     
-    print("Extracted classes:")
+    print("Extracted Classes:")
     for c in sorted(extracted_classes):
         print("  ", c)
-    print("Extracted properties:")
+    print("Extracted Properties:")
     for p in sorted(extracted_properties):
         print("  ", p)
+    return owl_file_path, extracted_classes, extracted_properties
+
+def retrieve_specific_subset(owl_file_path, extracted_classes, extracted_properties):
+    import rdflib
+    from rdflib import URIRef, BNode
+
+    g = rdflib.Graph()
+    g.parse(owl_file_path, format='ttl')
+
+    # Convert classes and properties to URI refs if possible
+    seeds = []
+    for item in set(extracted_classes).union(extracted_properties):
+        if item.startswith('http'):
+            seeds.append(URIRef(item))
+
+    visited = set()
+    queue = list(seeds)
+    subset_triples = []
+
+    # BFS to include blank node details
+    while queue:
+        current = queue.pop(0)
+        if current not in visited:
+            visited.add(current)
+            for s, p, o in g.triples((current, None, None)):
+                subset_triples.append((s, p, o))
+                if isinstance(o, BNode):
+                    queue.append(o)
+
+    return subset_triples
+
 
 if __name__ == '__main__':
-    main()
+    owl_file_path, extracted_classes, extracted_properties = main()
+    # owl_file_path = "/Users/caojunjun/WPS_Synchronized_Folder/McGill_DDMAL/GitHub/linkedmusic-queries/ChineseTraditionalMusicKnowledgeBase/3versionsOfOntology/ontologyForChineseTraditionalMusicKnowledgeBase_2025_withAdditionalAnnotationForLLM_extractingEntityFromOntology_simplifiedForOntologySegmentation.ttl"
+    triple_subset = retrieve_specific_subset(
+        owl_file_path, extracted_classes, extracted_properties
+    )
+        # Create a new rdflib Graph for the subgraph.
+    subgraph = rdflib.Graph()
+    for triple in triple_subset:
+        subgraph.add(triple)
+    
+    # Parse the original ontology to bind all namespace prefixes.
+    original = rdflib.Graph()
+    original.parse(owl_file_path, format='ttl')
+    for prefix, namespace in original.namespaces():
+        subgraph.bind(prefix, namespace)
+    
+    # Serialize the subgraph in Turtle format.
+    turtle_output = subgraph.serialize(format='turtle')
+    print("Assembled Ontology as a Subgraph in Turtle format:")
+    print(turtle_output)
