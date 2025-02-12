@@ -39,7 +39,7 @@
 
 # Start with bf:Place
 *. bf:Place->:MusicType->mo:Instrument->dbpedia-owl:EthnicGroup
-    e.g.,云南省有哪些音乐类型_乐种，这些乐种可能用到什么乐器，这些乐器又可能涉及哪些族群？(translated as: What music types exist in Yunnan Province? What instruments are commonly used in these typess, and which ethnic groups are associated with these instruments?)""We haven't tried generating SPARQL based on the assembled ontology snippet""
+    e.g.,云南省有哪些音乐类型_乐种，这些乐种可能用到什么乐器，这些乐器又可能涉及哪些族群？(translated as: What music types exist in Yunnan Province? What instruments are commonly used in these music types, and which ethnic groups are associated with these instruments?)""We haven't tried generating SPARQL based on the assembled ontology snippet""
     expectedExtractedEntities: {bf:Place ctm:MusicType mo:Instrument dbpedia-owl:EthnicGroup}{ctm:placeHasMusicTypeOrInstrument ctm:musicType_Instrument ctm:ethnicGroup}
 
 # Start with dbpedia-owl:EthnicGroup
