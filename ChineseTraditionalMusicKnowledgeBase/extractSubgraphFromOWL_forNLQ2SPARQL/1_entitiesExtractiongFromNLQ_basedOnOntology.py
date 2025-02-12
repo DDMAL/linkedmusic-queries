@@ -8,7 +8,7 @@ from SPARQLWrapper import SPARQLWrapper, JSON # SPARQLWrapper is a Python wrappe
 # 1. SubGraph Extraction
 # Invoke the OpenAI API:
 client = OpenAI(
-    api_key="sk-lIjVysUlrOO0Ywpk34FdCa7719C544B4B90e6d316cC68e2f",
+    api_key="",
     base_url="https://oneapi.xty.app/v1"
 )
 
@@ -234,15 +234,15 @@ def render_classes_with_prefix(sparql_results, class_list_str):
     merged_list = sorted(merged_set)
     
     # 5) Build the final merged string.
-    merged = "{ " + " ".join(merged_list) + " rdfs:Literal }"
+    merged = "{" + " ".join(merged_list) + " rdfs:Literal}"
     
     # 6) Print and return the merged result.
-    print("Transformed ClassList =", merged)
+    print("Transformed ClassList =", "{" + ", ".join(f'"{item}"' for item in merged) + "}")
     return merged
 
 # Later in your code, call the function, for example:
 merged_class_list = render_classes_with_prefix(sparql_results, class_list_str)
-print("Transformed PropertyList =", property_list_str)
+print("Transformed PropertyList =", "{" + ", ".join(f'"{item}"' for item in property_list_str) + "}")
 
 
 # 2. SubGraph Assembly
