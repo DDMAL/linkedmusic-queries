@@ -1,0 +1,26 @@
+# define input:inference 'urn:owl.ccmusicrules'
+
+# PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
+# PREFIX gn: <http://www.geonames.org/ontology#>
+# construct {
+#     ?MusicType bf:place ?ParentPlace .
+# }
+# where {
+#     ?MusicType bf:place ?Place .
+#     ?Place gn:parentFeature* ?ParentPlace
+# }
+
+PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
+PREFIX gn: <http://www.geonames.org/ontology#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+construct {
+    ?MusicType bf:place ?ParentPlace ;
+               rdfs:label ?MusicTypeLabel .
+    ?ParentPlace rdfs:label ?ParentPlaceLabel .
+}
+where {
+    ?MusicType bf:place ?Place ;
+               rdfs:label ?MusicTypeLabel .
+    ?Place gn:parentFeature* ?ParentPlace .
+    ?ParentPlace rdfs:label ?ParentPlaceLabel .
+}
