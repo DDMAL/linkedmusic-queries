@@ -167,11 +167,11 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"ctm:PieceWithPerformance", "mo:Instrument"}
+    given_classes = {"bf:MusicInstrument", "bf:Place", "cidoc-crm:E53_Place", "cidoc-crm:E55_Type", "ctm:ChinaJurisdiction", "ctm:ChineseInstrument", "ctm:ChineseNation", "ctm:ChuidaMusic", "ctm:DrumAndCymbalSystem", "ctm:FolkMusic", "ctm:FolkMusicOrganization", "ctm:FolkMusician", "ctm:FolkSong", "ctm:ForeignNation", "ctm:MusicType", "ctm:MusicType_YueShengXi", "ctm:MusicType_YueWuXi", "ctm:NationalInstrumentalMusic", "ctm:OrientalMusicalInstrument", "ctm:PercussionMusicalInstrument", "ctm:PluckedStringInstrument", "ctm:Surnay", "ctm:TraditionalMusicBranch", "ctm:XiansuoMusic", "dbpedia-owl:EthnicGroup", "mo:Instrument", "places:Province", "rdfs:Literal"}
     
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"ctm:piecePrincipalInstrument"}
+    given_properties = {"bf:originPlace", "bf:place", "ctm:ethnicGroup", "ctm:musicGenre", "ctm:musicSystem", "ctm:musicType_Instrument", "ctm:nameOfMusicTypeOrInstrument", "ctm:placeHasMusicTypeOrInstrument"}
     
     # =====================================================
     # End of user configuration.
