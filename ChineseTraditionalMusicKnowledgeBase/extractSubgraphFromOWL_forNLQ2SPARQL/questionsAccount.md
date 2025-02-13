@@ -34,8 +34,7 @@
     --it doesn't clarify whether it's "or (union of)" or it's "and (intersection of)"
     expectedExtractedEntities: {:SpecialIndependentResource :MusicType mo:Instrument dbpedia-owl:EthnicGroup}{:relatesMusicType :relatesInstrument :ethnicGroup}
 *. :MusicType<-:SpecialIndependentResource->bf:Place
-    e.g.,我馆有什么特藏资源涉及甘美兰音乐，该资源涉及的地域在哪？[or make it more complicated: 我馆有什么特藏独立资源_作品涉及甘美兰音乐，该资源是在哪里（涉及的地域）采录到的？](translated as: What special collection resources does our library have related to Gamelan music, and which places do these resources cover?)""We haven't tried generating SPARQL based on the assembled ontology snippet""
-    expectedExtractedEntities: {:SpecialIndependentResource :MusicType bf:Place}{:relatesMusicType :relatesPlace}
+    e.g.,我馆有什么特藏资源涉及甘美兰音乐，该资源涉及的地域在哪？[or make it more complicated: 我馆有什么特藏独立资源_作品涉及甘美兰音乐，该资源是在哪里（涉及的地域）采录到的？](translated as: What special collection resources does our library have related to Gamelan music, and which places do these resources cover?)
 
 # Start with bf:Place
 *. bf:Place->:MusicType->mo:Instrument->dbpedia-owl:EthnicGroup
@@ -44,7 +43,7 @@
 
 # Start with dbpedia-owl:EthnicGroup
 *. dbpedia-owl:EthnicGroup->:MusicType->bf:Place
-    e.g.,蒙古族有哪些音乐类型_乐种，这些乐种的分布地域各是什么？(translated as: What music types exist in Mongolian culture, and what are the regional distributions of these types?)""We haven't tried verifying the completeness of the extracted entities from ontology""
+    e.g.,蒙古族有哪些音乐类型_乐种，这些乐种的分布地域各是什么？(translated as: What music types exist in Mongolian culture, and what are the regional distributions of these types?)
     expectedExtractedEntities: {bf:Place ctm:MusicType dbpedia-owl:EthnicGroup}{bf:place ctm:representativeMusicType}
 
 # Start with :FolkMusician

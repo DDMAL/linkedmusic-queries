@@ -167,11 +167,11 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"bf:MusicInstrument", "bf:Place", "cidoc-crm:E53_Place", "cidoc-crm:E55_Type", "ctm:ChinaJurisdiction", "ctm:ChineseInstrument", "ctm:ChineseNation", "ctm:ChuidaMusic", "ctm:DrumAndCymbalSystem", "ctm:FolkMusic", "ctm:FolkMusicOrganization", "ctm:FolkMusician", "ctm:FolkSong", "ctm:ForeignNation", "ctm:MusicType", "ctm:MusicType_YueShengXi", "ctm:MusicType_YueWuXi", "ctm:NationalInstrumentalMusic", "ctm:OrientalMusicalInstrument", "ctm:PercussionMusicalInstrument", "ctm:PluckedStringInstrument", "ctm:Surnay", "ctm:TraditionalMusicBranch", "ctm:XiansuoMusic", "dbpedia-owl:EthnicGroup", "mo:Instrument", "places:Province", "rdfs:Literal"}
+    given_classes = {"bf:Place", "cidoc-crm:E55_Type", "ctm:ChinaJurisdiction", "ctm:ChineseInstrument", "ctm:FolkMusic", "ctm:ForeignNation", "ctm:MusicType", "ctm:SpecialIndependentResource", "ns1:b8780431", "places:City", "places:County", "places:Province", "places:Town", "places:Township", "places:Village", "rdfs:Literal"}
     
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"bf:originPlace", "bf:place", "ctm:ethnicGroup", "ctm:musicGenre", "ctm:musicSystem", "ctm:musicType_Instrument", "ctm:nameOfMusicTypeOrInstrument", "ctm:placeHasMusicTypeOrInstrument"}
+    given_properties = {"bf:subject", "ctm:musicSystem", "ctm:relatesMusicType", "ctm:relatesPlace", "gn:alternateName", "gn:historicalName"}
     
     # =====================================================
     # End of user configuration.
@@ -240,3 +240,12 @@ if __name__ == '__main__':
     turtle_output = subgraph.serialize(format='turtle')
     print("Assembled Ontology as a Subgraph in Turtle format:")
     print(turtle_output)
+
+
+# ``` ```
+
+# Based on the above ontology snippet, please generate a SPARQL query for the question:……
+# Note: 
+# (1) Don't use language tag
+# (2) For each instance variable in the SPARQL, involve `rdfs:label`
+# After generation, reexamine the SPARQL query using the previous ontology snippet, if you find sths. inconsistent with the restraint of the ontology, please revise the SPARQL query.

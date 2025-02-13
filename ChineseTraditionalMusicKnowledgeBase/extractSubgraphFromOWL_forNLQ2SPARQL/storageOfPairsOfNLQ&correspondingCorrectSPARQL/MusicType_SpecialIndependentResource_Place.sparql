@@ -1,0 +1,15 @@
+# question: 我馆有什么特藏资源涉及甘美兰音乐，该资源涉及的地域在哪？
+# corresponding correct SPARQL
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?labelOfResource ?resource ?labelOfPlace ?place
+WHERE {
+  ?resource a ctm:SpecialIndependentResource ;
+            rdfs:label ?labelOfResource ;
+            ctm:relatesMusicType ?musicType ;
+            ctm:relatesPlace ?place .
+  ?place rdfs:label ?labelOfPlace .
+  ?musicType rdfs:label "甘美兰音乐" .
+}

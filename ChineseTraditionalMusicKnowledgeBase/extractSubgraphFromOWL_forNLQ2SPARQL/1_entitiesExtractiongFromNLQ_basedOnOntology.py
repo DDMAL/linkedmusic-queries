@@ -37,7 +37,7 @@ with open("ontologySnippet_objectProperties_simplified.ttl", "r") as context3:
 with open("ontologySnippet_dataProperties_simplified.ttl", "r") as context4:
     context_ontology_dataProperty = context4.readlines()
 # The natural language question is read from a text file:
-with open("question_EthnicGroup_MusicType_Place.txt", 'r') as f:
+with open("question_MusicType_SpecialIndependentResource_Place.txt", 'r') as f:
     question = f.readlines()
 
 # Identify and extract the relevant classes and properties from the given natural language question. Match them with the corresponding entities (classes or properties) defined in the provided ontology and present the results exclusively in a list format.
@@ -82,6 +82,7 @@ such as `["ex:property1", "ex:property2", "ex:property3"]`.
 2. Analyze the semantic structure of the natural language question carefully to identify all relevant properties.
 3. Ensure each retrieved property is represented by its namespace prefix defined in the ontology.
 4. Extract all properties that are even minimally relevant to the question.
+5. Examine each property with its label and comment one by one.
 """
 
 prompt4 = f"""
