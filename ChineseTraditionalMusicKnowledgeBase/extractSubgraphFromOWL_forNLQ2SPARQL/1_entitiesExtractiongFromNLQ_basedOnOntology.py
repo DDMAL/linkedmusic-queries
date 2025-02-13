@@ -192,7 +192,7 @@ property_list = sorted([item for item in combined_results if item.split(":")[1][
     # print("PropertyList =", property_list)
 # Transform the format of ClassList and PropertyList
 class_list_str = " ".join(class_list)
-property_list_str = "{" + " ".join(property_list) + "}"
+property_list_str = " ".join(property_list)
 
 
 import rdflib  # 1) Import the rdflib library to handle RDF data
@@ -234,15 +234,15 @@ def render_classes_with_prefix(sparql_results, class_list_str):
     merged_list = sorted(merged_set)
     
     # 5) Build the final merged string.
-    merged = "{" + " ".join(merged_list) + " rdfs:Literal}"
+    merged = " ".join(merged_list) + " rdfs:Literal"
     
     # 6) Print and return the merged result.
-    print("Transformed ClassList =", "{" + ", ".join(f'"{item}"' for item in merged) + "}")
+    print("Transformed ClassList =", "{" + ", ".join(f'"{item}"' for item in merged.split()) + "}")
     return merged
 
 # Later in your code, call the function, for example:
 merged_class_list = render_classes_with_prefix(sparql_results, class_list_str)
-print("Transformed PropertyList =", "{" + ", ".join(f'"{item}"' for item in property_list_str) + "}")
+print("Transformed PropertyList =", "{" + ", ".join(f'"{item}"' for item in property_list_str.split()) + "}")
 
 
 # 2. SubGraph Assembly
