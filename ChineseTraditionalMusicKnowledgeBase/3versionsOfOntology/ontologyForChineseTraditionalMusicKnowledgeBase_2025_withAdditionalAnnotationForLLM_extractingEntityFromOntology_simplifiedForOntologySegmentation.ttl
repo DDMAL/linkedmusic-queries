@@ -916,7 +916,8 @@ bf:NotatedMusic rdf:type owl:Class ;
 
 ###  http://id.loc.gov/ontologies/bibframe/Place
 bf:Place rdf:type owl:Class ;
-         rdfs:label "地域" ,
+         rdfs:label "分布地域" ,
+                    "地域" ,
                     "地点" .
 
 
