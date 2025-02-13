@@ -20,7 +20,7 @@ bf:MusicInstrument rdfs:label "乐器" .
 bf:NotatedMusic rdfs:label "乐谱" ;
     rdfs:comment "乐谱、曲谱等" .
 
-bf:Place rdfs:label "地域",
+bf:Place rdfs:label "地域", "分布地域",
         "地点" .
 
 bf:StillImage rdfs:label "图片" ;

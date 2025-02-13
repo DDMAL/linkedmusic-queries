@@ -37,7 +37,7 @@ with open("ontologySnippet_objectProperties_simplified.ttl", "r") as context3:
 with open("ontologySnippet_dataProperties_simplified.ttl", "r") as context4:
     context_ontology_dataProperty = context4.readlines()
 # The natural language question is read from a text file:
-with open("question_Place_MusicType_Instrument_EthnicGroup.txt", 'r') as f:
+with open("question_EthnicGroup_MusicType_Place.txt", 'r') as f:
     question = f.readlines()
 
 # Identify and extract the relevant classes and properties from the given natural language question. Match them with the corresponding entities (classes or properties) defined in the provided ontology and present the results exclusively in a list format.
@@ -51,7 +51,7 @@ such as `["ex:class1", "ex:class2", "ex:class3"]`.
 {question}
 ### Instructions and Notes:
 1. Retrieve classes from the ontology as long as any literals in the natural language question match the semantic content of their rdfs:label or rdfs:comment.
-2. Ensure each retrieved class includes its namespace prefix in the output.
+2. Ensure each retrieved class is represented by its namespace prefix defined in the ontology.
 3. Extract all classes that are even minimally relevant to the question.
 """
 
@@ -65,7 +65,7 @@ such as `["ex:class1", "ex:class2", "ex:class3"]`.
 {question}
 ### Instructions and Notes:
 1. Retrieve classes from the ontology as long as any literals in the natural language question match the semantic content of their rdfs:label or rdfs:comment.
-2. Ensure each retrieved class includes its namespace prefix in the output.
+2. Ensure each retrieved class is represented by its namespace prefix defined in the ontology.
 3. Extract all classes that are even minimally relevant to the question.
 """
 
@@ -80,7 +80,7 @@ such as `["ex:property1", "ex:property2", "ex:property3"]`.
 ### Instructions and Notes:
 1. Retrieve properties from the ontology as long as any literals in the natural language question match the semantic content of their rdfs:label or rdfs:comment.
 2. Analyze the semantic structure of the natural language question carefully to identify all relevant properties.
-3. Ensure each retrieved property includes its namespace prefix in the output.
+3. Ensure each retrieved property is represented by its namespace prefix defined in the ontology.
 4. Extract all properties that are even minimally relevant to the question.
 """
 
@@ -95,7 +95,7 @@ such as `["ex:property1", "ex:property2", "ex:property3"]`.
 ### Instructions and Notes:
 1. Retrieve properties from the ontology as long as any literals in the natural language question match the semantic content of their rdfs:label or rdfs:comment.
 2. Analyze the semantic structure of the natural language question carefully to identify all relevant properties.
-3. Ensure each retrieved property includes its namespace prefix in the output.
+3. Ensure each retrieved property is represented by its namespace prefix defined in the ontology.
 4. Extract all properties that are even minimally relevant to the question.
 """
 
