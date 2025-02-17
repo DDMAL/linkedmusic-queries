@@ -246,6 +246,8 @@ if __name__ == '__main__':
 
 # Based on the above ontology snippet, please generate a SPARQL query for the question:……
 # Note: 
-# (1) Don't use language tag
+## (1) Don't use language tag (not necessary as for this prompt)
+# (1) The question is associated with the domain of Chinese or East-and-Southeast-Asian music, 
+# so you may understand the entities priorly that you can correspond them to the classes in the given ontology
 # (2) For each instance variable in the SPARQL, involve `rdfs:label`
-# After generation, reexamine the SPARQL query using the previous ontology snippet, if you find sths. inconsistent with the restraint of the ontology, please revise the SPARQL query.
+# After generation, reexamine the SPARQL query using the previous ontology snippet, if you find sths. inconsistent with the restraint of the ontology, please revise the SPARQL query

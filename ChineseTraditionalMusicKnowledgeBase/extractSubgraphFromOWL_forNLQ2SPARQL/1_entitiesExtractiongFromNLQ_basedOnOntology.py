@@ -53,6 +53,7 @@ such as `["ex:class1", "ex:class2", "ex:class3"]`.
 1. Retrieve classes from the ontology as long as any literals in the natural language question match the semantic content of their rdfs:label or rdfs:comment.
 2. Ensure each retrieved class is represented by its namespace prefix defined in the ontology.
 3. Extract all classes that are even minimally relevant to the question.
+4. As long as any semantic fragment (such as a word, phrase, or expression) in the natural language question semantically matches the content of the `rdfs:label` of a class in the ontology, that class will be extracted from the ontology.
 """
 
 prompt2 = f"""
@@ -67,6 +68,7 @@ such as `["ex:class1", "ex:class2", "ex:class3"]`.
 1. Retrieve classes from the ontology as long as any literals in the natural language question match the semantic content of their rdfs:label or rdfs:comment.
 2. Ensure each retrieved class is represented by its namespace prefix defined in the ontology.
 3. Extract all classes that are even minimally relevant to the question.
+4. As long as any semantic fragment (such as a word, phrase, or expression) in the natural language question semantically matches the content of the `rdfs:label` of a class in the ontology, that class will be extracted from the ontology.
 """
 
 prompt3 = f"""
@@ -82,7 +84,7 @@ such as `["ex:property1", "ex:property2", "ex:property3"]`.
 2. Analyze the semantic structure of the natural language question carefully to identify all relevant properties.
 3. Ensure each retrieved property is represented by its namespace prefix defined in the ontology.
 4. Extract all properties that are even minimally relevant to the question.
-5. Examine each property with its label and comment one by one.
+5. Examine each property with its label and comment, one by one.
 """
 
 prompt4 = f"""
