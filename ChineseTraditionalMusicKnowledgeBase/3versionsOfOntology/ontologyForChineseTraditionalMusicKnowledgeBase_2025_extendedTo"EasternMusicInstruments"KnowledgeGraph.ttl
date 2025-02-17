@@ -2644,6 +2644,12 @@ ctm:MusicOfTalkingAndSinging rdf:type owl:Class ;
 （2）说唱艺术是说（白）、唱（腔）、表（作）三位一体的艺术（《中国传统音乐概论》p.39）""" .
 
 
+###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#MusicSpecies
+ctm:MusicSpecies rdf:type owl:Class ;
+                 owl:equivalentClass ctm:MusicType ;
+                 rdfs:subClassOf cidoc-crm:E55_Type .
+
+
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#MusicType
 ctm:MusicType rdf:type owl:Class ;
               owl:equivalentClass [ rdf:type owl:Class ;
