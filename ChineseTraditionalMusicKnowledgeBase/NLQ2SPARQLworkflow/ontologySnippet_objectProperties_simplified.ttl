@@ -98,7 +98,7 @@ ctm:musicTypeIsPartOf rdfs:label "音乐类型(乐种)是…的一部分" ;
 ctm:musicTypePrincipalInstrument rdfs:label "乐种的主奏乐器有、乐种的主要乐器有" ;
     rdfs:comment "主奏乐器是在乐种乐队编制中居主导地位的乐器，它有时也是该乐种的定律乐器" .
 
-ctm:musicType_Instrument rdfs:label "乐种使用…乐器" ;
+ctm:musicType_instrument rdfs:label "乐种使用…乐器" ;
     rdfs:comment "关联一个音乐类型(乐种)和它使用的乐器（其乐器编制）" .
 
 ctm:musicType_broaderTerm rdfs:label "音乐类型(乐种)有…广义术语" ;

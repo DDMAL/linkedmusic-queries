@@ -45,15 +45,15 @@ This version uses bf:Work of BibFrame model, which may bring about some inconsis
 （4）:relatesInstrument
 （5）:relatesMusicType
 （6）:relatesWork
-（如上供参考）""" .
+（如上供参考）
+
+Since 2025Feb25, following modifications are as belows:
+(1) ObjectProperty `:musicType_Instrument` is updated to `:musicType_instrument`
+(2) ...""" .
 
 #################################################################
 #    Annotation properties
 #################################################################
-
-###  http://purl.org/dc/terms/title
-dcterms:title rdfs:range rdfs:Literal .
-
 
 ###  http://www.w3.org/2004/02/skos/core#definition
 skos:definition rdf:type owl:AnnotationProperty ;
@@ -540,7 +540,7 @@ ctm:instrumentFormerName rdf:type owl:ObjectProperty ;
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#instrumentRepresentativeMusicType
 ctm:instrumentRepresentativeMusicType rdf:type owl:ObjectProperty ;
-                                      owl:inverseOf ctm:musicType_Instrument ;
+                                      owl:inverseOf ctm:musicType_instrument ;
                                       rdfs:domain mo:Instrument ;
                                       rdfs:range ctm:MusicType ;
                                       rdfs:label "乐器的代表性乐种有" .
@@ -616,7 +616,7 @@ ctm:musicTypeIsPartOf rdf:type owl:ObjectProperty ;
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#musicTypePrincipalInstrument
 ctm:musicTypePrincipalInstrument rdf:type owl:ObjectProperty ;
-                                 rdfs:subPropertyOf ctm:musicType_Instrument ;
+                                 rdfs:subPropertyOf ctm:musicType_instrument ;
                                  rdfs:domain ctm:MusicType ;
                                  rdfs:range mo:Instrument ;
                                  rdfs:comment """主奏乐器是在乐种乐队编制中居主导地位的乐器，它有时也是该乐种的定律乐器（但有些乐种的主奏乐器与定律乐器是分开的）……常用于乐种演奏的乐器也有两百多件，但作为乐种主奏的乐器则不多，约二十余件。如吹奏乐器笛、笙、芦笙、箫、管、唢呐，弹奏乐器琵琶、筝、三弦，擦奏乐器二弦、四胡、二胡、京胡、粤胡，击奏乐器鼓、锣、钹等（《中国乐种学》p.19）
@@ -631,16 +631,6 @@ ctm:musicTypePrincipalInstrument rdf:type owl:ObjectProperty ;
                                  ctm:intactFragmentIdentifier "musicTypeHasPrincipalInstrumentOf" .
 
 
-###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#musicType_Instrument
-ctm:musicType_Instrument rdf:type owl:ObjectProperty ;
-                         rdfs:domain ctm:MusicType ;
-                         rdfs:range mo:Instrument ;
-                         rdfs:comment "关联一个音乐类型(乐种)和它使用的乐器。如果该乐种属于民族器乐类型，则该属性值不能为空。该属性也可反映乐种（器乐合奏）的乐队编制（乐器编制）信息" ;
-                         rdfs:label "乐种使用…乐器" ;
-                         skos:note "\":musicType_Instrument\" should be changed to \":musicType_instrument\"" ;
-                         ctm:intactFragmentIdentifier "musicTypeUsesInstrumentOf" .
-
-
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#musicType_broaderTerm
 ctm:musicType_broaderTerm rdf:type owl:ObjectProperty ;
                           rdfs:subPropertyOf cidoc-crm:P127_has_broader_term ;
@@ -650,6 +640,15 @@ ctm:musicType_broaderTerm rdf:type owl:ObjectProperty ;
                           rdfs:comment "关联一个音乐类型(乐种)条目和它的父类条目，或者说，指一个音乐类型(乐种)属于另一个音乐类型(乐种)的范畴。它的父类条目当然也是一个音乐类型(乐种)" ;
                           rdfs:label "音乐类型(乐种)有…广义术语" ;
                           ctm:intactFragmentIdentifier "musicTypeHasBroaderTermOf" .
+
+
+###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#musicType_instrument
+ctm:musicType_instrument rdf:type owl:ObjectProperty ;
+                         rdfs:domain ctm:MusicType ;
+                         rdfs:range mo:Instrument ;
+                         rdfs:comment "关联一个音乐类型(乐种)和它使用的乐器。如果该乐种属于民族器乐类型，则该属性值不能为空。该属性也可反映乐种（器乐合奏）的乐队编制（乐器编制）信息" ;
+                         rdfs:label "乐种使用…乐器" ;
+                         ctm:intactFragmentIdentifier "musicTypeUsesInstrumentOf" .
 
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#musicType_narrowerTerm
@@ -2218,7 +2217,7 @@ ctm:GudiSystem rdf:type owl:Class ;
 ctm:InstrumentalSolo rdf:type owl:Class ;
                      rdfs:subClassOf ctm:NationalInstrumentalMusic ,
                                      [ rdf:type owl:Restriction ;
-                                       owl:onProperty ctm:musicType_Instrument ;
+                                       owl:onProperty ctm:musicType_instrument ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass ctm:OrientalMusicalInstrument
                                      ] ;
@@ -2641,7 +2640,7 @@ ctm:WindAndDrumMusic rdf:type owl:Class ;
                                        owl:someValuesFrom ctm:BlowPipeInstrument
                                      ] ,
                                      [ rdf:type owl:Restriction ;
-                                       owl:onProperty ctm:musicType_Instrument ;
+                                       owl:onProperty ctm:musicType_instrument ;
                                        owl:someValuesFrom ctm:PercussionMusicalInstrument
                                      ] ;
                      owl:disjointUnionOf ( ctm:GudiSystem
@@ -3038,11 +3037,6 @@ ctm:Village rdf:type owl:NamedIndividual ,
 #################################################################
 #    Annotations
 #################################################################
-
-dcterms:title rdfs:comment "不用CIDOC-CRM中的P102 has title，其是对象属性" ;
-              rdfs:label "标题" ;
-              skos:definition "A name given to the resource." .
-
 
 <http://www.semanticweb.org/lenovo/ontologies/2022/Chinese_Traditional_Music_Resource_Linked_Database#The55EthnicMinorities> rdfs:comment "有些少数民族有子类或支系，诸如，排湾族就是高山族的子类" ;
                                                                                                                              rdfs:label "55个少数民族及其支系" .

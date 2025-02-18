@@ -29,10 +29,6 @@
 #    Annotation properties
 #################################################################
 
-###  http://purl.org/dc/terms/title
-dcterms:title rdfs:range rdfs:Literal .
-
-
 ###  http://www.w3.org/2004/02/skos/core#definition
 skos:definition rdf:type owl:AnnotationProperty ;
                 rdfs:range rdfs:Literal .
@@ -308,7 +304,7 @@ ctm:instrumentFormerName rdf:type owl:ObjectProperty ;
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#instrumentRepresentativeMusicType
 ctm:instrumentRepresentativeMusicType rdf:type owl:ObjectProperty ;
-                                      owl:inverseOf ctm:musicType_Instrument ;
+                                      owl:inverseOf ctm:musicType_instrument ;
                                       rdfs:domain mo:Instrument ;
                                       rdfs:range [ rdf:type owl:Class ;
                                                    owl:unionOf ( ctm:MusicType
@@ -371,19 +367,11 @@ ctm:musicTypeIsPartOf rdf:type owl:ObjectProperty ;
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#musicTypePrincipalInstrument
 ctm:musicTypePrincipalInstrument rdf:type owl:ObjectProperty ;
-                                 rdfs:subPropertyOf ctm:musicType_Instrument ;
+                                 rdfs:subPropertyOf ctm:musicType_instrument ;
                                  rdfs:domain ctm:MusicType ;
                                  rdfs:range mo:Instrument ;
                                  rdfs:comment "主奏乐器是在乐种乐队编制中居主导地位的乐器，它有时也是该乐种的定律乐器" ;
                                  rdfs:label "乐种的主奏乐器有、乐种的主要乐器有" .
-
-
-###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#musicType_Instrument
-ctm:musicType_Instrument rdf:type owl:ObjectProperty ;
-                         rdfs:domain ctm:MusicType ;
-                         rdfs:range mo:Instrument ;
-                         rdfs:comment "关联一个音乐类型(乐种)和它使用的乐器（其乐器编制）" ;
-                         rdfs:label "乐种使用…乐器" .
 
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#musicType_broaderTerm
@@ -393,6 +381,14 @@ ctm:musicType_broaderTerm rdf:type owl:ObjectProperty ;
                           rdfs:range ctm:MusicType ;
                           rdfs:comment "关联一个音乐类型(乐种)条目和它的父类条目，或者说，指一个音乐类型(乐种)属于另一个音乐类型(乐种)的范畴。它的父类条目当然也是一个音乐类型(乐种)" ;
                           rdfs:label "音乐类型(乐种)有…广义术语" .
+
+
+###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#musicType_instrument
+ctm:musicType_instrument rdf:type owl:ObjectProperty ;
+                         rdfs:domain ctm:MusicType ;
+                         rdfs:range mo:Instrument ;
+                         rdfs:comment "关联一个音乐类型(乐种)和它使用的乐器（其乐器编制）" ;
+                         rdfs:label "乐种使用…乐器" .
 
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#musicType_narrowerTerm
@@ -704,6 +700,11 @@ musicbrainz:title rdf:type owl:DatatypeProperty ;
                                               rdfs:range xsd:date ;
                                               rdfs:comment "指一个采录事项的采录开始日期（或摄制开始日期），也可以指一个\"特藏独立资源_作品\"的采录开始日期" ;
                                               rdfs:label "采录开始日期" .
+
+
+###  http://purl.org/dc/terms/title
+dcterms:title rdf:type owl:DatatypeProperty ;
+              rdfs:range rdfs:Literal .
 
 
 ###  http://xmlns.com/foaf/0.1/gender
