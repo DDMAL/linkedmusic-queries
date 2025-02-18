@@ -167,7 +167,7 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"bf:Place", "cidoc-crm:E55_Type", "ctm:ChinaJurisdiction", "ctm:ChineseInstrument", "ctm:FolkMusic", "ctm:ForeignNation", "ctm:MusicType", "ctm:SpecialIndependentResource", "ns1:b8780431", "places:City", "places:County", "places:Province", "places:Town", "places:Township", "places:Village", "rdfs:Literal"}
+    given_classes = {"bf:Place", "cidoc-crm:E55_Type", "ctm:FolkMusic", "ctm:MusicType", "ctm:SpecialIndependentResource", "ns1:b8784481", "places:City", "places:County", "places:Province", "places:Town", "places:Township", "places:Village", "rdfs:Literal"}
     
     # 3. Provide the given properties.
     # For test case (*), for example, use:
