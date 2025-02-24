@@ -251,3 +251,8 @@ if __name__ == '__main__':
 # so you may understand the entities priorly that you can correspond them to the classes in the given ontology
 # (2) For each instance variable in the SPARQL, involve `rdfs:label`
 # After generation, reexamine the SPARQL query using the previous ontology snippet, if you find sths. inconsistent with the restraint of the ontology, please revise the SPARQL query
+
+# RAG: For the retrieved results from the SPARQL visiting the Endpoint, please 
+    # A. Generalize the results and provide a brief summary
+    # B. Access the accessible URI and provide a brief summary
+    # C. Conduct descriptive statistics on the results
