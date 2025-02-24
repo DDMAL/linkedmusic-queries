@@ -2,7 +2,7 @@
 import json
 # import pandas as pd 
 from openai import OpenAI
-from SPARQLWrapper import SPARQLWrapper, JSON # SPARQLWrapper is a Python wrapper around a SPARQL service; is also a library for executing SPARQL queries on an RDF endpoint and retrieving the results.
+from SPARQLWrapper import SPARQLWrapper, JSON # SPARQLWrapper is a Python wrapper around a SPARQL service; is also a library for executing SPARQL queries on an RDF endpoint and retrieving the results
 
 
 # 1. SubGraph Extraction
@@ -130,13 +130,18 @@ sparql_query = sparql_query.replace("```sparql", "").strip("```") # The .replace
 print('The 1st round of sparql_query:', sparql_query)
 
 # Define a function to query the SPARQL endpoint. The 1st parameter is the SPARQL endpoint, the 2nd parameter is the SPARQL query, and the 3rd parameter is the graph IRI:
-def query_sparql(endpoint, query, graph_iri):
-    sparql = SPARQLWrapper(endpoint)
-    sparql.setQuery(query)
-    sparql.setReturnFormat(JSON)
-    if graph_iri:
-        sparql.addParameter("default-graph-uri", graph_iri)
-    results = sparql.query().convert()
+def query_sparql(endpoint, sparql_query_parameter, graph_iri_parameter):
+    sparql = SPARQLWrapper(endpoint) # SPARQLWrapper is a Python wrapper around a SPARQL service; is also a library for executing SPARQL queries on an RDF endpoint and retrieving the results
+    sparql.setQuery(sparql_query_parameter) # This initializes the query to be sent to the SPARQL endpoint using the string provided in `sparql_query_parameter`
+    sparql.setReturnFormat(JSON) # This sets the return format of the query to JSON
+    if graph_iri: # If a graph IRI is provided, it is added as a parameter to the SPARQL query
+        sparql.addParameter("default-graph-uri", graph_iri_parameter) # This adds a parameter to the SPARQL query
+    # print ("Debug_requestTheEntireURL:", sparql._getRequestURL())
+    # print ("RequestHeader:", sparql.customHttpHeaders)
+    # print ("RequestBody:", sparql.queryString)
+    print("Debug Request Endpoint:", endpoint)
+    print("Debug Query String:", sparql.queryString)
+    results = sparql.query().convert() # This executes the query and converts the results into JSON format
     return results
 
 # Query the SPARQL endpoint:
