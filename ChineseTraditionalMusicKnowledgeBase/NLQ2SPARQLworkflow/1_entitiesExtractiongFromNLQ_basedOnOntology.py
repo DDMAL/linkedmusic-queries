@@ -121,7 +121,7 @@ select ?class where {{
     VALUES ?label {{"打溜子" "乐器" "桑植县"}} .
 }}
 ```
-As to the extracted entities, please only provide one corresponding SPARQL query without any additional text.
+As to the extracted entities, do only provide one corresponding SPARQL query without any additional text.
 """
 
 
