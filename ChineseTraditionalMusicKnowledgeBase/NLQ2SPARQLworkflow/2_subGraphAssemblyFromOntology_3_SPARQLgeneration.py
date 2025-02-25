@@ -248,13 +248,40 @@ if __name__ == '__main__':
 
 
 # 3_Step3_SPARQLgeneration.py
+from openai import OpenAI
+# Invoke the OpenAI API:
+client = OpenAI(
+    base_url="https://oneapi.xty.app/v1"
+)
+def callGPT(prompt):
+    completion = client.chat.completions.create(
+        model="gpt-4o",
+        max_tokens=4096,
+        temperature=0.1,
+        messages=[
+            {"role": "system", "content": "You are an expert in SPARQL in terms of music metadata or ontology."},
+            {"role": "user", "content": prompt}
+        ]
+    )
+    return completion.choices[0].message.content
+
+with open("sampleQuestions/question_MusicType_SpecialIndependentResource_Place.txt", 'r') as f:
+    question = f.readlines()
+
+prompt6 = f"""
+Given the natural language question: {question} and the ontology snippet {turtle_output}, please generate a SPARQL query for the question.
+Note: 
+(0) Don't use language tag for the rdfs:Literals value in the SPARQL query
+(1) The question is associated with the domain of Chinese or East-and-Southeast-Asian music, so you may understand the entities priorly that you can correspond them to the classes in the given ontology
+(2) Usually, for each instance variable in the SPARQL, involve `rdfs:label` with the variable
+(3) Do only provide one corresponding SPARQL query without any additional text
+"""
+
+sparql_query = callGPT(prompt6).strip().replace("```sparql", "").strip("```")
+print('The sparql_query based on the ontology subgraph:', sparql_query)
 
 # Based on the above ontology snippet, please generate a SPARQL query for the question:……
 # Note: 
-## (1) Don't use language tag (not necessary as for this prompt)
-# (1) The question is associated with the domain of Chinese or East-and-Southeast-Asian music, 
-# so you may understand the entities priorly that you can correspond them to the classes in the given ontology
-# (2) For each instance variable in the SPARQL, involve `rdfs:label`
 # After generation, reexamine the SPARQL query using the previous ontology snippet, if you find sths. inconsistent with the restraint of the ontology, please revise the SPARQL query
 
 # RAG: For the retrieved results from the SPARQL visiting the Endpoint, please 
