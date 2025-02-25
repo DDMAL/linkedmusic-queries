@@ -1,3 +1,4 @@
+# 1_Step1_entitiesExtractiongFromNLQ_basedOnOntology.py
 # Note: to activate virtual enviroment for python, please exectue `source /directory/of/your/virtual/environment/folder/bin/activate`, e.g., `source /Users/caojunjun/venv_extractSubgraphForLLMsGeneratingSPARQL/bin/activate`
 import json
 # import pandas as pd 

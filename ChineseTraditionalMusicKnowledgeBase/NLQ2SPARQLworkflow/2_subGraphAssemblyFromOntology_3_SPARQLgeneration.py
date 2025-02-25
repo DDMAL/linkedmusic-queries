@@ -1,3 +1,4 @@
+# 2_Step2_subGraphAssemblyFromOntology.py
 #!/usr/bin/env python3
 """
 This script loads an OWL ontology (in Turtle format) from a file,
@@ -241,8 +242,12 @@ if __name__ == '__main__':
     print("Assembled Ontology as a Subgraph in Turtle format:")
     print(turtle_output)
 
+    # Write the Turtle output to a file
+    with open("assembledSubgraphOfOntology.ttl", "w") as f:
+        f.write(turtle_output)
 
-# ``` ```
+
+# 3_Step3_SPARQLgeneration.py
 
 # Based on the above ontology snippet, please generate a SPARQL query for the question:……
 # Note: 

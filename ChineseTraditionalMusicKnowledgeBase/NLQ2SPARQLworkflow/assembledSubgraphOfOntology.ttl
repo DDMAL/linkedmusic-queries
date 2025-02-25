@@ -1,0 +1,54 @@
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix cidoc-crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
+@prefix gn: <https://www.geonames.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+bf:subject a owl:DatatypeProperty ;
+    rdfs:label "主题" ;
+    rdfs:comment "即采录事件（采录事项）或特藏独立资源的名称、题名" ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( ctm:EventOfRecording ctm:SpecialIndependentResource ) ] ;
+    rdfs:range rdfs:Literal .
+
+ctm:relatesMusicType a owl:ObjectProperty ;
+    rdfs:label "特藏独立资源涉及…音乐类型(乐种)" ;
+    rdfs:comment "指\"特藏独立资源_作品\"涉及某音乐类型(乐种)" ;
+    rdfs:domain ctm:SpecialIndependentResource ;
+    rdfs:range ctm:MusicType .
+
+ctm:relatesPlace a owl:ObjectProperty ;
+    rdfs:label "特藏独立资源涉及…地域" ;
+    rdfs:comment "指\"特藏独立资源_作品\"涉及某地域或地点" ;
+    rdfs:domain ctm:SpecialIndependentResource ;
+    rdfs:range bf:Place .
+
+gn:historicalName a owl:DatatypeProperty ;
+    rdfs:label "地域史称" ;
+    rdfs:comment "地域曾用名、旧称" ;
+    rdfs:domain bf:Place ;
+    rdfs:range rdfs:Literal ;
+    rdfs:subPropertyOf gn:alternateName .
+
+ctm:MusicType a owl:Class ;
+    rdfs:label "乐种",
+        "音乐类型(乐种)" ;
+    rdfs:subClassOf cidoc-crm:E55_Type .
+
+gn:alternateName a owl:DatatypeProperty ;
+    rdfs:label "地域又名" ;
+    rdfs:domain bf:Place ;
+    rdfs:range rdfs:Literal .
+
+bf:Place a owl:Class ;
+    rdfs:label "分布地域",
+        "地域",
+        "地点" .
+
+ctm:SpecialIndependentResource a owl:Class ;
+    rdfs:label "特藏独立资源_作品",
+        "特藏资源",
+        "馆藏作品" .
+
