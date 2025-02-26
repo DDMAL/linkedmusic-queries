@@ -251,11 +251,12 @@ if __name__ == '__main__':
 from openai import OpenAI
 # Invoke the OpenAI API:
 client = OpenAI(
+    api_key="",
     base_url="https://oneapi.xty.app/v1"
 )
 def callGPT(prompt):
     completion = client.chat.completions.create(
-        model="gpt-4o",
+        model="o3-mini-2025-01-31",
         max_tokens=4096,
         temperature=0.1,
         messages=[
@@ -275,10 +276,42 @@ Note:
 (1) The question is associated with the domain of Chinese or East-and-Southeast-Asian music, so you may understand the entities priorly that you can correspond them to the classes in the given ontology
 (2) Usually, for each instance variable in the SPARQL, involve `rdfs:label` with the variable
 (3) Do only provide one corresponding SPARQL query without any additional text
+(4) At the top of the generated SPARQL, add a row of code: `define input:inference 'urn:owl.ccmusicrules0214'`
 """
 
 sparql_query = callGPT(prompt6).strip().replace("```sparql", "").strip("```")
+print("Type of the SPARQL query:", type(sparql_query))
 print('The sparql_query based on the ontology subgraph:', sparql_query)
+
+from SPARQLWrapper import SPARQLWrapper, JSON
+
+# Define a function to query the SPARQL endpoint. The 1st parameter is the SPARQL endpoint, the 2nd parameter is the SPARQL query, and the 3rd parameter is the graph IRI:
+def query_sparql(endpoint, sparql_query_parameter, graph_iri_parameter):
+    sparql = SPARQLWrapper(endpoint) # SPARQLWrapper is a Python wrapper around a SPARQL service; is also a library for executing SPARQL queries on an RDF endpoint and retrieving the results
+    sparql.setQuery(sparql_query_parameter) # This initializes the query to be sent to the SPARQL endpoint using the string provided in `sparql_query_parameter`
+    sparql.setReturnFormat(JSON) # This sets the return format of the query to JSON
+    if graph_iri: # If a graph IRI is provided, it is added as a parameter to the SPARQL query
+        sparql.addParameter("default-graph-uri", graph_iri_parameter) # This adds a parameter to the SPARQL query
+    results = sparql.query().convert() # This executes the query and converts the results into JSON format
+    return results
+
+# Query the SPARQL endpoint:
+sparql_endpoint = "http://www.usources.cn:8891/sparql" # We can also use the endpoint "https://virtuoso.staging.simssa.ca/sparql"
+graph_iri = "https://lib.ccmusic.edu.cn/graph/music" # We can also use the graph IRI "http://ChineseTraditionalMusicCultureKnowledgeBase"
+sparql_results = query_sparql(sparql_endpoint, sparql_query, graph_iri)
+print('sparql_results:', sparql_results) # rendered in JSON format
+
+prompt7 = f"""
+Corresponding to a natural language question: {question}, 
+and the related ontology snippet: {turtle_output} as the context, 
+and the subsequent SPARQL query {sparql_query}, 
+we retrieved the result from the SPARQL visiting the Endpoint: {sparql_results}. 
+please explain the query result based on the question, the ontology snippet, the SPARQL query and your knowledge of the question domain.
+"""
+
+RAG_result = callGPT(prompt7)
+print('RAG_result:', RAG_result)
+
 
 # Based on the above ontology snippet, please generate a SPARQL query for the question:……
 # Note: 
