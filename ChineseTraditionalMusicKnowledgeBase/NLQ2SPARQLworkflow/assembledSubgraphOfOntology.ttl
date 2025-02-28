@@ -1,7 +1,7 @@
 @prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
 @prefix cidoc-crm: <http://www.cidoc-crm.org/cidoc-crm/> .
 @prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
-@prefix gn: <https://www.geonames.org/ontology#> .
+@prefix mo: <http://purl.org/ontology/mo/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -13,39 +13,23 @@ bf:subject a owl:DatatypeProperty ;
             owl:unionOf ( ctm:EventOfRecording ctm:SpecialIndependentResource ) ] ;
     rdfs:range rdfs:Literal .
 
-ctm:relatesMusicType a owl:ObjectProperty ;
-    rdfs:label "特藏独立资源涉及…音乐类型(乐种)" ;
-    rdfs:comment "指\"特藏独立资源_作品\"涉及某音乐类型(乐种)" ;
-    rdfs:domain ctm:SpecialIndependentResource ;
-    rdfs:range ctm:MusicType .
+ctm:relatesWork a owl:ObjectProperty ;
+    rdfs:label "涉及...特藏独立资源_作品" ;
+    rdfs:comment "可用于音乐类型(乐种)涉及特藏独立资源_作品，也可用于乐器涉及特藏独立资源_作品" ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( mo:Instrument ctm:MusicType ) ],
+        [ a owl:Class ;
+            owl:complementOf ctm:SpecialIndependentResource ] ;
+    rdfs:range ctm:SpecialIndependentResource .
 
-ctm:relatesPlace a owl:ObjectProperty ;
-    rdfs:label "特藏独立资源涉及…地域" ;
-    rdfs:comment "指\"特藏独立资源_作品\"涉及某地域或地点" ;
-    rdfs:domain ctm:SpecialIndependentResource ;
-    rdfs:range bf:Place .
-
-gn:historicalName a owl:DatatypeProperty ;
-    rdfs:label "地域史称" ;
-    rdfs:comment "地域曾用名、旧称" ;
-    rdfs:domain bf:Place ;
-    rdfs:range rdfs:Literal ;
-    rdfs:subPropertyOf gn:alternateName .
+mo:Instrument a owl:Class ;
+    rdfs:label "乐器" ;
+    rdfs:subClassOf cidoc-crm:E55_Type .
 
 ctm:MusicType a owl:Class ;
     rdfs:label "乐种",
         "音乐类型(乐种)" ;
     rdfs:subClassOf cidoc-crm:E55_Type .
-
-gn:alternateName a owl:DatatypeProperty ;
-    rdfs:label "地域又名" ;
-    rdfs:domain bf:Place ;
-    rdfs:range rdfs:Literal .
-
-bf:Place a owl:Class ;
-    rdfs:label "分布地域",
-        "地域",
-        "地点" .
 
 ctm:SpecialIndependentResource a owl:Class ;
     rdfs:label "特藏独立资源_作品",
