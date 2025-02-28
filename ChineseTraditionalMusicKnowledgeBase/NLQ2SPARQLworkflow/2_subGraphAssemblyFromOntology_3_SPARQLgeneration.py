@@ -168,11 +168,11 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"bf:Place", "cidoc-crm:E55_Type", "ctm:FolkMusic", "ctm:MusicType", "ctm:SpecialIndependentResource", "ns1:b8784481", "places:City", "places:County", "places:Province", "places:Town", "places:Township", "places:Village", "rdfs:Literal"}
+    given_classes = {"bf:MusicInstrument", "cidoc-crm:E55_Type", "ctm:ChineseInstrument", "ctm:FolkMusic", "ctm:FolkSong", "ctm:ForeignNation", "ctm:MusicType", "ctm:OrientalMusicalInstrument", "ctm:SpecialIndependentResource", "mo:Instrument", "ns1:b8784481", "rdfs:Literal"}
     
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"bf:subject", "ctm:musicSystem", "ctm:relatesMusicType", "ctm:relatesPlace", "gn:alternateName", "gn:historicalName"}
+    given_properties = {"bf:subject", "ctm:relatesWork"}
     
     # =====================================================
     # End of user configuration.
@@ -244,7 +244,7 @@ if __name__ == '__main__':
 
     # Write the Turtle output to a file
     with open("assembledSubgraphOfOntology.ttl", "w") as f:
-        f.write(turtle_output)
+        f.write(turtle_output) # turtle_output is the assembled ontology subgraph in Turtle format
 
 
 # 3_Step3_SPARQLgeneration.py
@@ -256,17 +256,17 @@ client = OpenAI(
 )
 def callGPT(prompt):
     completion = client.chat.completions.create(
-        model="o3-mini-2025-01-31",
+        model="o1-preview",
         max_tokens=4096,
         temperature=0.1,
         messages=[
-            {"role": "system", "content": "You are an expert in SPARQL in terms of music metadata or ontology."},
+            {"role": "user", "content": "You are an expert in SPARQL in terms of music metadata or ontology."},
             {"role": "user", "content": prompt}
         ]
     )
     return completion.choices[0].message.content
 
-with open("sampleQuestions/question_MusicType_SpecialIndependentResource_Place.txt", 'r') as f:
+with open("sampleQuestions/question_MusicType_SpecialIndependentResource.txt", 'r') as f:
     question = f.readlines()
 
 prompt6 = f"""
@@ -280,8 +280,20 @@ Note:
 """
 
 sparql_query = callGPT(prompt6).strip().replace("```sparql", "").strip("```")
-print("Type of the SPARQL query:", type(sparql_query))
+print("Type of the SPARQL query:", type(sparql_query)) # <class 'str'>
 print('The sparql_query based on the ontology subgraph:', sparql_query)
+
+prompt6_verification = f"""
+Verify the SPARQL query {sparql_query} based on the ontology snippet {turtle_output}. 
+Note: 
+(0) Don't use language tag for the rdfs:Literals value in the SPARQL query
+(1) The question is associated with the domain of Chinese or East-and-Southeast-Asian music, so you may understand the entities priorly that you can correspond them to the classes in the given ontology
+(2) Usually, for each instance variable in the SPARQL, involve `rdfs:label` with the variable
+(3) Do only provide one corresponding SPARQL query without any additional text
+(4) Keep the top row of code: `define input:inference 'urn:owl.ccmusicrules0214'` where it is
+"""
+sparql_query = callGPT(prompt6_verification).strip().replace("```sparql", "").strip("```")
+print('The sparql_query based on the ontology subgraph (verified):', sparql_query)
 
 from SPARQLWrapper import SPARQLWrapper, JSON
 
