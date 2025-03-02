@@ -112,7 +112,7 @@ E.g.,
     (2)if the entity is in 《》, please prepare 2 versions, with one maintaining the 《》, e.g., `VALUES ?label {"《彩云追月》" "彩云追月"}`.
 Please embed the extracted entities in a SPARQL query to retrieve the classes of the entities, e.g.:
 ```
-define input:inference 'urn:owl.ccmusicrules'
+define input:inference 'urn:owl.ccmusicrules0214'
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 select ?class where {{
