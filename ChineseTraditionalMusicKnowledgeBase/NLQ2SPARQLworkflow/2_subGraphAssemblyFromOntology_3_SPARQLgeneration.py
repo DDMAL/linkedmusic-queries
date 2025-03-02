@@ -266,11 +266,13 @@ def callGPT(prompt):
     )
     return completion.choices[0].message.content
 
-with open("sampleQuestions/question_MusicType_SpecialIndependentResource.txt", 'r') as f:
+with open("sampleQuestions/question_EthnicGroup_MusicType_Place.txt", 'r') as f:
     question = f.readlines()
 
 prompt6 = f"""
-Given the natural language question: {question} and the ontology snippet {turtle_output}, please generate a SPARQL query for the question.
+Given the natural language question: {question} 
+and the ontology snippet: {turtle_output}
+--please generate a SPARQL query for the question.
 Note: 
 (0) Don't use language tag for the rdfs:Literals value in the SPARQL query
 (1) The question is associated with the domain of Chinese or East-and-Southeast-Asian music, so you may understand the entities priorly that you can correspond them to the classes in the given ontology
@@ -284,11 +286,18 @@ print("Type of the SPARQL query:", type(sparql_query)) # <class 'str'>
 print('The sparql_query based on the ontology subgraph:', sparql_query)
 
 prompt6_verification = f"""
+Examine the following SPARQL query to ensure its syntax is correct. Then, cross-check it against the ontology snippet for consistency and accuracy. 
+SPARQL query:
+{sparql_query}
+
+Ontology snippet:
+{turtle_output}
+
 Note: 
 (0) Don't use language tag for the rdfs:Literals value in the SPARQL query
 (1) The question is associated with the domain of Chinese or East-and-Southeast-Asian music, so you may understand the entities priorly that you can correspond them to the classes in the given ontology
 (2) Usually, for each instance variable in the SPARQL, involve `rdfs:label` with the variable
-(3) Do only provide one corresponding SPARQL query without any additional text
+(3) After examination and cross-checking, if modifications are required, do return only the modified SPARQL query without any additional text
 (4) Keep the top row of code `define input:inference 'urn:owl.ccmusicrules0214'` where it is
 """
 sparql_query = callGPT(prompt6_verification).strip().replace("```sparql", "").strip("```")
