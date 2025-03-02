@@ -173,7 +173,7 @@ def main():
 
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"ctm:musicType_instrument", "ctm:nameOfMusicTypeOrInstrument", "ctm:piecePrincipalInstrument", "ctm:representativePiece", "ctm:samplePieceWithPerformance"}
+    given_properties = {"bf:instrument", "ctm:nameOfMusicTypeOrInstrument", "ctm:piecePrincipalInstrument", "ctm:representativePiece", "ctm:samplePieceWithPerformance"}
     # --corresponding to Transformed PropertyList
 
     # =====================================================
@@ -268,7 +268,7 @@ def callGPT(prompt):
     )
     return completion.choices[0].message.content
 
-with open("sampleQuestions/question_EthnicGroup_MusicType_Place.txt", 'r') as f:
+with open("sampleQuestions/question_MusicType_PieceWithPerformance_Instrument.txt", 'r') as f:
     question = f.readlines()
 
 prompt6 = f"""
