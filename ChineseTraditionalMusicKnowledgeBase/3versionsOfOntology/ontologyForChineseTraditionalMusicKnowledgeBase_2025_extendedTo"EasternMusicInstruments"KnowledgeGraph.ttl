@@ -47,7 +47,7 @@
 
 关于 versionInfo:
 该版本是在原有的乐种元数据本体之上扩展而形成的，即 2.0 版，针对武汉大学文化遗产智能计算实验室（教育部）开放基金课题“基于'东方乐器'的音乐类文化遗产知识图谱构建研究”而设计。特此注明""" ;
-                                                                   owl:versionInfo 2.0 ;
+                                                                   owl:versionInfo "2.0 highlighting Oriental Instruments"^^rdfs:Literal ;
                                                                    ctm:logForUpdating """从领域知识角度来看，已知目前知识推理尚存在问题：
 （1）:ethnicGroup
 （2）:representativeInstrument
