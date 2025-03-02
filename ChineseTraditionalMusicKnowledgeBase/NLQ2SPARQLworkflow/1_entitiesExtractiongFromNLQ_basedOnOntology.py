@@ -38,7 +38,7 @@ with open("ontologySnippet_objectProperties_simplified.ttl", "r") as context3:
 with open("ontologySnippet_dataProperties_simplified.ttl", "r") as context4:
     context_ontology_dataProperty = context4.readlines()
 # The natural language question is read from a text file:
-with open("sampleQuestions/question_MusicType_SpecialIndependentResource.txt", 'r') as f:
+with open("sampleQuestions/question_MusicType_PieceWithPerformance_Instrument.txt", 'r') as f:
     question = f.readlines()
 
 # Identify and extract the relevant classes and properties from the given natural language question. Match them with the corresponding entities (classes or properties) defined in the provided ontology and present the results exclusively in a list format.
@@ -156,13 +156,13 @@ print('sparql_results:', sparql_results) # rendered in JSON format
 
 
 result1 = callGPT(prompt1)
-print('result1:', result1)
+print('result1(classes extracted):', result1)
 result2 = callGPT(prompt2)
-print('result2:', result2)
+print('result2(classes extracted):', result2)
 result3 = callGPT(prompt3)
-print('result3:', result3)
+print('result3(objectProperty extracted):', result3)
 result4 = callGPT(prompt4)
-print('result4:', result4)
+print('result4(dataProperty extracted):', result4)
 
 
 # Function to parse the result1-4 (to parse the JSON strings into lists):
