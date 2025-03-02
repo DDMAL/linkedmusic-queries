@@ -49,7 +49,7 @@ This version uses bf:Work of BibFrame model, which may bring about some inconsis
 
 Since 2025Feb25, following modifications are as belows:
 (1) ObjectProperty `:musicType_Instrument` is updated to `:musicType_instrument`
-(2) ...""" .
+(2) Added a new object property `:hasRepresentativeFolkMusician`, which is inverse of `dbo:ethnicity`""" .
 
 #################################################################
 #    Annotation properties
