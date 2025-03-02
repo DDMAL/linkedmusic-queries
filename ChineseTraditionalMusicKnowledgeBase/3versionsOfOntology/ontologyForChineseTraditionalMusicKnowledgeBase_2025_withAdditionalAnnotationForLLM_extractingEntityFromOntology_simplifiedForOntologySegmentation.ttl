@@ -119,7 +119,8 @@ bf:instrument rdf:type owl:ObjectProperty ;
                                        )
                          ] ;
               rdfs:comment "关联一部演出的曲目和其演出中使用的乐器" ;
-              rdfs:label "曲目的演出使用…乐器" .
+              rdfs:label "曲目用到…乐器" ,
+                         "曲目的演出使用…乐器" .
 
 
 ###  http://id.loc.gov/ontologies/bibframe/originPlace
@@ -558,7 +559,8 @@ ctm:samplePieceWithPerformance rdf:type owl:ObjectProperty ;
                                            ] ;
                                rdfs:range ctm:PieceWithPerformance ;
                                rdfs:comment "关联一个乐器和它的代表曲目，或关联一个音乐类型(乐种)和它的代表曲目" ;
-                               rdfs:label "示例曲目的演出" .
+                               rdfs:label "有代表曲目" ,
+                                          "示例曲目的演出" .
 
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#traditionalMusicBranch
@@ -841,6 +843,9 @@ ctm:representativePiece rdf:type owl:DatatypeProperty ;
                                       owl:unionOf ( ctm:MusicType
                                                     ctm:OrientalMusicalInstrument
                                                   )
+                                    ] ,
+                                    [ rdf:type owl:Class ;
+                                      owl:complementOf ctm:PieceWithPerformance
                                     ] ;
                         rdfs:range rdfs:Literal ;
                         rdfs:comment "专指乐种或乐器的代表曲目（或剧目），一般用书名号表示（对于曲牌，则用半角中括号表示" ;
