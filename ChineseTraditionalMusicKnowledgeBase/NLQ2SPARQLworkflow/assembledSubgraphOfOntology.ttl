@@ -1,38 +1,70 @@
 @prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
 @prefix cidoc-crm: <http://www.cidoc-crm.org/cidoc-crm/> .
 @prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
+@prefix event: <http://purl.org/NET/c4dm/event.owl#> .
 @prefix mo: <http://purl.org/ontology/mo/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
-bf:subject a owl:DatatypeProperty ;
-    rdfs:label "主题" ;
-    rdfs:comment "即采录事件（采录事项）或特藏独立资源的名称、题名" ;
+ctm:nameOfMusicTypeOrInstrument a owl:DatatypeProperty ;
+    rdfs:label "音乐类型(乐种)或乐器的名称" ;
+    rdfs:comment "指一个\"音乐类型(乐种)\"的名称，或指一个\"乐器\"的名称。而对这二者，其名称则不用rdfs:label来表示" ;
     rdfs:domain [ a owl:Class ;
-            owl:unionOf ( ctm:EventOfRecording ctm:SpecialIndependentResource ) ] ;
+            owl:unionOf ( mo:Instrument ctm:MusicType ) ] ;
     rdfs:range rdfs:Literal .
 
-ctm:relatesWork a owl:ObjectProperty ;
-    rdfs:label "涉及...特藏独立资源_作品" ;
-    rdfs:comment "可用于音乐类型(乐种)涉及特藏独立资源_作品，也可用于乐器涉及特藏独立资源_作品" ;
-    rdfs:domain [ a owl:Class ;
-            owl:unionOf ( mo:Instrument ctm:MusicType ) ],
-        [ a owl:Class ;
-            owl:complementOf ctm:SpecialIndependentResource ] ;
-    rdfs:range ctm:SpecialIndependentResource .
+ctm:piecePrincipalInstrument a owl:ObjectProperty ;
+    rdfs:label "曲目的主奏乐器有" ;
+    rdfs:comment "关联一个演出的曲目和它的主奏乐器。“曲目的主奏乐器有”这个属性有时候意义较为宽泛，如同“曲目的主要乐器有”" ;
+    rdfs:domain ctm:PieceWithPerformance ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( mo:Instrument ctm:OrientalMusicalInstrument ) ] ;
+    rdfs:subPropertyOf bf:instrument .
 
-mo:Instrument a owl:Class ;
-    rdfs:label "乐器" ;
-    rdfs:subClassOf cidoc-crm:E55_Type .
+ctm:representativePiece a owl:DatatypeProperty ;
+    rdfs:label "有代表曲目或剧目" ;
+    rdfs:comment "专指乐种或乐器的代表曲目（或剧目），一般用书名号表示（对于曲牌，则用半角中括号表示" ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( ctm:MusicType ctm:OrientalMusicalInstrument ) ],
+        [ a owl:Class ;
+            owl:complementOf ctm:PieceWithPerformance ] ;
+    rdfs:range rdfs:Literal .
+
+ctm:samplePieceWithPerformance a owl:ObjectProperty ;
+    rdfs:label "有代表曲目",
+        "示例曲目的演出" ;
+    rdfs:comment "关联一个乐器和它的代表曲目，或关联一个音乐类型(乐种)和它的代表曲目" ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( mo:Instrument ctm:MusicType ) ] ;
+    rdfs:range ctm:PieceWithPerformance .
+
+bf:instrument a owl:ObjectProperty ;
+    rdfs:label "曲目用到…乐器",
+        "曲目的演出使用…乐器" ;
+    rdfs:comment "关联一部演出的曲目和其演出中使用的乐器" ;
+    rdfs:domain ctm:PieceWithPerformance ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( mo:Instrument ctm:OrientalMusicalInstrument ) ] .
 
 ctm:MusicType a owl:Class ;
     rdfs:label "乐种",
         "音乐类型(乐种)" ;
     rdfs:subClassOf cidoc-crm:E55_Type .
 
-ctm:SpecialIndependentResource a owl:Class ;
-    rdfs:label "特藏独立资源_作品",
-        "特藏资源",
-        "馆藏作品" .
+ctm:OrientalMusicalInstrument a owl:Class ;
+    rdfs:label "东方乐器" ;
+    rdfs:subClassOf mo:Instrument .
+
+ctm:PieceWithPerformance a owl:Class ;
+    rdfs:label "曲目",
+        "曲目的演出",
+        "演出的曲目" ;
+    rdfs:comment "对应二次创作，如以具体的表演行为表达出的作品" ;
+    rdfs:subClassOf event:Event,
+        ctm:SpecialIndependentResource .
+
+mo:Instrument a owl:Class ;
+    rdfs:label "乐器" ;
+    rdfs:subClassOf cidoc-crm:E55_Type .
 
