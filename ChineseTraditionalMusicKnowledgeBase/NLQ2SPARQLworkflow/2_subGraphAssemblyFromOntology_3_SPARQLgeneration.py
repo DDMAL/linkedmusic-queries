@@ -280,7 +280,6 @@ Note:
 (1) The question is associated with the domain of Chinese or East-and-Southeast-Asian music, so you may understand the entities priorly that you can correspond them to the classes in the given ontology
 (2) Usually, for each instance variable in the SPARQL, involve `rdfs:label` with the variable
 (3) Do only provide one corresponding SPARQL query without any additional text
-(4) At the top of the generated SPARQL, add a row of code: `define input:inference 'urn:owl.ccmusicrules0214'`
 """
 
 sparql_query = callGPT(prompt6).strip().replace("```sparql", "").strip("```")
@@ -303,9 +302,8 @@ Note:
 (1) The question is associated with the domain of Chinese or East-and-Southeast-Asian music, so you may understand the entities priorly that you can correspond them to the classes in the given ontology
 (2) Usually, for each instance variable in the SPARQL, involve `rdfs:label` with the variable
 (3) After examination and cross-checking, if modifications are required, do return only the modified SPARQL query without any additional text
-(4) Keep the top row of code `define input:inference 'urn:owl.ccmusicrules0214'` where it is
 """
-sparql_query = callGPT(prompt6_verification).strip().replace("```sparql", "").strip("```")
+sparql_query = callGPT(prompt6_verification).strip().replace("```sparql", "define input:inference 'urn:owl.ccmusicrules0214'").strip("```")
 print('The sparql_query based on the ontology subgraph (verified):', sparql_query)
 
 from SPARQLWrapper import SPARQLWrapper, JSON
