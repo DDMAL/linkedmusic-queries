@@ -168,12 +168,12 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"bf:Place", "cidoc-crm:E55_Type", "ctm:ChineseNation", "ctm:FolkMusic", "ctm:FolkSong", "ctm:MusicType", "ctm:MusicType_YueShengXi", "ctm:MusicType_YueWuXi", "ctm:TraditionalMusicBranch", "dbpedia-owl:EthnicGroup", "ns1:b8784495", "rdfs:Literal"}
+    given_classes = {"bf:MusicInstrument", "cidoc-crm:E55_Type", "ctm:ChineseInstrument", "ctm:FolkMusic", "ctm:MusicOfTalkingAndSinging", "ctm:MusicType", "ctm:NationalInstrumentalMusic", "ctm:OrientalMusicalInstrument", "ctm:PieceWithPerformance", "ctm:PluckedStringInstrument", "mo:Instrument", "ns1:b8784481", "rdfs:Literal"}
     # --corresponding to Transformed ClassList
 
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"bf:originPlace", "bf:place", "ctm:ethnicGroup", "ctm:musicGenre", "ctm:musicSystem", "ctm:relatesEthnicGroup", "ctm:relatesMusicType", "ctm:relatesPlace", "ctm:representativeMusicType", "dbo:ethnicity", "gn:alternateName", "gn:historicalName"}
+    given_properties = {"ctm:musicType_instrument", "ctm:nameOfMusicTypeOrInstrument", "ctm:piecePrincipalInstrument", "ctm:representativePiece", "ctm:samplePieceWithPerformance"}
     # --corresponding to Transformed PropertyList
 
     # =====================================================
@@ -344,3 +344,11 @@ print('RAG_result:', RAG_result)
     # A. Generalize the results and provide a brief summary
     # B. Access the accessible URI and provide a brief summary
     # C. Conduct descriptive statistics on the results
+
+
+# 其他灵感：
+# 依然准备一个样本库，包含了各种问题及相应的SPARQL
+# 如果在prompt6_verification基础上生成的SPARQL，其通过 Endpoint无法返回结果（或报错），那么，我们可以：
+# （1）根据它生成的SPARQL所反映的本体结构、SPARQL语句中的关键词、特殊函数等，通过相似度匹配样本库中的SPARQL
+# （2）同时根据自然语言问题的Edit distance (Levenshtein distance)匹配样本库中相似的问题
+# （3）对(1)(2)做一个折中，即选定一个最合适的 example（NLQ+SPARQL），再用这个新的 context 训练 LLMs，以重新生成 SPARQL
