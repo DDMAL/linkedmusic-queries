@@ -298,10 +298,15 @@ Natural language question:
 {question}
 
 Note: 
-(0) Don't use language tag for the rdfs:Literals value in the SPARQL query
-(1) The question is associated with the domain of Chinese or East-and-Southeast-Asian music, so you may understand the entities priorly that you can correspond them to the classes in the given ontology
-(2) Usually, for each instance variable in the SPARQL, involve `rdfs:label` with the variable
-(3) After examination and cross-checking, if modifications are required, do return only the modified SPARQL query without any additional text
+0. Don't use language tag for the rdfs:Literals value in the SPARQL query
+1. The question is associated with the domain of Chinese or East-and-Southeast-Asian music, so you may understand the entities priorly that you can correspond them to the classes in the given ontology
+2. Usually, for each instance variable in the SPARQL, involve `rdfs:label` with the variable
+3. After examination and cross-checking, if modifications are required, do return only the modified SPARQL query without any additional text
+4. De ensure the SPARQL query's logic is inherently consistent with the natural language question and the ontology snippet
+5. If you are unsure about precisioin of specific classes or properties, you can broaden the retrieval scope using techniques such as: 
+    5.1 The UNION keyword to include multiple options,
+    5.2 The OPTIONAL keyword to allow optional matches,
+    5.3 The | operator to represent a logical OR for properties
 """
 sparql_query = callGPT(prompt6_verification).strip().replace("```sparql", "define input:inference 'urn:owl.ccmusicrules0214'").strip("```")
 print('The sparql_query based on the ontology subgraph (verified):', sparql_query)
