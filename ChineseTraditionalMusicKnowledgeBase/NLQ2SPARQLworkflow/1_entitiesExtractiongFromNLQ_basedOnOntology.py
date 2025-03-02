@@ -15,7 +15,7 @@ client = OpenAI(
 
 def callGPT(prompt):
     completion = client.chat.completions.create(
-        model="o1-preview",
+        model="gpt-4o", # We can use "gpt-4o" or "o1-preview" model
         max_tokens=4096,
         temperature=0.1,
         messages=[
