@@ -168,12 +168,14 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"bf:MusicInstrument", "cidoc-crm:E55_Type", "ctm:ChineseInstrument", "ctm:FolkMusic", "ctm:FolkSong", "ctm:ForeignNation", "ctm:MusicType", "ctm:OrientalMusicalInstrument", "ctm:SpecialIndependentResource", "mo:Instrument", "ns1:b8784481", "rdfs:Literal"}
-    
+    given_classes = {"bf:Place", "cidoc-crm:E55_Type", "ctm:ChineseNation", "ctm:FolkMusic", "ctm:FolkSong", "ctm:MusicType", "ctm:MusicType_YueShengXi", "ctm:MusicType_YueWuXi", "ctm:TraditionalMusicBranch", "dbpedia-owl:EthnicGroup", "ns1:b8784495", "rdfs:Literal"}
+    # --corresponding to Transformed ClassList
+
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"bf:subject", "ctm:relatesWork"}
-    
+    given_properties = {"bf:originPlace", "bf:place", "ctm:ethnicGroup", "ctm:musicGenre", "ctm:musicSystem", "ctm:relatesEthnicGroup", "ctm:relatesMusicType", "ctm:relatesPlace", "ctm:representativeMusicType", "dbo:ethnicity", "gn:alternateName", "gn:historicalName"}
+    # --corresponding to Transformed PropertyList
+
     # =====================================================
     # End of user configuration.
     # =====================================================
@@ -286,12 +288,15 @@ print("Type of the SPARQL query:", type(sparql_query)) # <class 'str'>
 print('The sparql_query based on the ontology subgraph:', sparql_query)
 
 prompt6_verification = f"""
-Examine the following SPARQL query to ensure its syntax is correct. Then, cross-check it against the ontology snippet for consistency and accuracy. 
+Examine the following SPARQL query to ensure its syntax is correct. Then, cross-check it against the natural language question and the ontology snippet for consistency and accuracy. 
 SPARQL query:
 {sparql_query}
 
 Ontology snippet:
 {turtle_output}
+
+Natural language question:
+{question}
 
 Note: 
 (0) Don't use language tag for the rdfs:Literals value in the SPARQL query
