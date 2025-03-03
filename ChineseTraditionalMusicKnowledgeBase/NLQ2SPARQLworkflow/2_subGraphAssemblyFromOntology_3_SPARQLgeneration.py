@@ -168,12 +168,12 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"bf:MusicInstrument", "cidoc-crm:E55_Type", "ctm:ChineseInstrument", "ctm:FolkMusic", "ctm:MusicOfTalkingAndSinging", "ctm:MusicType", "ctm:NationalInstrumentalMusic", "ctm:OrientalMusicalInstrument", "ctm:PieceWithPerformance", "ctm:PluckedStringInstrument", "mo:Instrument", "ns1:b8784481", "rdfs:Literal"}
+    given_classes = {"bf:Place", "cidoc-crm:E53_Place", "cidoc-crm:E55_Type", "ctm:ChinaJurisdiction", "ctm:ChineseNation", "ctm:ChuidaMusic", "ctm:DrumAndCymbalSystem", "ctm:EventOfRecording", "ctm:FolkMusic", "ctm:FolkSong", "ctm:ForeignNation", "ctm:MusicType", "ctm:MusicType_YueShengXi", "ctm:MusicType_YueWuXi", "ctm:TraditionalMusicBranch", "dbpedia-owl:EthnicGroup", "ns1:b8784495", "places:Province", "rdfs:Literal"}
     # --corresponding to Transformed ClassList
 
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"bf:instrument", "ctm:nameOfMusicTypeOrInstrument", "ctm:piecePrincipalInstrument", "ctm:representativePiece", "ctm:samplePieceWithPerformance"}
+    given_properties = {"bf:place", "ctm:nameOfMusicTypeOrInstrument", "ctm:placeHasMusicTypeOrInstrument", "ctm:representativeMusicType", "gn:alternateName"}
     # --corresponding to Transformed PropertyList
 
     # =====================================================
@@ -268,7 +268,7 @@ def callGPT(prompt):
     )
     return completion.choices[0].message.content
 
-with open("sampleQuestions/question_MusicType_PieceWithPerformance_Instrument.txt", 'r') as f:
+with open("sampleQuestions/question_EthnicGroup_MusicType_Place1.txt", 'r') as f:
     question = f.readlines()
 
 prompt6 = f"""
@@ -309,7 +309,7 @@ Note:
     5.3 The | operator to represent a logical OR for properties
 """
 sparql_query = callGPT(prompt6_verification).strip().replace("```sparql", "define input:inference 'urn:owl.ccmusicrules0214'").strip("```")
-print('The sparql_query based on the ontology subgraph (verified):', sparql_query)
+print('The sparql_query based on the ontology subgraph (verified):\n', sparql_query)
 
 from SPARQLWrapper import SPARQLWrapper, JSON
 
@@ -334,7 +334,9 @@ Corresponding to a natural language question: {question},
 and the related ontology snippet: {turtle_output} as the context, 
 and the subsequent SPARQL query {sparql_query}, 
 we retrieved the result from the SPARQL visiting the Endpoint: {sparql_results}. 
-please explain the query result based on the question, the ontology snippet, the SPARQL query and your knowledge of the question domain.
+
+Please explain the query result based on the question, the ontology snippet, the SPARQL query and your knowledge of the question domain.
+If the result is too large, you can provide a summary or statistical analysis.
 """
 
 RAG_result = callGPT(prompt7)
