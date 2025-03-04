@@ -47,7 +47,7 @@ Extract the entities from the natural language question: {question}.
 Return only the extracted entities(represented in Chinese characters, words or phrases), in a json-formatted list (no adding redundant strings).
 such as `["实体1", "实体2"]`.
 """
-result0 = callGPT(prompt0)
+result0 = callGPT(prompt0).replace("```json", "")
 print('result0(entities and properties extracted):', result0)
 
 # Identify and extract the relevant classes and properties from the given natural language question. Match them with the corresponding entities (classes or properties) defined in the provided ontology and present the results exclusively in a list format.
@@ -64,6 +64,8 @@ such as `["ex:class1", "ex:class2", "ex:class3"]`.
 2. Ensure each retrieved class is represented by its namespace prefix defined in the ontology.
 3. Extract all classes that are even minimally relevant to the question.
 4. As long as any semantic fragment (such as a word, phrase, or expression) in the natural language question semantically matches the content of the `rdfs:label` of a class in the ontology, that class will be extracted from the ontology.
+5. As long as an entity in the natural language question exactly matches one value of the `rdfs:label` of a class in the ontology, that class must be extracted from the ontology.
+For the entity list, you can refer to {result0}
 """
 
 prompt2 = f"""
@@ -79,6 +81,8 @@ such as `["ex:class1", "ex:class2", "ex:class3"]`.
 2. Ensure each retrieved class is represented by its namespace prefix defined in the ontology.
 3. Extract all classes that are even minimally relevant to the question.
 4. As long as any semantic fragment (such as a word, phrase, or expression) in the natural language question semantically matches the content of the `rdfs:label` of a class in the ontology, that class will be extracted from the ontology.
+5. As long as an entity in the natural language question exactly matches one value of the `rdfs:label` of a class in the ontology, that class must be extracted from the ontology.
+For the entity list, you can refer to {result0}
 """
 
 prompt3 = f"""
