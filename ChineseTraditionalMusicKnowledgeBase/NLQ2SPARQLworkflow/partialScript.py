@@ -47,5 +47,6 @@ Extract the entities from the natural language question: {question}.
 Return only the extracted entities(represented in Chinese characters, words or phrases), in a json-formatted list (no adding redundant strings).
 such as `["实体1", "实体2"]`.
 """
-result0 = callGPT(prompt0)
+result0 = callGPT(prompt0).replace("```json", "")
 print('result0(entities and properties extracted):', result0)
+print (type(result0))
