@@ -1,5 +1,6 @@
 # 1_Step1_entitiesExtractiongFromNLQ_basedOnOntology.py
 # Note: to activate virtual enviroment for python, please exectue `source /directory/of/your/virtual/environment/folder/bin/activate`, e.g., `source /Users/caojunjun/venv_extractSubgraphForLLMsGeneratingSPARQL/bin/activate`
+# If you want to extact part of the script to a new file, e.g., to extract from the beginning to Line 50, please execute, `head -n 50 1_entitiesExtractiongFromNLQ_basedOnOntology.py > partialScript.py`
 import json
 # import pandas as pd 
 from openai import OpenAI
@@ -40,6 +41,14 @@ with open("ontologySnippet_dataProperties_simplified.ttl", "r") as context4:
 # The natural language question is read from a text file:
 with open("sampleQuestions/question_FolkMusician_MusicType.txt", 'r') as f:
     question = f.readlines()
+
+prompt0 = f"""
+Extract the entities from the natural language question: {question}. 
+Return only the extracted entities(represented in Chinese characters, words or phrases), in a json-formatted list (no adding redundant strings).
+such as `["实体1", "实体2"]`.
+"""
+result0 = callGPT(prompt0)
+print('result0(entities and properties extracted):', result0)
 
 # Identify and extract the relevant classes and properties from the given natural language question. Match them with the corresponding entities (classes or properties) defined in the provided ontology and present the results exclusively in a list format.
 prompt1 = f"""
