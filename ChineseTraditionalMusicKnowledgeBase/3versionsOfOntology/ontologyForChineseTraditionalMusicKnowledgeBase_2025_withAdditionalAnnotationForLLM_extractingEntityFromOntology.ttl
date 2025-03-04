@@ -45,7 +45,7 @@ This version uses bf:Work of BibFrame model, which may bring about some inconsis
 （4）:relatesInstrument
 （5）:relatesMusicType
 （6）:relatesWork
-（如上供参考）
+（如上供参考）E.g., since the inverse properties of A_`:ethnicGroup` include both B_`:representativeMusicType` and C_`representativeInstrument`, and the domain of A is defined as the union of `:MusicType` and `:OrientalMusicalInstrument`; it follows that the range of B and C would also logically be the union of `:MusicType` and `:OrientalMusicalInstrument` too, which is inconsistent with the existing annotation of B and C
 
 Since 2025Feb25, following modifications are as belows:
 (1) ObjectProperty `:musicType_Instrument` is updated to `:musicType_instrument`
@@ -1880,6 +1880,7 @@ mo:Conductor rdf:type owl:Class ;
 ###  http://purl.org/ontology/mo/Instrument
 mo:Instrument rdf:type owl:Class ;
               rdfs:subClassOf cidoc-crm:E55_Type ;
+              owl:disjointWith ctm:MusicType ;
               owl:hasKey ( ctm:nameOfMusicTypeOrInstrument
                          ) ;
               rdfs:comment """Any of various devices or contrivances that can be used to produce musical tones or sound.(contrivance n.发明;发明物;想出的办法;计谋)
