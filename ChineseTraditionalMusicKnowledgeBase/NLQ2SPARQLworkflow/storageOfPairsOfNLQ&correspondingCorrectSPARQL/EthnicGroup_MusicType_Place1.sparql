@@ -9,7 +9,8 @@ SELECT ?musicType ?musicTypeLabel ?yunnanMusicType ?yunnanMusicTypeLabel WHERE {
   ?ethnicGroup a dbpedia-owl:EthnicGroup ;
                rdfs:label "壮族" ;
                ctm:representativeMusicType ?musicType .
-  ?musicType ctm:nameOfMusicTypeOrInstrument ?musicTypeLabel .
+  ?musicType a ctm:MusicType ;
+             ctm:nameOfMusicTypeOrInstrument ?musicTypeLabel .
 
   ?province a places:Province ;
             rdfs:label "云南省" ;
