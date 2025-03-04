@@ -960,6 +960,7 @@ mo:Conductor rdf:type owl:Class ;
 ###  http://purl.org/ontology/mo/Instrument
 mo:Instrument rdf:type owl:Class ;
               rdfs:subClassOf cidoc-crm:E55_Type ;
+              owl:disjointWith ctm:MusicType ;
               rdfs:label "乐器" .
 
 
