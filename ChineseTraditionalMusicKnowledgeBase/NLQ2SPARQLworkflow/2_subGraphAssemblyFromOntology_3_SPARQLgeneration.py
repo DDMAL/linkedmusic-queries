@@ -168,12 +168,12 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"bf:Place", "cidoc-crm:E53_Place", "cidoc-crm:E55_Type", "ctm:ChinaJurisdiction", "ctm:ChineseNation", "ctm:ChuidaMusic", "ctm:DrumAndCymbalSystem", "ctm:EventOfRecording", "ctm:FolkMusic", "ctm:FolkSong", "ctm:ForeignNation", "ctm:MusicType", "ctm:MusicType_YueShengXi", "ctm:MusicType_YueWuXi", "ctm:TraditionalMusicBranch", "dbpedia-owl:EthnicGroup", "ns1:b8784495", "places:Province", "rdfs:Literal"}
+    given_classes = {"ctm:ChuidaMusic", "ctm:DrumAndCymbalSystem", "ctm:FolkMusician", "ctm:MusicOfTalkingAndSinging", "ctm:MusicType", "foaf:Agent", "foaf:Person", "mo:SoloMusicArtist", "ns1:b8784488", "rdfs:Literal"}
     # --corresponding to Transformed ClassList
 
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"bf:place", "ctm:nameOfMusicTypeOrInstrument", "ctm:placeHasMusicTypeOrInstrument", "ctm:representativeMusicType", "gn:alternateName"}
+    given_properties = {"ctm:goodAtPerformingMusic", "ctm:musicianAlias", "ctm:nameOfMusicTypeOrInstrument"}
     # --corresponding to Transformed PropertyList
 
     # =====================================================
@@ -268,7 +268,7 @@ def callGPT(prompt):
     )
     return completion.choices[0].message.content
 
-with open("sampleQuestions/question_EthnicGroup_MusicType_Place1.txt", 'r') as f:
+with open("sampleQuestions/question_FolkMusician_MusicType.txt", 'r') as f:
     question = f.readlines()
 
 prompt6 = f"""
@@ -303,7 +303,7 @@ Note:
 2. For each instance variable in the SPARQL, ensure that the labels for them are represented using `rdfs:label` property even if it is not explicitly mentioned in the ontology snippet
 3. After examination and cross-checking, if modifications are required, do return only the modified SPARQL query without any additional text
 4. De ensure the SPARQL query's logic is inherently consistent with the natural language question and the ontology snippet
-5. Don't forget the clarification of namespaces in the SPARQL query
+5. Don't forget the clarification of namespaces in the SPARQL query; Delete the needless prefixes clarification (which are not used in the query)
 6. If you are unsure about precisioin of specific classes or properties, you can broaden the retrieval scope using techniques such as: 
     6.1 The UNION keyword to include multiple options,
     6.2 The OPTIONAL keyword to allow optional matches,
