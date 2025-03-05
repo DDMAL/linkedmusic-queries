@@ -305,7 +305,7 @@ Note:
 4. De ensure the SPARQL query's logic is inherently consistent with the natural language question and the ontology snippet
 5. Don't forget the clarification of namespaces in the SPARQL query; Delete the needless prefixes clarification (which are not used in the query)
 6. If you are unsure about precisioin of specific classes or properties, you can broaden the retrieval scope using techniques such as: 
-    6.1 The UNION keyword to include multiple options,
+    6.1 The UNION keyword to include multiple options, especially when a question can be divided into multiple sub-questions,
     6.2 The OPTIONAL keyword to allow optional matches,
     6.3 The | operator to represent a logical OR for properties
 """
