@@ -1,0 +1,20 @@
+# question: 鼻箫这件乐器是哪个民族的？潮尔又是哪个民族的？
+# corresponding correct SPARQL
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?instrument1 ?ethnicGroup1 ?entity ?ethnicGroup2
+WHERE {
+  {
+  ?instrument1 rdfs:label "鼻箫" ;
+               ctm:ethnicGroup ?ethnicGroup1 .
+  ?ethnicGroup1 rdfs:label ?ethnicGroupLabel1 .
+}
+  union 
+  {
+  ?entity rdfs:label "潮尔" ;
+          ctm:ethnicGroup ?ethnicGroup2 .
+  ?ethnicGroup2 rdfs:label ?ethnicGroupLabel2 .
+}
+}
