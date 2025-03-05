@@ -39,16 +39,16 @@ with open("ontologySnippet_objectProperties_simplified.ttl", "r") as context3:
 with open("ontologySnippet_dataProperties_simplified.ttl", "r") as context4:
     context_ontology_dataProperty = context4.readlines()
 # The natural language question is read from a text file:
-with open("sampleQuestions/question_FolkMusician_MusicType.txt", 'r') as f:
+with open("sampleQuestions/question_Instrument_EthnicGroup.txt", 'r') as f:
     question = f.readlines()
 
 prompt0 = f"""
-Extract the entities from the natural language question: {question}. 
-Return only the extracted entities(represented in Chinese characters, words or phrases), in a json-formatted list (no adding redundant strings).
+Extract the entities or classes from the natural language question: {question}. 
+Return only the extracted entities or classes (represented in Chinese characters, words or phrases), in a json-formatted list (no adding redundant strings).
 such as `["实体1", "实体2"]`.
 """
 result0 = callGPT(prompt0).replace("```json", "")
-print('result0(entities and properties extracted):', result0)
+print('result0(entities or classes extracted):', result0)
 
 # Identify and extract the relevant classes and properties from the given natural language question. Match them with the corresponding entities (classes or properties) defined in the provided ontology and present the results exclusively in a list format.
 prompt1 = f"""
@@ -128,7 +128,7 @@ Please embed the extracted entities in a SPARQL query to retrieve the classes of
 define input:inference 'urn:owl.ccmusicrules0214'
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-select ?class where {{
+select distinct ?class where {{
     ?entity rdfs:label ?label ;
             rdf:type ?class .
     VALUES ?label {{"打溜子" "乐器" "桑植县"}} .
@@ -161,7 +161,7 @@ def query_sparql(endpoint, sparql_query_parameter, graph_iri_parameter):
 # Query the SPARQL endpoint:
 sparql_endpoint = "http://www.usources.cn:8891/sparql" # We can also use the endpoint "https://virtuoso.staging.simssa.ca/sparql"
 graph_iri = "https://lib.ccmusic.edu.cn/graph/music" # We can also use the graph IRI "http://ChineseTraditionalMusicCultureKnowledgeBase"
-sparql_results = query_sparql(sparql_endpoint, sparql_query, graph_iri)
+sparql_results = query_sparql(sparql_endpoint, sparql_query, graph_iri) # It occasionally results in blank nodes here which won't interfere. Just ignore them
 print('sparql_results:', sparql_results) # rendered in JSON format
 # # Save sparql_results to a .json file:
 # with open('sparql_results.json', 'w') as json_file:
@@ -256,8 +256,9 @@ def render_classes_with_prefix(sparql_results, class_list_str):
     merged_list = sorted(merged_set)
     
     # 5) Build the final merged string.
-    merged = " ".join(merged_list) + " rdfs:Literal"
-    
+    merged = " ".join(merged_list) + " rdfs:Literal" # There may appear a blanknode occassionally. Just ignore it
+    #print ("merged:", merged)
+
     # 6) Print and return the merged result.
     print("Transformed ClassList =", "{" + ", ".join(f'"{item}"' for item in merged.split()) + "}")
     return merged
