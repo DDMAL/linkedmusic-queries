@@ -315,7 +315,16 @@ Note:
 """
 
 sparql_query = callGPT(prompt6_verification).strip().replace("```sparql", "define input:inference 'urn:owl.ccmusicrules0214'").strip("```") # Activate the OWL-based inference mechanism
-print('The sparql_query based on the ontology subgraph (verified):\n', sparql_query)
+# With this more robust coding, we can ensure that the SPARQL query is clearly stripped of any leading or trailing disturbances:
+response = callGPT(prompt6_verification).strip()
+import re
+# First, completely remove all markdown code block markers
+clean_response = re.sub(r'```(?:sparql)?', '', response)
+clean_response = clean_response.strip()
+# Then add the inference directive at the beginning
+sparql_query = "define input:inference 'urn:owl.ccmusicrules0214'\n" + clean_response
+
+print('The sparql_query based on the ontology subgraph (verified):\n' + sparql_query)
 
 from SPARQLWrapper import SPARQLWrapper, JSON
 
