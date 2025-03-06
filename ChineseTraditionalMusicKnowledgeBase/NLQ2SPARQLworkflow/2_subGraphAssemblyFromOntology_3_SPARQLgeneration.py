@@ -288,6 +288,8 @@ print('The sparql_query based on the ontology subgraph:', sparql_query)
 
 prompt6_verification = f"""
 Examine the following SPARQL query to ensure its syntax is correct. Then, cross-check it against the natural language question and the ontology snippet for consistency and accuracy. 
+Refine it if necessary.
+
 SPARQL query:
 {sparql_query}
 
@@ -308,7 +310,9 @@ Note:
     6.1 The UNION keyword to include multiple options to interpretate a question, especially when the question can be divided into multiple sub-questions, or in case of handling an objectProperty and a dataProperty which have the similar semantic meanings
     6.2 The OPTIONAL keyword to allow partial matches, ensuring that queries remain valid even when certain properties are missing; also useful when handling an objectProperty and a dataProperty which have the similar semantic meaning, etc.
     6.3 The | operator to represent a logical OR for properties
+7. Add comments to the SPARQL query to explain the logic and reasoning behind the query in order to make it more understandable to users
 """
+
 sparql_query = callGPT(prompt6_verification).strip().replace("```sparql", "define input:inference 'urn:owl.ccmusicrules0214'").strip("```") # Activate the OWL-based inference mechanism
 print('The sparql_query based on the ontology subgraph (verified):\n', sparql_query)
 
