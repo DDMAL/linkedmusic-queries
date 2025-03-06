@@ -81,8 +81,8 @@ such as `["ex:class1", "ex:class2", "ex:class3"]`.
 2. Ensure each retrieved class is represented by its namespace prefix defined in the ontology.
 3. Extract all classes that are even minimally relevant to the question.
 4. As long as any semantic fragment (such as a word, phrase, or expression) in the natural language question semantically matches the content of the `rdfs:label` of a class in the ontology, that class will be extracted from the ontology.
-5. As long as an entity in the natural language question exactly matches one value of the `rdfs:label` of a class in the ontology, that class must be extracted from the ontology.
-For the entity list, you can refer to {result0}
+5. As long as an entity(or class) in the natural language question exactly matches one value of the `rdfs:label` of a class in the ontology, that class must be extracted from the ontology.
+For the entity(or class) list, you can refer to {result0}
 """
 
 prompt3 = f"""
@@ -118,12 +118,10 @@ such as `["ex:property1", "ex:property2", "ex:property3"]`.
 
 # Retrieve the classes that are not explicitly stated in the question but are related to the entities extracted from the question.
 prompt5 = f"""
-Please extract the entities from the natural language question: 
-{question}
-E.g., 
-    (1)if the question is "打溜子会用到什么乐器，这些乐器中，哪些又是桑植县的？", you can extract the entities in this format: `VALUES ?label {"打溜子" "乐器" "桑植县"}`.
-    (2)if the entity is in 《》, please prepare 2 versions, with one maintaining the 《》, e.g., `VALUES ?label {"《彩云追月》" "彩云追月"}`.
-Please embed the extracted entities in a SPARQL query to retrieve the classes of the entities, e.g.:
+See the list of entities:
+{result0}
+
+Embed the entities in a SPARQL query to retrieve the classes of the entities, e.g., for extracted ["河南大调曲子板头曲", "乐器", "郑州市"], convert it into `VALUES ?label {"河南大调曲子板头曲" "乐器" "郑州市"}` which comforms to the SPARQL sytax:
 ```
 define input:inference 'urn:owl.ccmusicrules0214'
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -131,10 +129,10 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 select distinct ?class where {{
     ?entity rdfs:label ?label ;
             rdf:type ?class .
-    VALUES ?label {{"打溜子" "乐器" "桑植县"}} .
+    VALUES ?label {{"河南大调曲子板头曲" "乐器" "郑州市"}} .
 }}
 ```
-As to the extracted entities, do only provide one corresponding SPARQL query without any additional text.
+As to the extracted entities (or classes), do only provide one corresponding SPARQL query without any additional text.
 """
 
 
