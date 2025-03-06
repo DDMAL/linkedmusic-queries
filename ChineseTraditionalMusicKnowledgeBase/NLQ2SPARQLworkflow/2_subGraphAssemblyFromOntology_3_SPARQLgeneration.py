@@ -168,12 +168,12 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"bf:MusicInstrument", "cidoc-crm:E55_Type", "ctm:ChineseInstrument", "ctm:FolkMusic", "ctm:FolkSong", "ctm:MusicType", "ctm:OrientalMusicalInstrument", "mo:Instrument", "ns1:b8784481", "rdfs:Literal", "dbpedia-owl:EthnicGroup"}
+    given_classes = {"bf:MusicInstrument", "cidoc-crm:E55_Type", "ctm:ChineseInstrument", "ctm:FolkMusic", "ctm:MusicOfTalkingAndSinging", "ctm:MusicType", "ctm:NationalInstrumentalMusic", "ctm:OrientalMusicalInstrument", "ctm:PieceWithPerformance", "mo:Instrument", "ns1:b8784481", "rdfs:Literal"}
     # --corresponding to Transformed ClassList
 
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"ctm:ethnicGroup", "ctm:ethnicGroupAlias", "ctm:musicSystem", "ctm:representativeInstrument", "dbo:ethnicity"}
+    given_properties = {"bf:instrument", "ctm:nameOfMusicTypeOrInstrument", "ctm:piecePrincipalInstrument", "ctm:representativePiece", "ctm:samplePieceWithPerformance"}
     # --corresponding to Transformed PropertyList
 
     # =====================================================
@@ -258,7 +258,7 @@ client = OpenAI(
 )
 def callGPT(prompt):
     completion = client.chat.completions.create(
-        model="gpt-4o", # We can use "gpt-4o" or "o1-preview" model
+        model="claude-3-7-sonnet-20250219", # We can use "gpt-4o" or "o1-preview" or "claude-3-7-sonnet-20250219" model
         max_tokens=4096,
         temperature=0.1,
         messages=[
@@ -268,7 +268,7 @@ def callGPT(prompt):
     )
     return completion.choices[0].message.content
 
-with open("sampleQuestions/question_Instrument_MusicType.txt", 'r') as f:
+with open("sampleQuestions/question_MusicType_PieceWithPerformance_Instrument.txt", 'r') as f:
     question = f.readlines()
 
 prompt6 = f"""
@@ -276,10 +276,10 @@ Given the natural language question: {question}
 and the ontology snippet: {turtle_output}
 --please generate a SPARQL query for the question.
 Note: 
-(0) Don't use language tag for the rdfs:Literals value in the SPARQL query
-(1) The question is associated with the domain of Chinese or East-and-Southeast-Asian music, so you may understand the entities priorly that you can correspond them to the classes in the given ontology
-(2) Usually, for each instance variable in the SPARQL, involve `rdfs:label` with the variable
-(3) Do only provide one corresponding SPARQL query without any additional text
+(1) Don't use language tag for the rdfs:Literals value in the SPARQL query
+(2) The question is associated with the domain of Chinese or East-and-Southeast-Asian music, so you may understand the entities priorly that you can correspond them to the classes in the given ontology
+(3) Usually, for each instance variable in the SPARQL, involve `rdfs:label` with the variable
+Caution: Do return only a single SPARQL query. Never add any additional text in your return. (Any non-comment text outside the query will cause a syntax error when executed in a SPARQL endpoint.)
 """
 
 sparql_query = callGPT(prompt6).strip().replace("```sparql", "").strip("```")
@@ -300,17 +300,18 @@ Natural language question:
 {question}
 
 Note: 
-0. Don't use language tag for the rdfs:Literals value in the SPARQL query
-1. The question is associated with the domain of Chinese or East-and-Southeast-Asian music, so you may understand the entities priorly that you can correspond them to the classes in the given ontology
-2. For each instance variable in the SPARQL, ensure that the labels for them are represented using `rdfs:label` property even if it is not explicitly mentioned in the ontology snippet
-3. After examination and cross-checking, if modifications are required, do return only the modified SPARQL query without any additional text
-4. De ensure the SPARQL query's logic is inherently consistent with the natural language question and the ontology snippet
-5. Don't forget the clarification of namespaces in the SPARQL query; Delete the needless prefixes clarification (which are not used in the query)
-6. If you are uncertain about precision of specific classes or properties, you can broaden the retrieval scope using techniques such as: 
-    6.1 The UNION keyword to include multiple options to interpretate a question, especially when the question can be divided into multiple sub-questions, or in case of handling an objectProperty and a dataProperty which have the similar semantic meanings
-    6.2 The OPTIONAL keyword to allow partial matches, ensuring that queries remain valid even when certain properties are missing; also useful when handling an objectProperty and a dataProperty which have the similar semantic meaning, etc.
-    6.3 The | operator to represent a logical OR for properties
-7. Add comments to the SPARQL query to explain the logic and reasoning behind the query in order to make it more understandable to users
+1. Don't use language tag for the rdfs:Literals value in the SPARQL query
+2. The question is associated with the domain of Chinese or East-and-Southeast-Asian music, so you may understand the entities priorly that you can correspond them to the classes in the given ontology
+3. For each instance variable in the SPARQL, ensure that the labels for them are represented using `rdfs:label` property even if it is not explicitly mentioned in the ontology snippet
+4. After examination and cross-checking, if modifications are required, do return only the modified SPARQL query without any additional text
+5. De ensure the SPARQL query's logic is inherently consistent with the natural language question and the ontology snippet
+6. Don't forget the clarification of namespaces in the SPARQL query; Delete the needless prefixes clarification (which are not used in the query)
+7. If you are uncertain about precision of specific classes or properties, you can broaden the retrieval scope using techniques such as: 
+    7.1 The UNION keyword to include multiple options to interpretate a question, especially when the question can be divided into multiple sub-questions, or in case of handling an objectProperty and a dataProperty which have the similar semantic meanings
+    7.2 The OPTIONAL keyword to allow partial matches, ensuring that queries remain valid even when certain properties are missing; also useful when handling an objectProperty and a dataProperty which have the similar semantic meaning, etc.
+    7.3 The | operator to represent a logical OR for properties
+
+!!Caution: for this prompt, do return only the refined SPARQL query code. Don't add any extra text before or after the SPARQL code. However, you may include comments preceded `#` symbol to explain the logic, enhancing user's understanding (these comments with `#` symbol will be ignored by the SPARQL endpoint).
 """
 
 sparql_query = callGPT(prompt6_verification).strip().replace("```sparql", "define input:inference 'urn:owl.ccmusicrules0214'").strip("```") # Activate the OWL-based inference mechanism
