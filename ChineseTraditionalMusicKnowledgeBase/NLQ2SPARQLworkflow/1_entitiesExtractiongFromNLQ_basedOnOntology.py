@@ -64,8 +64,8 @@ such as `["ex:class1", "ex:class2", "ex:class3"]`.
 2. Ensure each retrieved class is represented by its namespace prefix defined in the ontology.
 3. Extract all classes that are even minimally relevant to the question.
 4. As long as any semantic fragment (such as a word, phrase, or expression) in the natural language question semantically matches the content of the `rdfs:label` of a class in the ontology, that class will be extracted from the ontology.
-5. As long as an entity in the natural language question exactly matches one value of the `rdfs:label` of a class in the ontology, that class must be extracted from the ontology.
-For the entity list, you can refer to {result0}
+5. As long as an entity(or class) in the natural language question exactly matches one value of the `rdfs:label` of a class in the ontology, that class must be extracted from the ontology.
+For the entity(or class) list, you can refer to {result0}
 """
 
 prompt2 = f"""
