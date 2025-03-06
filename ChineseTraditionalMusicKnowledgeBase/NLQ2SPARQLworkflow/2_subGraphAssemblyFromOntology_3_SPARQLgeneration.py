@@ -304,9 +304,9 @@ Note:
 3. After examination and cross-checking, if modifications are required, do return only the modified SPARQL query without any additional text
 4. De ensure the SPARQL query's logic is inherently consistent with the natural language question and the ontology snippet
 5. Don't forget the clarification of namespaces in the SPARQL query; Delete the needless prefixes clarification (which are not used in the query)
-6. If you are unsure about precisioin of specific classes or properties, you can broaden the retrieval scope using techniques such as: 
-    6.1 The UNION keyword to include multiple options, especially when a question can be divided into multiple sub-questions,
-    6.2 The OPTIONAL keyword to allow optional matches,
+6. If you are uncertain about precision of specific classes or properties, you can broaden the retrieval scope using techniques such as: 
+    6.1 The UNION keyword to include multiple options to interpretate a question, especially when the question can be divided into multiple sub-questions, or in case of handling an objectProperty and a dataProperty which have the similar semantic meanings
+    6.2 The OPTIONAL keyword to allow partial matches, ensuring that queries remain valid even when certain properties are missing; also useful when handling an objectProperty and a dataProperty which have the similar semantic meaning, etc.
     6.3 The | operator to represent a logical OR for properties
 """
 sparql_query = callGPT(prompt6_verification).strip().replace("```sparql", "define input:inference 'urn:owl.ccmusicrules0214'").strip("```") # Activate the OWL-based inference mechanism
