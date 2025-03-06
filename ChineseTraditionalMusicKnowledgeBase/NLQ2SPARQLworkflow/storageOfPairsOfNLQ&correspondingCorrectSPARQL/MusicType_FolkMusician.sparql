@@ -1,0 +1,15 @@
+# question: 四川清音这个乐种有哪些代表性民间乐人？
+# corresponding correct SPARQL
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+
+SELECT ?musician ?musicianLabel WHERE {
+    # Find the music type with the label "四川清音"
+    ?musicType rdfs:label "四川清音" .
+    
+    # Find the representative folk musician for this music type
+    ?musicType ctm:representativeFolkMusician ?musician .
+    
+    # Retrieve the label of the musician
+    ?musician rdfs:label ?musicianLabel .
+}

@@ -1,0 +1,16 @@
+# question: 喊傣亮、四簧口弦琴曲、御神歌、“宫廷筵宴乐-缅甸乐”、加美兰、扎平各是哪些民族的？
+# corresponding correct SPARQL
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?musicEntity ?musicEntityLabel ?ethnicGroup ?ethnicGroupLabel WHERE {
+  # Define the music entities of interest by their labels
+  VALUES ?musicEntityLabel { "喊傣亮" "四簧口弦琴曲" "御神歌" "宫廷筵宴乐-缅甸乐" "加美兰" "扎平" }
+  
+  # Match music entities with their ethnic groups
+  ?musicEntity rdfs:label ?musicEntityLabel ;
+               ctm:ethnicGroup ?ethnicGroup .
+  
+  # Retrieve the labels for the ethnic groups
+  ?ethnicGroup rdfs:label ?ethnicGroupLabel .
+}
