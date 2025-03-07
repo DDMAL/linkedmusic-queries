@@ -14,7 +14,7 @@ client = OpenAI(
     base_url="https://oneapi.xty.app/v1"
 )
 
-def callGPT(prompt):
+def callGPT(prompt): # We initiatively set the model to "gpt-4o" for the first call so the function name is callGPT
     completion = client.chat.completions.create(
         model="gpt-4o", # We can use "gpt-4o" or "o1-preview" model
         max_tokens=4096,
@@ -39,7 +39,7 @@ with open("ontologySnippet_objectProperties_simplified.ttl", "r") as context3:
 with open("ontologySnippet_dataProperties_simplified.ttl", "r") as context4:
     context_ontology_dataProperty = context4.readlines()
 # The natural language question is read from a text file:
-with open("sampleQuestions/question_MusicType_PieceWithPerformance_Instrument.txt", 'r') as f:
+with open("sampleQuestions/question_MusicType_SpecialIndependentResource_Instrument.txt", 'r') as f:
     question = f.readlines()
 
 prompt0 = f"""
@@ -50,8 +50,8 @@ Note:
 2. If a literal part is enclosed by "" or “”, view the part as a whole, e.g., 请问“河南大调曲子板头曲”主要用了什么乐器？--you can extract the entities in this format: `["河南大调曲子板头曲", "乐器"]`. 
 3. Return only the extracted classes or entities (represented in Chinese characters, words or phrases), in such json format `["thing1", "thing2", "thing3"]`(no adding redundant strings).
 """
-result0 = callGPT(prompt0).replace("```json", "")
-print('result0(entities or classes extracted):', result0)
+result0 = callGPT(prompt0).replace("```json", "").replace("```", "").strip() # The .replace() method removes the "```json" string from the beginning and "```" string from the end of the string returned by callGPT, and the .strip() method removes any unnecessary whitespace or newlines that might exist at the beginning or end of the string returned by callGPT.
+print('result0(entities or classes extracted):', result0) # The result is rendered in JSON format
 
 # Identify and extract the relevant classes and properties from the given natural language question. Match them with the corresponding entities (classes or properties) defined in the provided ontology and present the results exclusively in a list format.
 prompt1 = f"""
@@ -102,6 +102,8 @@ such as `["ex:property1", "ex:property2", "ex:property3"]`.
 3. Ensure each retrieved property is represented by its namespace prefix defined in the ontology.
 4. Extract all properties that are even minimally relevant to the question.
 5. Examine each property with its label and comment, one by one.
+6. As long as an entity in the natural language question matches one value of the `rdfs:label` of a property in the ontology, that property must be extracted from the ontology.
+For the entity list, you can refer to {result0}
 """
 
 prompt4 = f"""
@@ -117,6 +119,8 @@ such as `["ex:property1", "ex:property2", "ex:property3"]`.
 2. Analyze the semantic structure of the natural language question carefully to identify all relevant properties.
 3. Ensure each retrieved property is represented by its namespace prefix defined in the ontology.
 4. Extract all properties that are even minimally relevant to the question.
+5. As long as an entity in the natural language question matches one value of the `rdfs:label` of a property in the ontology, that property must be extracted from the ontology.
+For the entity list, you can refer to {result0}
 """
 
 # Retrieve the classes that are not explicitly stated in the question but are related to the entities extracted from the question.
@@ -279,3 +283,9 @@ print("Transformed PropertyList =", "{" + ", ".join(f'"{item}"' for item in prop
 # {question}
 # Note: Only use the properties and classes in the ontology snippet.
 # """
+
+# 2025 early Mar
+# 整体思路：类是肯定能找全的；属性不好找，没关系，核心思路是“以全概偏”。三个要点策略：
+# （1）“最坏的打算”就是，把一个类可能连接的所有属性都找到，然后拼装子图（可以用 Shapes等）
+# （2）即使子图很大，我们可以迭代、收敛——在已有子图的基础上，再提取它的子图
+# （3）将本体切片切得更细
