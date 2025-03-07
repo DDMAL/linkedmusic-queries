@@ -168,12 +168,12 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"bf:MusicInstrument", "cidoc-crm:E55_Type", "ctm:ChineseInstrument", "ctm:FolkMusic", "ctm:MusicOfTalkingAndSinging", "ctm:MusicType", "ctm:NationalInstrumentalMusic", "ctm:OrientalMusicalInstrument", "ctm:PieceWithPerformance", "mo:Instrument", "ns1:b8784481", "rdfs:Literal"}
+    given_classes = {"bf:Audio", "bf:MovingImage", "bf:MusicInstrument", "bf:StillImage", "bf:Work", "cidoc-crm:E55_Type", "ctm:ChineseInstrument", "ctm:FolkMusic", "ctm:LiteratiMusic", "ctm:MusicType", "ctm:MusicType_YueShengXi", "ctm:NationalInstrumentalMusic", "ctm:OrientalMusicalInstrument", "ctm:PercussionMusicalInstrument", "ctm:PluckedStringInstrument", "ctm:SpecialIndependentResource", "ctm:Video-LectureOrClassEtc", "mo:Instrument", "ns1:b8784430", "ns1:b8784457", "ns1:b8784481", "rdfs:Literal"}
     # --corresponding to Transformed ClassList
 
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"bf:instrument", "ctm:nameOfMusicTypeOrInstrument", "ctm:piecePrincipalInstrument", "ctm:representativePiece", "ctm:samplePieceWithPerformance"}
+    given_properties = {"bf:instrument", "bf:subject", "ctm:nameOfMusicTypeOrInstrument", "ctm:relatesInstrument", "ctm:relatesWork"}
     # --corresponding to Transformed PropertyList
 
     # =====================================================
@@ -268,7 +268,7 @@ def callGPT(prompt):
     )
     return completion.choices[0].message.content
 
-with open("sampleQuestions/question_MusicType_PieceWithPerformance_Instrument.txt", 'r') as f:
+with open("sampleQuestions/question_MusicType_SpecialIndependentResource_Instrument.txt", 'r') as f:
     question = f.readlines()
 
 prompt6 = f"""
@@ -307,11 +307,13 @@ Note:
 5. De ensure the SPARQL query's logic is inherently consistent with the natural language question and the ontology snippet
 6. Don't forget the clarification of namespaces in the SPARQL query; Delete the needless prefixes clarification (which are not used in the query)
 7. If you are uncertain about precision of specific classes or properties, you can broaden the retrieval scope using techniques such as: 
-    7.1 The UNION keyword to include multiple options to interpretate a question, especially when the question can be divided into multiple sub-questions, or in case of handling an objectProperty and a dataProperty which have the similar semantic meanings
-    7.2 The OPTIONAL keyword to allow partial matches, ensuring that queries remain valid even when certain properties are missing; also useful when handling an objectProperty and a dataProperty which have the similar semantic meaning, etc.
-    7.3 The | operator to represent a logical OR for properties
-
-!!Caution: for this prompt, do return only the refined SPARQL query code. Don't add any extra text before or after the SPARQL code. However, you may include comments preceded `#` symbol to explain the logic, enhancing user's understanding (these comments with `#` symbol will be ignored by the SPARQL endpoint).
+    7.1 The UNION keyword: to include multiple options to interpretate a question, especially when the question can be divided into multiple sub-questions, or in case of handling an objectProperty and a dataProperty which have the similar semantic meanings
+    7.2 The | operator to represent a logical OR for properties
+    7.3 The OPTIONAL keyword: 
+        7.2.1 also useful when handling an objectProperty and a dataProperty which have the similar semantic meaning, etc.
+        7.2.2 to allow partial matches, ensuring that queries remain valid even when certain properties or property values are missing. It is particularly beneficial for handling uncertain or "if, possibly" relationships (e.g., "Something may relate to something else") or when managing properties with similar semantics
+        
+!!Caution: for this prompt, do return only the refined SPARQL query code. Don't add any extra text before or after the SPARQL code. However, you may include comments preceded `#` symbol to explain the logic, enhancing user's understanding (these comments with `#` symbol will be ignored by the SPARQL endpoint)
 """
 
 sparql_query = callGPT(prompt6_verification).strip().replace("```sparql", "define input:inference 'urn:owl.ccmusicrules0214'").strip("```") # Activate the OWL-based inference mechanism
@@ -321,8 +323,17 @@ import re
 # First, completely remove all markdown code block markers
 clean_response = re.sub(r'```(?:sparql)?', '', response)
 clean_response = clean_response.strip()
-# Then add the inference directive at the beginning
-sparql_query = "define input:inference 'urn:owl.ccmusicrules0214'\n" + clean_response
+# Second, check if the response starts with PREFIX, if not, remove everything before SELECT
+prefix_index = clean_response.find("PREFIX")
+if prefix_index != -1:
+    clean_response = clean_response[prefix_index:]
+else:
+    # If PREFIX is not found, try to find SELECT
+    select_index = clean_response.find("SELECT")
+    if select_index != -1:
+        clean_response = clean_response[select_index:]
+# Third, add the inference directive at the beginning
+sparql_query = "define input:inference 'urn:owl.ccmusicrules0214'\n" + clean_response # The type of sparql_query is <class 'str'>
 
 print('The sparql_query based on the ontology subgraph (verified):\n' + sparql_query)
 
@@ -345,13 +356,20 @@ sparql_results = query_sparql(sparql_endpoint, sparql_query, graph_iri)
 print('sparql_results:', sparql_results) # rendered in JSON format
 
 prompt7 = f"""
-Corresponding to a natural language question: {question}, 
-and the related ontology snippet: {turtle_output} as the context, 
-and the subsequent SPARQL query {sparql_query}, 
-we retrieved the result from the SPARQL visiting the Endpoint: {sparql_results}. 
+Based on a natural language question: {question},
 
-Please explain the query result based on the question, the ontology snippet, the SPARQL query and your knowledge of the question domain.
-If the result is too large, you can provide a summary or statistical analysis.
+and the related ontology snippet: {turtle_output}, 
+
+and the subsequent SPARQL query: {sparql_query}, 
+
+we retrieved the result from visiting the SPARQL Endpoint: {sparql_results}. 
+
+1. Explain the query result based on the question, the ontology snippet, and the SPARQL query.
+2. If the result is too large, you can conduct a statistical analysis with a summary.
+3. Compare the result with your own knowledge about the domain. Find out whether there is any inconsistency or inadquacy in the result. Contrast then enrich the explaination.
+
+4. Last but not least, if the result is too small or even empty, you can broaden the retrieval scope or recommend other possible SPARQL queries 
+
 """
 
 RAG_result = callGPT(prompt7)
