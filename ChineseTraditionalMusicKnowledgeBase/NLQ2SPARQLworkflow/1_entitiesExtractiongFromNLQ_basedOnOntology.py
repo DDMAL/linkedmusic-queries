@@ -144,9 +144,8 @@ As to the extracted entities (or classes), do only provide one corresponding SPA
 
 
 # Generate SPARQL query using GPT:
-sparql_query = callGPT(prompt5).strip() # The .strip() method removes any unnecessary whitespace or newlines that might exist at the beginning or end of the string returned by callGPT.
-sparql_query = sparql_query.replace("```sparql", "").strip("```") # The .replace() method replaces the "```sparql" string with an empty string, and the .strip("```") method removes the "```" string from the beginning and end of the string returned by callGPT.
-print('The 1st round of sparql_query:', sparql_query)
+sparql_query = callGPT(prompt5).strip().replace("```sparql", "").strip("```") # The .strip() method removes any unnecessary whitespace or newlines that might exist at the beginning or end of the string returned by callGPT. The .replace() method replaces the "```sparql" string with an empty string, and the .strip("```") method removes the "```" string from the beginning and end of the string returned by callGPT.
+print('sparql_query to identify the implicit classes:', sparql_query) # This query is to identify the implicit classes of the entities in the natural language question
 
 # Define a function to query the SPARQL endpoint. The 1st parameter is the SPARQL endpoint, the 2nd parameter is the SPARQL query, and the 3rd parameter is the graph IRI:
 def query_sparql(endpoint, sparql_query_parameter, graph_iri_parameter):
