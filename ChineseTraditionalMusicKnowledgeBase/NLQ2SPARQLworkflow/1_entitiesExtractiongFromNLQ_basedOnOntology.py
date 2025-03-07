@@ -11,16 +11,17 @@ from SPARQLWrapper import SPARQLWrapper, JSON # SPARQLWrapper is a Python wrappe
 # Invoke the OpenAI API:
 client = OpenAI(
     api_key="",
+client = OpenAI( # We initiatively set the model to "gpt-4o" for the first call so the function name is OpenAI
     base_url="https://oneapi.xty.app/v1"
 )
 
 def callGPT(prompt): # We initiatively set the model to "gpt-4o" for the first call so the function name is callGPT
     completion = client.chat.completions.create(
-        model="gpt-4o", # We can use "gpt-4o" or "o1-preview" model
+        model="deepseek-r1", # We can use "gpt-4o" or "o1-preview" or "..." model
         max_tokens=4096,
         temperature=0.1,
         messages=[
-            {"role": "system", "content": "You are an expert in SPARQL in terms of music metadata or ontology."},
+            {"role": "system", "content": "You are an expert in extracting classes and properties from natural language questions about Chinese traditional music and mapping them to RDF/OWL ontology elements."},
             {"role": "user", "content": prompt}
         ]
     )
@@ -39,7 +40,7 @@ with open("ontologySnippet_objectProperties_simplified.ttl", "r") as context3:
 with open("ontologySnippet_dataProperties_simplified.ttl", "r") as context4:
     context_ontology_dataProperty = context4.readlines()
 # The natural language question is read from a text file:
-with open("sampleQuestions/question_MusicType_SpecialIndependentResource_Instrument.txt", 'r') as f:
+with open("sampleQuestions/question_SpecialIndependentResource_MusicType,Instrument,EthnicGroup.txt", 'r') as f:
     question = f.readlines()
 
 prompt0 = f"""
