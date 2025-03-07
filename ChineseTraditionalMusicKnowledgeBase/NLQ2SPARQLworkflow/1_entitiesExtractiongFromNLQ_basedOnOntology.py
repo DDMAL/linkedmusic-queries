@@ -1,8 +1,7 @@
-# 1_Step1_entitiesExtractiongFromNLQ_basedOnOntology.py
+# 1_Step1_entities Extraction From NLQ_based On Ontology.py
 # Note: to activate virtual enviroment for python, please exectue `source /directory/of/your/virtual/environment/folder/bin/activate`, e.g., `source /Users/caojunjun/venv_extractSubgraphForLLMsGeneratingSPARQL/bin/activate`
 # If you want to extact part of the script to a new file, e.g., to extract from the beginning to Line 50, please execute, `head -n 50 1_entitiesExtractiongFromNLQ_basedOnOntology.py > partialScript.py`
 import json
-# import pandas as pd 
 from openai import OpenAI
 from SPARQLWrapper import SPARQLWrapper, JSON # SPARQLWrapper is a Python wrapper around a SPARQL service; is also a library for executing SPARQL queries on an RDF endpoint and retrieving the results
 
@@ -140,7 +139,7 @@ select distinct ?class where {{
     VALUES ?label {{"河南大调曲子板头曲" "乐器" "郑州市"}} .
 }}
 ```
-As to the extracted entities (or classes), do only provide one corresponding SPARQL query without any additional text.
+As to the extracted entities (or classes), do only provide one corresponding SPARQL query with no additional or redundant text, including backticks
 """
 
 
@@ -158,8 +157,8 @@ def query_sparql(endpoint, sparql_query_parameter, graph_iri_parameter):
     # print ("Debug_requestTheEntireURL:", sparql._getRequestURL())
     # print ("RequestHeader:", sparql.customHttpHeaders)
     # print ("RequestBody:", sparql.queryString)
-    print("Debug Request Endpoint:", endpoint)
-    print("Debug Query String:", sparql.queryString)
+    # print("Debug Request Endpoint:", endpoint)
+    # print("Debug Query String:", sparql.queryString.strip("```"))
     results = sparql.query().convert() # This executes the query and converts the results into JSON format
     return results
 
@@ -173,34 +172,35 @@ print('sparql_results:', sparql_results) # rendered in JSON format
 #     json.dump(sparql_results, json_file, indent=4)
 
 
+# Call the LLM to extract the classes and properties from the natural language question:
 result1 = callGPT(prompt1)
-print('result1(classes extracted):', result1)
+print('\n\nresult1(classes extracted):', result1)
 result2 = callGPT(prompt2)
-print('result2(classes extracted):', result2)
+print('\n\nresult2(classes extracted):', result2)
 result3 = callGPT(prompt3)
-print('result3(objectProperty extracted):', result3)
+print('\n\nresult3(objectProperty extracted):', result3)
 result4 = callGPT(prompt4)
-print('result4(dataProperty extracted):', result4)
+print('\n\nresult4(dataProperty extracted):', result4)
 
 
 # Function to parse the result1-4 (to parse the JSON strings into lists):
 def parse_result(result):
-    print(f"Parsing result: {result}")
+    # print(f"\n\nParsing result: {result}")
     if isinstance(result, str):
         if result.startswith("```json") and result.endswith("```"):
             result = result[7:-3].strip()  # Strip off the "```json" prefix and "```" suffix
         try:
             parsed_result = json.loads(result)
-            print(f"Parsed JSON result: {parsed_result}")
+            # print(f"Parsed JSON result: {parsed_result}")
             return parsed_result
         except json.JSONDecodeError:
-            print(f"Error decoding JSON: {result}")
+            # print(f"Error decoding JSON: {result}")
             return []
     elif isinstance(result, list):
-        print(f"Result is already a list: {result}")
+        # print(f"Result is already a list: {result}")
         return result
     else:
-        print(f"Unexpected result format: {result}")
+        # print(f"Unexpected result format: {result}")
         return []
 
 # Parse the JSON strings into "lists"
@@ -227,22 +227,22 @@ from rdflib import URIRef  # 2) We specifically need URIRef to convert strings i
 
 def shorten_uri(uri, graph):
     """Convert a full URI into a prefixed form using the graph's known namespaces."""
-    # 3) Turn the URI string into a URIRef object
+    # 1) Turn the URI string into a URIRef object
     uri_ref = URIRef(uri)
-    # 4) Use graph.qname(...) to get the prefixed form of the URI (e.g., ctm:Instrument)
+    # 2) Use graph.qname(...) to get the prefixed form of the URI (e.g., ctm:Instrument)
     return graph.qname(uri_ref)
 
 def render_classes_with_prefix(sparql_results, class_list_str):
     """Parse the local TTL file to retrieve all namespace prefixes, then convert SPARQL results to prefixed URIs."""
-    # 5) Create an empty graph
+    # 1) Create an empty graph
     g = rdflib.Graph()
-    # 6) Parse the local TTL file to load its prefixes and triples
+    # 2) Parse the local TTL file to load its prefixes and triples
     g.parse(
         "/Users/caojunjun/WPS_Synchronized_Folder/McGill_DDMAL/GitHub/linkedmusic-queries/ChineseTraditionalMusicKnowledgeBase/3versionsOfOntology/ontologyForChineseTraditionalMusicKnowledgeBase_2025_withAdditionalAnnotationForLLM_extractingEntityFromOntology_simplifiedForOntologySegmentation.ttl",
         format="ttl"
     )
     
-    # 2) Process the SPARQL results to get prefixed URIs.
+    # 1) Process the SPARQL results to get prefixed URIs.
     sparql_classes = []
     for binding in sparql_results['results']['bindings']:
         # Extract the full URI from the SPARQL result.
@@ -251,20 +251,20 @@ def render_classes_with_prefix(sparql_results, class_list_str):
         short_name = shorten_uri(class_uri, g)
         sparql_classes.append(short_name)
     
-    # 3) Process the original class_list_str.
+    # 2) Process the original class_list_str.
     #    (Since class_list_str is defined as " ".join(class_list), we split it using space.)
     original_classes = class_list_str.split()
     
-    # 4) Merge both lists and remove duplicates.
+    # 3) Merge both lists and remove duplicates.
     merged_set = set(sparql_classes) | set(original_classes)
     # Optionally, sort the merged list (if desired).
     merged_list = sorted(merged_set)
     
-    # 5) Build the final merged string.
+    # 4) Build the final merged string.
     merged = " ".join(merged_list) + " rdfs:Literal" # There may appear a blanknode occassionally. Just ignore it
     #print ("merged:", merged)
 
-    # 6) Print and return the merged result.
+    # 5) Print and return the merged result.
     print("Transformed ClassList =", "{" + ", ".join(f'"{item}"' for item in merged.split()) + "}")
     return merged
 
@@ -273,16 +273,6 @@ merged_class_list = render_classes_with_prefix(sparql_results, class_list_str)
 print("Transformed PropertyList =", "{" + ", ".join(f'"{item}"' for item in property_list_str.split()) + "}")
 
 
-# 2. SubGraph Assembly
-
-# According to the ontology snippet graph,...
-# prompt = f"""
-# Based on the given ontology snippet:
-# {ontology_snippet} 
-# --Please generate a SPARQL query for the natural language query:
-# {question}
-# Note: Only use the properties and classes in the ontology snippet.
-# """
 
 # 2025 early Mar
 # 整体思路：类是肯定能找全的；属性不好找，没关系，核心思路是“以全概偏”。三个要点策略：
