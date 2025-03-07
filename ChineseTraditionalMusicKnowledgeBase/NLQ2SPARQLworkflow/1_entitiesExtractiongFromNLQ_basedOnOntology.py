@@ -17,7 +17,7 @@ client = OpenAI( # We initiatively set the model to "gpt-4o" for the first call 
 
 def callGPT(prompt): # We initiatively set the model to "gpt-4o" for the first call so the function name is callGPT
     completion = client.chat.completions.create(
-        model="deepseek-r1", # We can use "gpt-4o" or "o1-preview" or "..." model
+        model="gpt-4o", # We can use "gpt-4o" or "o1-preview" or "deepseek-r1" model (currently, it's not stable using "deepseek-r1" model and by using that, the final output of Transformed PropertyList is empty for unknown reason)
         max_tokens=4096,
         temperature=0.1,
         messages=[
