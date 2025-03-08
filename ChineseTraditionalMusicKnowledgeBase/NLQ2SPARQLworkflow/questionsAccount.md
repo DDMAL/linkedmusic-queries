@@ -17,7 +17,8 @@
         e.g.,福建南音在我馆是否有特藏资源收录，若有，这些资源涉及什么乐器？(translated as: Does our library have any special collection resources on Fujian Nanyin? If so, which instruments are covered in these resources?)
         expectedExtractedEntities: {ctm:MusicType ctm:SpecialIndependentResource mo:Instrument}{ctm:relatesWork}
 *. :MusicType->:PieceWithPerformance->mo:Instrument
-    expectedExtractedEntities: {ctm:MusicType ctm:PieceWithPerformance mo:Instrument}{bf:instrument ctm:representativePiece ctm:samplePieceWithPerformance} # This involves both objectProperty and dataProperty
+    e.g.,四川扬琴是否有代表性的曲目，这些曲目可能用到了哪些乐器？(translated as:Does Sichuan Yangqin have representative pieces? What instruments might be used in these pieces?)
+    expectedExtractedEntities: {ctm:MusicType ctm:PieceWithPerformance mo:Instrument}{bf:instrument ctm:representativePiece ctm:samplePieceWithPerformance} # This involves both objectProperty and dataProperty, both of which have values to be retrieved
 
 # Start with mo:Instrument
 *. mo:Instrument->:MusicType

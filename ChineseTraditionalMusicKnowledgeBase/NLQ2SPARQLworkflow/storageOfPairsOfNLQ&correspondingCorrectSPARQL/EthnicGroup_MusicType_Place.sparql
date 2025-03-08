@@ -1,6 +1,5 @@
 # question: 蒙古族有哪些音乐类型_乐种，这些乐种的分布地域各是什么？
 # corresponding correct SPARQL
-#PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
 PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
 PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
 PREFIX dbpedia-owl: <https://dbpedia.org/ontology/>

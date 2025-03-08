@@ -47,22 +47,23 @@
 
 关于 versionInfo:
 该版本是在原有的乐种元数据本体之上扩展而形成的，即 2.0 版，针对武汉大学文化遗产智能计算实验室（教育部）开放基金课题“基于'东方乐器'的音乐类文化遗产知识图谱构建研究”而设计。特此注明""" ;
-                                                                   owl:versionInfo 2.0 ;
+                                                                   owl:versionInfo "2.0 highlighting Oriental Instruments"^^rdfs:Literal ;
                                                                    ctm:logForUpdating """从领域知识角度来看，已知目前知识推理尚存在问题：
 （1）:ethnicGroup
 （2）:representativeInstrument
 （3）:representativeMusicType
 （4）:relatesInstrument
 （5）:relatesMusicType
-（6）:relatesWork""" .
+（6）:relatesWork
+（如上供参考）
+
+Since 2025Feb25, following modifications are as belows:
+(1) ObjectProperty `:musicType_Instrument` is updated to `:musicType_instrument`
+(2) ...""" .
 
 #################################################################
 #    Annotation properties
 #################################################################
-
-###  http://purl.org/dc/terms/title
-dcterms:title rdfs:range rdfs:Literal .
-
 
 ###  http://www.w3.org/2004/02/skos/core#definition
 skos:definition rdf:type owl:AnnotationProperty ;
@@ -700,7 +701,7 @@ ctm:musicTypeIsPartOf rdf:type owl:ObjectProperty ;
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#musicTypePrincipalInstrument
 ctm:musicTypePrincipalInstrument rdf:type owl:ObjectProperty ;
-                                 rdfs:subPropertyOf ctm:musicType_Instrument ;
+                                 rdfs:subPropertyOf ctm:musicType_instrument ;
                                  rdfs:domain ctm:MusicType ;
                                  rdfs:range ctm:OrientalMusicalInstrument ;
                                  rdfs:comment "主奏乐器在演奏过程中处于主导地位，因此，它是乐种曲目与曲式结构框架的组织者；主奏乐器与其他乐器配合，是乐种社会应用功能直接表达者。由于主奏乐器在乐种演奏全过程中的重要地位，必然确立其演奏者在乐种班、社组织中的骨干作用。由于以上种种原因，在表现乐种历时性变化的诸元素中，主奏乐器的变更不可能是随意的，它在艺术上具有较顽固的传承基因，这样，同一主奏乐器所演奏的乐种（当然，还要参考宫调体系与典型曲目曲式结构模式框架等诸因素），尽管流传地域不同，在历史传承过程中，它们之间的确具有更为亲密的血缘关系和形态方面的诸多共性。这些特征正是我们划分乐种体系的重要依据之一（《中国乐种学》p.20，自“（一）主奏乐器在乐种中的体系化特征”）" ,
@@ -715,15 +716,6 @@ ctm:musicTypePrincipalInstrument rdf:type owl:ObjectProperty ;
                                  ctm:intactFragmentIdentifier "musicTypeHasPrincipalInstrumentOf" .
 
 
-###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#musicType_Instrument
-ctm:musicType_Instrument rdf:type owl:ObjectProperty ;
-                         rdfs:domain ctm:MusicType ;
-                         rdfs:range ctm:OrientalMusicalInstrument ;
-                         rdfs:comment "如果该乐种属于民族器乐类型，则该属性值不能为空。该属性也可反映乐种（器乐合奏）的乐队编制（乐器编制）信息" ;
-                         rdfs:label "乐种使用…乐器" ;
-                         ctm:intactFragmentIdentifier "musicTypeUsesInstrumentOf" .
-
-
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#musicType_broaderTerm
 ctm:musicType_broaderTerm rdf:type owl:ObjectProperty ;
                           rdfs:subPropertyOf cidoc-crm:P127_has_broader_term ;
@@ -733,6 +725,15 @@ ctm:musicType_broaderTerm rdf:type owl:ObjectProperty ;
                           rdfs:comment "关联一个音乐类型(乐种)条目和它的父类条目，或者说，指一个音乐类型(乐种)属于另一个音乐类型(乐种)的范畴。它的父类条目当然也是一个音乐类型(乐种)" ;
                           rdfs:label "音乐类型(乐种)有…广义术语" ;
                           ctm:intactFragmentIdentifier "musicTypeHasBroaderTermOf" .
+
+
+###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#musicType_instrument
+ctm:musicType_instrument rdf:type owl:ObjectProperty ;
+                         rdfs:domain ctm:MusicType ;
+                         rdfs:range ctm:OrientalMusicalInstrument ;
+                         rdfs:comment "如果该乐种属于民族器乐类型，则该属性值不能为空。该属性也可反映乐种（器乐合奏）的乐队编制（乐器编制）信息" ;
+                         rdfs:label "乐种使用…乐器" ;
+                         ctm:intactFragmentIdentifier "musicTypeUsesInstrumentOf" .
 
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#musicType_narrowerTerm
@@ -1237,7 +1238,11 @@ dcterms:subject rdf:type owl:DatatypeProperty ;
 
 
 ###  http://purl.org/dc/terms/title
-dcterms:title rdf:type owl:DatatypeProperty .
+dcterms:title rdf:type owl:DatatypeProperty ;
+              rdfs:range rdfs:Literal ;
+              rdfs:comment "不用CIDOC-CRM中的P102 has title，其是对象属性" ;
+              rdfs:label "标题" ;
+              skos:definition "A name given to the resource." .
 
 
 ###  http://purl.org/spar/fabio/hasCopyrightYear
@@ -1338,6 +1343,17 @@ wdt:P2049 rdf:type owl:DatatypeProperty ;
           rdfs:subPropertyOf ctm:specification ;
           rdfs:comment "单位：厘米" ;
           rdfs:label "宽度" .
+
+
+###  http://www.wikidata.org/prop/direct/P625
+wdt:P625 rdf:type owl:DatatypeProperty ;
+         rdfs:domain [ rdf:type owl:Class ;
+                       owl:unionOf ( places:County
+                                     places:Town
+                                     places:Village
+                                   )
+                     ] ;
+         rdfs:label "coordinate location" .
 
 
 ###  http://xmlns.com/foaf/0.1/gender
@@ -2584,7 +2600,7 @@ ctm:InstanceOfInstrument rdf:type owl:Class ;
 ctm:InstrumentalSolo rdf:type owl:Class ;
                      rdfs:subClassOf ctm:NationalInstrumentalMusic ,
                                      [ rdf:type owl:Restriction ;
-                                       owl:onProperty ctm:musicType_Instrument ;
+                                       owl:onProperty ctm:musicType_instrument ;
                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                        owl:onClass ctm:OrientalMusicalInstrument
                                      ] ;
@@ -2642,6 +2658,12 @@ ctm:MusicOfTalkingAndSinging rdf:type owl:Class ;
                              rdfs:label "说唱音乐" ;
                              skos:definition """（1）说唱又名曲艺，是由民间口头文学和歌唱艺术经过长期发展演变形成的一种独特的艺术形式。它以民间讲唱文学为基础，通过一种特有的方式把文学和音乐结合，通过带有表演动作的说、唱来叙述故事、塑造人物、表达思想感情、反映社会生活。从概念上讲，说唱音乐是中国民族音乐的一种体裁，它具有以叙述性为主、兼有抒情性与语言音调相结合的音乐特征。由于我国各民族、各地域的语言音调的差异，形成了带有浓郁的地方色彩的说唱音乐样式（《中国传统音乐概论：戏曲与说唱音乐》，兰青主编）
 （2）说唱艺术是说（白）、唱（腔）、表（作）三位一体的艺术（《中国传统音乐概论》p.39）""" .
+
+
+###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#MusicSpecies
+ctm:MusicSpecies rdf:type owl:Class ;
+                 owl:equivalentClass ctm:MusicType ;
+                 rdfs:subClassOf cidoc-crm:E55_Type .
 
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#MusicType
@@ -3052,7 +3074,7 @@ ctm:WindAndDrumMusic rdf:type owl:Class ;
                                        owl:someValuesFrom ctm:BlowPipeInstrument
                                      ] ,
                                      [ rdf:type owl:Restriction ;
-                                       owl:onProperty ctm:musicType_Instrument ;
+                                       owl:onProperty ctm:musicType_instrument ;
                                        owl:someValuesFrom ctm:PercussionMusicalInstrument
                                      ] ;
                      owl:disjointUnionOf ( ctm:GudiSystem
@@ -3642,11 +3664,6 @@ ctm:那坡嗯铎 rdf:type owl:NamedIndividual ,
 #    Annotations
 #################################################################
 
-dcterms:title rdfs:comment "不用CIDOC-CRM中的P102 has title，其是对象属性" ;
-              rdfs:label "标题" ;
-              skos:definition "A name given to the resource." .
-
-
 <http://www.semanticweb.org/lenovo/ontologies/2022/Chinese_Traditional_Music_Resource_Linked_Database#The55EthnicMinorities> rdfs:comment "有些少数民族有子类或支系，诸如，排湾族就是高山族的子类" ;
                                                                                                                              rdfs:label "55个少数民族及其支系" .
 
@@ -3660,7 +3677,8 @@ owl:Thing rdfs:comment "目前复用了来自The Music Ontology的元数据本�
 skos:definition rdfs:label "定义与详释" .
 
 
-ctm:MusicType rdfs:comment """以中国传统音乐为主体，即音乐种类、音乐类型，既同时包括剧种和声腔、唱腔（、曲牌的类），也会包括一些必要的体裁方面的信息
+ctm:MusicType rdfs:comment "According to tips of Wikidata, there are other entities (serving as classes) to be associated with, such as music genre, East Asian classical music, music of China" ,
+                           """以中国传统音乐为主体，即音乐种类、音乐类型，既同时包括剧种和声腔、唱腔（、曲牌的类），也会包括一些必要的体裁方面的信息
 但要注意，我们认为：声腔可以作为剧种，但唱腔不能脱离剧种而成为独立的音乐类型(乐种)""" ,
                            """如果以乐种为此类标签，其依据则是“它在民族音乐理论研究中既有器乐乐种的狭称，又有‘种类’的泛称”（《音乐学新论：音乐学的学科领域与研究规范》，高等教育出版社2011年版，第71页）
 

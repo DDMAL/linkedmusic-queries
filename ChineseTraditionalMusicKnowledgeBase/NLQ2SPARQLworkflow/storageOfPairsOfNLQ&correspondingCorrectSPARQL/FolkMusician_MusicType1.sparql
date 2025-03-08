@@ -1,0 +1,14 @@
+# question: 有哪些乐人擅长哪些音乐类型(乐种)？请返回给我不超过20条数据，并按照擅长乐种的数目做降序列出，即擅长乐种数量最多的排在最前面
+# corresponding correct SPARQL
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?musician ?musicianLabel (COUNT(?musicType) AS ?musicTypeCount)
+WHERE {
+  ?musician a ctm:FolkMusician ;
+            rdfs:label ?musicianLabel ;
+            ctm:goodAtPerformingMusic ?musicType .
+}
+GROUP BY ?musician ?musicianLabel
+ORDER BY DESC(?musicTypeCount)
+LIMIT 20

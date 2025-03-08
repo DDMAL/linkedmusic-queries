@@ -1,0 +1,16 @@
+# question: 有哪些音乐类型(乐种)会使用“阮”这种乐器？
+# corresponding correct SPARQL
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX mo: <http://purl.org/ontology/mo/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?musicType ?musicTypeLabel WHERE {
+  # Find the instrument with the name "阮"
+  ?instrument a mo:Instrument ;
+              ctm:nameOfMusicTypeOrInstrument "阮" .
+  
+  # Find the music types that use this instrument
+  ?musicType ctm:musicType_instrument ?instrument ;
+             rdfs:label ?musicTypeLabel .
+}

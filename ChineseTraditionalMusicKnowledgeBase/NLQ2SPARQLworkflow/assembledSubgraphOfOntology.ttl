@@ -1,0 +1,67 @@
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix cidoc-crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
+@prefix dbpedia-owl: <https://dbpedia.org/ontology/> .
+@prefix gn: <https://www.geonames.org/ontology#> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix places: <http://purl.org/ontology/places#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+bf:place a owl:ObjectProperty ;
+    rdfs:label "分布于",
+        "分布地域" ;
+    rdfs:comment "关联一个音乐类型(乐种)和它的分布地域，或关联一个乐器和它的分布地域" ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( bf:MusicInstrument ctm:MusicType ctm:WindAndDrumMusic ) ] ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( bf:Place places:Province ) ] ;
+    owl:inverseOf ctm:placeHasMusicTypeOrInstrument .
+
+ctm:nameOfMusicTypeOrInstrument a owl:DatatypeProperty ;
+    rdfs:label "音乐类型(乐种)或乐器的名称" ;
+    rdfs:comment "指一个\"音乐类型(乐种)\"的名称，或指一个\"乐器\"的名称。而对这二者，其名称则不用rdfs:label来表示" ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( mo:Instrument ctm:MusicType ) ] ;
+    rdfs:range rdfs:Literal .
+
+ctm:representativeMusicType a owl:ObjectProperty ;
+    rdfs:label "民族有…代表性乐种" ;
+    rdfs:comment "关联民族(族群)和音乐类型(乐种)" ;
+    rdfs:domain dbpedia-owl:EthnicGroup ;
+    rdfs:range ctm:MusicType .
+
+gn:alternateName a owl:DatatypeProperty ;
+    rdfs:label "地域又名" ;
+    rdfs:domain bf:Place ;
+    rdfs:range rdfs:Literal .
+
+dbpedia-owl:EthnicGroup a owl:Class ;
+    rdfs:label "民族(或族群)" ;
+    rdfs:comment "包括中华民族、外国或外国民族（如东亚、东南亚等各民族）" ;
+    rdfs:subClassOf cidoc-crm:E55_Type .
+
+ctm:placeHasMusicTypeOrInstrument a owl:ObjectProperty ;
+    rdfs:label "地域有音乐类型(乐种)或乐器" ;
+    rdfs:comment "关联某地域和某音乐类型(乐种)，如某地的某音乐类型(乐种)",
+        "或关联某地域和某乐器，如某地的某乐器" ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( bf:Place places:Province ) ] ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( bf:MusicInstrument ctm:MusicType ctm:WindAndDrumMusic ) ] .
+
+places:Province a owl:Class ;
+    rdfs:label "省级行政单位" ;
+    rdfs:subClassOf ctm:ChinaJurisdiction .
+
+bf:Place a owl:Class ;
+    rdfs:label "分布地域",
+        "地域",
+        "地点" .
+
+ctm:MusicType a owl:Class ;
+    rdfs:label "乐种",
+        "音乐类型(乐种)" ;
+    rdfs:subClassOf cidoc-crm:E55_Type .
+

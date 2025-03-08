@@ -1,8 +1,10 @@
+# 1_Step1_entitiesExtractiongFromNLQ_basedOnOntology.py
 # Note: to activate virtual enviroment for python, please exectue `source /directory/of/your/virtual/environment/folder/bin/activate`, e.g., `source /Users/caojunjun/venv_extractSubgraphForLLMsGeneratingSPARQL/bin/activate`
+# If you want to extact part of the script to a new file, e.g., to extract from the beginning to Line 50, please execute, `head -n 50 1_entitiesExtractiongFromNLQ_basedOnOntology.py > partialScript.py`
 import json
 # import pandas as pd 
 from openai import OpenAI
-from SPARQLWrapper import SPARQLWrapper, JSON # SPARQLWrapper is a Python wrapper around a SPARQL service; is also a library for executing SPARQL queries on an RDF endpoint and retrieving the results.
+from SPARQLWrapper import SPARQLWrapper, JSON # SPARQLWrapper is a Python wrapper around a SPARQL service; is also a library for executing SPARQL queries on an RDF endpoint and retrieving the results
 
 
 # 1. SubGraph Extraction
@@ -14,7 +16,7 @@ client = OpenAI(
 
 def callGPT(prompt):
     completion = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-4o", # We can use "gpt-4o" or "o1-preview" model
         max_tokens=4096,
         temperature=0.1,
         messages=[
@@ -37,8 +39,19 @@ with open("ontologySnippet_objectProperties_simplified.ttl", "r") as context3:
 with open("ontologySnippet_dataProperties_simplified.ttl", "r") as context4:
     context_ontology_dataProperty = context4.readlines()
 # The natural language question is read from a text file:
-with open("question_MusicType_SpecialIndependentResource_Place.txt", 'r') as f:
+with open("sampleQuestions/question_MusicType_PieceWithPerformance_Instrument.txt", 'r') as f:
     question = f.readlines()
+
+prompt0 = f"""
+Extract the classes or entities from the natural language question: {question}. 
+E.g., for the question 河南大调曲子板头曲这个乐种用了什么民族乐器？--return `["民族乐器", "民族", "乐器", "河南大调曲子板头曲", "河南", "河南省", "板头曲"]`, which allows overlapping classes or entities.
+Note:
+1. If the entity is in 《》, please prepare 2 versions, with one maintaining the 《》, e.g., `["《彩云追月》", "彩云追月"]`.
+2. If a literal part is enclosed by "" or “”, view the part as a whole, e.g., 请问“河南大调曲子板头曲”主要用了什么乐器？--you can extract the entities in this format: `["河南大调曲子板头曲", "乐器"]`. 
+3. Return only the extracted classes or entities (represented in Chinese characters, words or phrases), in such json format `["thing1", "thing2", "thing3"]`(no adding redundant strings).
+"""
+result0 = callGPT(prompt0).replace("```json", "")
+print('result0(entities or classes extracted):', result0)
 
 # Identify and extract the relevant classes and properties from the given natural language question. Match them with the corresponding entities (classes or properties) defined in the provided ontology and present the results exclusively in a list format.
 prompt1 = f"""
@@ -53,6 +66,9 @@ such as `["ex:class1", "ex:class2", "ex:class3"]`.
 1. Retrieve classes from the ontology as long as any literals in the natural language question match the semantic content of their rdfs:label or rdfs:comment.
 2. Ensure each retrieved class is represented by its namespace prefix defined in the ontology.
 3. Extract all classes that are even minimally relevant to the question.
+4. As long as any semantic fragment (such as a word, phrase, or expression) in the natural language question semantically matches the content of the `rdfs:label` of a class in the ontology, that class will be extracted from the ontology.
+5. As long as an entity(or class) in the natural language question exactly matches one value of the `rdfs:label` of a class in the ontology, that class must be extracted from the ontology.
+For the entity(or class) list, you can refer to {result0}
 """
 
 prompt2 = f"""
@@ -67,6 +83,9 @@ such as `["ex:class1", "ex:class2", "ex:class3"]`.
 1. Retrieve classes from the ontology as long as any literals in the natural language question match the semantic content of their rdfs:label or rdfs:comment.
 2. Ensure each retrieved class is represented by its namespace prefix defined in the ontology.
 3. Extract all classes that are even minimally relevant to the question.
+4. As long as any semantic fragment (such as a word, phrase, or expression) in the natural language question semantically matches the content of the `rdfs:label` of a class in the ontology, that class will be extracted from the ontology.
+5. As long as an entity(or class) in the natural language question exactly matches one value of the `rdfs:label` of a class in the ontology, that class must be extracted from the ontology.
+For the entity(or class) list, you can refer to {result0}
 """
 
 prompt3 = f"""
@@ -82,7 +101,7 @@ such as `["ex:property1", "ex:property2", "ex:property3"]`.
 2. Analyze the semantic structure of the natural language question carefully to identify all relevant properties.
 3. Ensure each retrieved property is represented by its namespace prefix defined in the ontology.
 4. Extract all properties that are even minimally relevant to the question.
-5. Examine each property with its label and comment one by one.
+5. Examine each property with its label and comment, one by one.
 """
 
 prompt4 = f"""
@@ -102,23 +121,21 @@ such as `["ex:property1", "ex:property2", "ex:property3"]`.
 
 # Retrieve the classes that are not explicitly stated in the question but are related to the entities extracted from the question.
 prompt5 = f"""
-Please extract the entities from the natural language question: 
-{question}
-E.g., 
-    (1)if the question is "打溜子会用到什么乐器，这些乐器中，哪些又是桑植县的？", you can extract the entities in this format: `VALUES ?label {"打溜子" "乐器" "桑植县"}`.
-    (2)if the entity is in 《》, please prepare 2 versions, with one maintaining the 《》, e.g., `VALUES ?label {"《彩云追月》" "彩云追月"}`.
-Please embed the extracted entities in a SPARQL query to retrieve the classes of the entities, e.g.:
+See the list of entities:
+{result0}
+
+Embed the entities in a SPARQL query to retrieve the classes of the entities, e.g., for extracted ["河南大调曲子板头曲", "乐器", "郑州市"], convert it into `VALUES ?label {"河南大调曲子板头曲" "乐器" "郑州市"}` which comforms to the SPARQL sytax:
 ```
-define input:inference 'urn:owl.ccmusicrules'
+define input:inference 'urn:owl.ccmusicrules0214'
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-select ?class where {{
+select distinct ?class where {{
     ?entity rdfs:label ?label ;
             rdf:type ?class .
-    VALUES ?label {{"打溜子" "乐器" "桑植县"}} .
+    VALUES ?label {{"河南大调曲子板头曲" "乐器" "郑州市"}} .
 }}
 ```
-As to the extracted entities, please only provide one corresponding SPARQL query without any additional text.
+As to the extracted entities (or classes), do only provide one corresponding SPARQL query without any additional text.
 """
 
 
@@ -128,19 +145,24 @@ sparql_query = sparql_query.replace("```sparql", "").strip("```") # The .replace
 print('The 1st round of sparql_query:', sparql_query)
 
 # Define a function to query the SPARQL endpoint. The 1st parameter is the SPARQL endpoint, the 2nd parameter is the SPARQL query, and the 3rd parameter is the graph IRI:
-def query_sparql(endpoint, query, graph_iri):
-    sparql = SPARQLWrapper(endpoint)
-    sparql.setQuery(query)
-    sparql.setReturnFormat(JSON)
-    if graph_iri:
-        sparql.addParameter("default-graph-uri", graph_iri)
-    results = sparql.query().convert()
+def query_sparql(endpoint, sparql_query_parameter, graph_iri_parameter):
+    sparql = SPARQLWrapper(endpoint) # SPARQLWrapper is a Python wrapper around a SPARQL service; is also a library for executing SPARQL queries on an RDF endpoint and retrieving the results
+    sparql.setQuery(sparql_query_parameter) # This initializes the query to be sent to the SPARQL endpoint using the string provided in `sparql_query_parameter`
+    sparql.setReturnFormat(JSON) # This sets the return format of the query to JSON
+    if graph_iri: # If a graph IRI is provided, it is added as a parameter to the SPARQL query
+        sparql.addParameter("default-graph-uri", graph_iri_parameter) # This adds a parameter to the SPARQL query
+    # print ("Debug_requestTheEntireURL:", sparql._getRequestURL())
+    # print ("RequestHeader:", sparql.customHttpHeaders)
+    # print ("RequestBody:", sparql.queryString)
+    print("Debug Request Endpoint:", endpoint)
+    print("Debug Query String:", sparql.queryString)
+    results = sparql.query().convert() # This executes the query and converts the results into JSON format
     return results
 
 # Query the SPARQL endpoint:
 sparql_endpoint = "http://www.usources.cn:8891/sparql" # We can also use the endpoint "https://virtuoso.staging.simssa.ca/sparql"
 graph_iri = "https://lib.ccmusic.edu.cn/graph/music" # We can also use the graph IRI "http://ChineseTraditionalMusicCultureKnowledgeBase"
-sparql_results = query_sparql(sparql_endpoint, sparql_query, graph_iri)
+sparql_results = query_sparql(sparql_endpoint, sparql_query, graph_iri) # It occasionally results in blank nodes here which won't interfere. Just ignore them
 print('sparql_results:', sparql_results) # rendered in JSON format
 # # Save sparql_results to a .json file:
 # with open('sparql_results.json', 'w') as json_file:
@@ -148,13 +170,13 @@ print('sparql_results:', sparql_results) # rendered in JSON format
 
 
 result1 = callGPT(prompt1)
-print('result1:', result1)
+print('result1(classes extracted):', result1)
 result2 = callGPT(prompt2)
-print('result2:', result2)
+print('result2(classes extracted):', result2)
 result3 = callGPT(prompt3)
-print('result3:', result3)
+print('result3(objectProperty extracted):', result3)
 result4 = callGPT(prompt4)
-print('result4:', result4)
+print('result4(dataProperty extracted):', result4)
 
 
 # Function to parse the result1-4 (to parse the JSON strings into lists):
@@ -235,8 +257,9 @@ def render_classes_with_prefix(sparql_results, class_list_str):
     merged_list = sorted(merged_set)
     
     # 5) Build the final merged string.
-    merged = " ".join(merged_list) + " rdfs:Literal"
-    
+    merged = " ".join(merged_list) + " rdfs:Literal" # There may appear a blanknode occassionally. Just ignore it
+    #print ("merged:", merged)
+
     # 6) Print and return the merged result.
     print("Transformed ClassList =", "{" + ", ".join(f'"{item}"' for item in merged.split()) + "}")
     return merged

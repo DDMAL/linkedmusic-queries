@@ -1,0 +1,5 @@
+class,rdfs:label,rdfs:comment
+bf:Audio,"""录音作品""",
+bf:Place,"""分布地域"";""地域"";""地点""",
+bf:StillImage,"""图片""","""包括幻灯片"""
+ctm:DrumAndCymbalSystem,"""民族器乐-鼓钹系"";""锣鼓乐"";""鼓钹系乐种""","""以鼓、锣、钹类乐器为乐队组合核心的乐种体系"""

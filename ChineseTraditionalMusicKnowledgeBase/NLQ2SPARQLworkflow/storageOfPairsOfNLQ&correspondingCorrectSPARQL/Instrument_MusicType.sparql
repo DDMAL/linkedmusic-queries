@@ -1,0 +1,14 @@
+# question: 京胡的代表性乐种有什么？
+# corresponding correct SPARQL
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?musicType ?musicTypeLabel WHERE {
+  # Select the Oriental Musical Instrument with the label "京胡"
+  ?instrument a ctm:OrientalMusicalInstrument ;
+              rdfs:label "京胡" ;
+              # Retrieve its representative music type
+              ctm:instrumentRepresentativeMusicType ?musicType .
+  # Get the label of the music type
+  ?musicType rdfs:label ?musicTypeLabel .
+}
