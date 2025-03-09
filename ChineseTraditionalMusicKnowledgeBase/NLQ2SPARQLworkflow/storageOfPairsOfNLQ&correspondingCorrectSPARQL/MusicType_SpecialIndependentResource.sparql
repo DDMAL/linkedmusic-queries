@@ -1,0 +1,26 @@
+# question: 朝鲜族民歌、潮尔在我馆是否有对应的特藏资源收录？
+# corresponding correct SPARQL
+SELECT DISTINCT ?resource ?resourceLabel
+WHERE {
+  ?resource a ctm:SpecialIndependentResource ;
+            rdfs:label ?resourceLabel .
+  {
+    ?resource bf:subject ?subject .
+    FILTER(?subject = "朝鲜族民歌" || ?subject = "潮尔") # 它理解成资源的名称中含有"朝鲜族民歌"或“潮尔”，这情有可原
+  }
+  UNION
+  {
+    {
+      ?musicType a ctm:MusicType ;
+                 rdfs:label ?musicTypeLabel .
+      FILTER(?musicTypeLabel = "朝鲜族民歌")
+      ?musicType ctm:relatesWork ?resource .
+    }
+    UNION
+    {
+      ?sth rdfs:label ?Label .
+      FILTER(?Label = "潮尔")
+      ?sth ctm:relatesWork ?resource .
+    }
+  }
+}

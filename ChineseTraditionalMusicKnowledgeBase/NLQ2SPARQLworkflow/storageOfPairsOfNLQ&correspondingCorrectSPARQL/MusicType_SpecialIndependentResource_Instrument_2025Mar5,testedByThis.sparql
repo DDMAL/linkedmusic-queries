@@ -1,0 +1,36 @@
+# question: 福建南音在我馆是否有特藏资源收录，若有，这些资源涉及什么乐器？
+# corresponding correct SPARQL
+PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?resource ?resourceLabel ?instrument ?instrumentLabel
+WHERE {
+  # Find special collection resources related to "福建南音"
+  ?resource a ctm:SpecialIndependentResource ;
+            rdfs:label ?resourceLabel .
+  
+  # Two ways to find resources related to 福建南音
+  {
+    # Option 1: Through subject property
+    ?resource bf:subject ?subject .
+    FILTER(CONTAINS(LCASE(?subject), "福建南音") || CONTAINS(LCASE(?subject), "南音"))
+  } UNION {
+    # Option 2: Through resource label
+    FILTER(CONTAINS(LCASE(?resourceLabel), "福建南音") || CONTAINS(LCASE(?resourceLabel), "南音"))
+  } UNION {
+    # Option 3: Through music type relationship
+    ?musicType a ctm:MusicType ;
+               ctm:nameOfMusicTypeOrInstrument ?typeName .
+    FILTER(CONTAINS(LCASE(?typeName), "福建南音") || CONTAINS(LCASE(?typeName), "南音"))
+    ?musicType ctm:relatesWork ?resource .
+  }
+  
+  # Find instruments related to these resources
+  # Making this OPTIONAL since the question asks "有可能涉及什么乐器" (possibly related to what instruments)
+  OPTIONAL {
+    ?resource ctm:relatesInstrument ?instrument .
+    ?instrument rdfs:label ?instrumentLabel .
+  }
+}

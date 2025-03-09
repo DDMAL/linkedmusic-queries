@@ -1,0 +1,19 @@
+# question: 《越南闲愁》涉及到什么音乐类型(乐种)、乐器、民族？
+# corresponding correct SPARQL
+PREFIX cidoc-crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?musicTypeLabel ?instrumentLabel ?ethnicGroupLabel WHERE {
+  ?resource a ctm:SpecialIndependentResource ;
+            rdfs:label "越南闲愁" ;
+            ctm:relatesMusicType ?musicType .
+  OPTIONAL { 
+      ?resource ctm:relatesInstrument ?instrument ;
+                ctm:relatesEthnicGroup ?ethnicGroup .
+  ?instrument rdfs:label ?instrumentLabel .
+  ?ethnicGroup rdfs:label ?ethnicGroupLabel . 
+  ?musicType rdfs:label ?musicTypeLabel . 
+  }
+}
