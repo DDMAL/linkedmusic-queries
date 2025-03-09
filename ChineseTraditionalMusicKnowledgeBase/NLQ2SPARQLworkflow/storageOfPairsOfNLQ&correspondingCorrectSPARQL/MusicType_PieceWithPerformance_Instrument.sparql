@@ -1,15 +1,27 @@
 # question: 四川扬琴是否有代表性的曲目，这些曲目可能用到了哪些乐器？
 # corresponding correct SPARQL
-PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
 PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
 
-SELECT ?pieceLabel ?instrumentLabel WHERE {
-  ?musicType a ctm:MusicType ;
-             ctm:nameOfMusicTypeOrInstrument "四川扬琴" ;
-             ctm:samplePieceWithPerformance ?piece .
-  ?piece a ctm:PieceWithPerformance ;
-         rdfs:label ?pieceLabel ;
-         bf:instrument ?instrument .
-  ?instrument rdfs:label ?instrumentLabel .
+SELECT * WHERE {
+  # Find the music type or instrument with the name "四川扬琴"
+  ?musicType a ?type ;
+             ctm:nameOfMusicTypeOrInstrument "四川扬琴" .
+  FILTER(?type IN (ctm:MusicType, mo:Instrument))  # Ensure valid type
+
+    {  
+    # Find sample pieces associated with this music type
+    ?musicType ctm:samplePieceWithPerformance ?piece .
+
+    # Ensure ?piece is a PieceWithPerformance before querying instruments
+    ?piece a ctm:PieceWithPerformance ;
+           (bf:instrument | ctm:piecePrincipalInstrument) ?instrument .
+
+    # Retrieve instrument label
+    ?instrument rdfs:label ?instrumentLabel .
+    }
+  	union
+    # Retrieve representative piece title (moved from ?piece to ?musicType)
+    {?musicType ctm:representativePiece ?pieceTitle} .
 }
