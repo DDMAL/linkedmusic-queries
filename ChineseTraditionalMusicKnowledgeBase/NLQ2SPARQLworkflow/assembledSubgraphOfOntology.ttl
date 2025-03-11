@@ -1,23 +1,18 @@
-@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
 @prefix cidoc-crm: <http://www.cidoc-crm.org/cidoc-crm/> .
 @prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
 @prefix dbpedia-owl: <https://dbpedia.org/ontology/> .
-@prefix gn: <https://www.geonames.org/ontology#> .
 @prefix mo: <http://purl.org/ontology/mo/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix places: <http://purl.org/ontology/places#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
-bf:place a owl:ObjectProperty ;
-    rdfs:label "分布于",
-        "分布地域" ;
-    rdfs:comment "关联一个音乐类型(乐种)和它的分布地域，或关联一个乐器和它的分布地域" ;
+dbo:formerName a owl:DatatypeProperty ;
+    rdfs:label "音乐类型(乐种)曾用名/乐器曾用名" ;
+    rdfs:comment "指一个乐种或音乐类型的曾用名，或指一件东方乐器的曾用名。注意将它区别于对象属性中的曾用名" ;
     rdfs:domain [ a owl:Class ;
-            owl:unionOf ( bf:MusicInstrument ctm:MusicType ctm:WindAndDrumMusic ) ] ;
-    rdfs:range [ a owl:Class ;
-            owl:unionOf ( bf:Place places:Province ) ] ;
-    owl:inverseOf ctm:placeHasMusicTypeOrInstrument .
+            owl:unionOf ( ctm:MusicType ctm:OrientalMusicalInstrument ) ] ;
+    rdfs:range rdfs:Literal .
 
 ctm:nameOfMusicTypeOrInstrument a owl:DatatypeProperty ;
     rdfs:label "音乐类型(乐种)或乐器的名称" ;
@@ -26,39 +21,48 @@ ctm:nameOfMusicTypeOrInstrument a owl:DatatypeProperty ;
             owl:unionOf ( mo:Instrument ctm:MusicType ) ] ;
     rdfs:range rdfs:Literal .
 
-ctm:representativeMusicType a owl:ObjectProperty ;
-    rdfs:label "民族有…代表性乐种" ;
-    rdfs:comment "关联民族(族群)和音乐类型(乐种)" ;
-    rdfs:domain dbpedia-owl:EthnicGroup ;
-    rdfs:range ctm:MusicType .
+ctm:relatesEthnicGroup a owl:ObjectProperty ;
+    rdfs:label "特藏独立资源涉及…族群" ;
+    rdfs:comment "指某一特藏独立资源涉及的族群、民族或种族，尤其是少数民族（种族）或包含少数民族的分支" ;
+    rdfs:domain ctm:SpecialIndependentResource ;
+    rdfs:range dbpedia-owl:EthnicGroup .
 
-gn:alternateName a owl:DatatypeProperty ;
-    rdfs:label "地域又名" ;
-    rdfs:domain bf:Place ;
-    rdfs:range rdfs:Literal .
+ctm:relatesInstrument a owl:ObjectProperty ;
+    rdfs:label "特藏独立资源涉及…乐器" ;
+    rdfs:comment "指一个\"特藏独立资源_作品\"涉及的东方乐器" ;
+    rdfs:domain ctm:SpecialIndependentResource ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( mo:Instrument ctm:ChineseInstrument ctm:OrientalMusicalInstrument ) ] .
+
+ctm:relatesMusicType a owl:ObjectProperty ;
+    rdfs:label "特藏独立资源涉及…音乐类型(乐种)" ;
+    rdfs:comment "指\"特藏独立资源_作品\"涉及某音乐类型(乐种)" ;
+    rdfs:domain ctm:SpecialIndependentResource ;
+    rdfs:range ctm:MusicType .
 
 dbpedia-owl:EthnicGroup a owl:Class ;
     rdfs:label "民族(或族群)" ;
     rdfs:comment "包括中华民族、外国或外国民族（如东亚、东南亚等各民族）" ;
     rdfs:subClassOf cidoc-crm:E55_Type .
 
-ctm:placeHasMusicTypeOrInstrument a owl:ObjectProperty ;
-    rdfs:label "地域有音乐类型(乐种)或乐器" ;
-    rdfs:comment "关联某地域和某音乐类型(乐种)，如某地的某音乐类型(乐种)",
-        "或关联某地域和某乐器，如某地的某乐器" ;
-    rdfs:domain [ a owl:Class ;
-            owl:unionOf ( bf:Place places:Province ) ] ;
-    rdfs:range [ a owl:Class ;
-            owl:unionOf ( bf:MusicInstrument ctm:MusicType ctm:WindAndDrumMusic ) ] .
+ctm:ChineseInstrument a owl:Class ;
+    rdfs:label "中华民族乐器" ;
+    rdfs:comment "主要指中国传统民族民间器乐中使用的乐器" ;
+    rdfs:subClassOf ctm:OrientalMusicalInstrument .
 
-places:Province a owl:Class ;
-    rdfs:label "省级行政单位" ;
-    rdfs:subClassOf ctm:ChinaJurisdiction .
+mo:Instrument a owl:Class ;
+    rdfs:label "乐器" ;
+    rdfs:subClassOf cidoc-crm:E55_Type ;
+    owl:disjointWith ctm:MusicType .
 
-bf:Place a owl:Class ;
-    rdfs:label "分布地域",
-        "地域",
-        "地点" .
+ctm:OrientalMusicalInstrument a owl:Class ;
+    rdfs:label "东方乐器" ;
+    rdfs:subClassOf mo:Instrument .
+
+ctm:SpecialIndependentResource a owl:Class ;
+    rdfs:label "特藏独立资源_作品",
+        "特藏资源",
+        "馆藏作品" .
 
 ctm:MusicType a owl:Class ;
     rdfs:label "乐种",
