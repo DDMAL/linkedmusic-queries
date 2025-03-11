@@ -44,7 +44,7 @@
 
 # Start with dbpedia-owl:EthnicGroup
 *. dbpedia-owl:EthnicGroup->:MusicType->bf:Place
-    e.g.,蒙古族有哪些音乐类型_乐种，这些乐种的分布地域各是什么？(translated as: What music types exist in Mongolian culture, and what are the regional distributions of these types?)
+    e.g.,蒙古族有哪些音乐类型_乐种，这些乐种的分布地域各是什么？(translated as: What music types exist in Mongol ethnic group, and what are the regional distributions of these types?)
     expectedExtractedEntities: {bf:Place ctm:MusicType dbpedia-owl:EthnicGroup}{bf:place ctm:representativeMusicType}
 
 # Start with :FolkMusician
