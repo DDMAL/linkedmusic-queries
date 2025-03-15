@@ -74,6 +74,7 @@ xsd:time rdf:type rdfs:Datatype .
 
 ###  http://dbpedia.org/ontology/ethnicity
 dbo:ethnicity rdf:type owl:ObjectProperty ;
+              owl:inverseOf ctm:hasRepresentativeFolkMusician ;
               rdfs:domain ctm:FolkMusician ;
               rdfs:range ctm:ChineseNation ;
               rdfs:comment "关联民间乐人和某个中华民族的族群" ;
@@ -258,6 +259,14 @@ ctm:hasFullNameOf rdf:type owl:ObjectProperty ;
                   rdfs:range ctm:OrientalMusicalInstrument ;
                   rdfs:comment "关联一个东方乐器的名称和它的全称" ;
                   rdfs:label "全称" .
+
+
+###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#hasRepresentativeFolkMusician
+ctm:hasRepresentativeFolkMusician rdf:type owl:ObjectProperty ;
+                                  rdfs:domain ctm:ChineseNation ;
+                                  rdfs:range ctm:FolkMusician ;
+                                  rdfs:comment "用于关联一个中华民族的民族和一个民间乐人（艺人）" ;
+                                  rdfs:label "有代表性民间乐人" .
 
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#hasShortNameOf
