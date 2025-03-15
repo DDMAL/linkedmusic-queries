@@ -1,0 +1,111 @@
+	问题1	问题2
+自然语言问题	有哪些特藏独立资源_作品是涉及顺化市（顺化市作为一个地域类）的？这些特藏独立资源_作品分别对应什么“音乐类型(乐种)”和乐器？	苗族有哪些民间乐人，他们擅长什么乐种？
+直接提取的类	"{""bf:MusicInstrument"", ""bf:Place"", ""cidoc-crm:E53_Place"", ""cidoc-crm:E55_Type"", ""ctm:ChineseInstrument"", ""ctm:MusicType"", ""ctm:OrientalMusicalInstrument"", ""ctm:SpecialIndependentResource"", ""mo:Instrument"", ""rdfs:Literal""}"	"{""bf:Work"", ""cidoc-crm:E55_Type"", ""ctm:ChineseNation"", ""ctm:FolkMusician"", ""ctm:MusicType"", ""ctm:SpecialIndependentResource"", ""ctm:TraditionalMusicBranch"", ""dbpedia-owl:EthnicGroup"", ""ns1:b8784457"", ""ns1:b8784495"", ""rdfs:Literal""}"
+直接提取的属性	"{""ctm:musicGenre"", ""ctm:nameOfMusicTypeOrInstrument"", ""ctm:relatesInstrument"", ""ctm:relatesMusicType"", ""ctm:relatesPlace""}"	"{""ctm:goodAtPerformingMusic"", ""ctm:musicSystem"", ""ctm:musicianAlias"", ""ctm:nameOfMusicTypeOrInstrument"", ""ctm:representativeFolkMusician"", ""ctm:representativeMusicType"", ""ctm:representativePiece"", ""ctm:representativeQupai"", ""dbo:ethnicity""}"
+生成查询类的 sparql 语句	"define input:inference 'urn:owl.ccmusicrules0214'
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+select distinct ?class where {
+    ?entity rdfs:label ?label ;
+            rdf:type ?class .
+    VALUES ?label {""特藏独立资源_作品"" ""顺化市"" ""地域类"" ""音乐类型"" ""乐种"" ""乐器""} .
+}"	
+生成的子图	"@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix cidoc-crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ctm:musicGenre a owl:DatatypeProperty ;
+    rdfs:label ""涉及…(西方)音乐体裁"" ;
+    rdfs:comment ""关联一个\""特藏独立资源_作品\""和它的体裁，如歌曲、艺术歌曲、室内乐、钢琴音乐、合唱音乐、交响乐、歌剧……"" ;
+    rdfs:domain ctm:SpecialIndependentResource ;
+    rdfs:range rdfs:Literal .
+
+ctm:nameOfMusicTypeOrInstrument a owl:DatatypeProperty ;
+    rdfs:label ""音乐类型(乐种)或乐器的名称"" ;
+    rdfs:comment ""指一个\""音乐类型(乐种)\""的名称，或指一个\""乐器\""的名称。而对这二者，其名称则不用rdfs:label来表示"" ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( mo:Instrument ctm:MusicType ) ] ;
+    rdfs:range rdfs:Literal .
+
+ctm:relatesInstrument a owl:ObjectProperty ;
+    rdfs:label ""特藏独立资源涉及…乐器"" ;
+    rdfs:comment ""指一个\""特藏独立资源_作品\""涉及的东方乐器"" ;
+    rdfs:domain ctm:SpecialIndependentResource ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( mo:Instrument ctm:ChineseInstrument ctm:OrientalMusicalInstrument ) ] .
+
+ctm:relatesMusicType a owl:ObjectProperty ;
+    rdfs:label ""特藏独立资源涉及…音乐类型(乐种)"" ;
+    rdfs:comment ""指\""特藏独立资源_作品\""涉及某音乐类型(乐种)"" ;
+    rdfs:domain ctm:SpecialIndependentResource ;
+    rdfs:range ctm:MusicType .
+
+ctm:relatesPlace a owl:ObjectProperty ;
+    rdfs:label ""特藏独立资源涉及…地域"" ;
+    rdfs:comment ""指\""特藏独立资源_作品\""涉及某地域或地点"" ;
+    rdfs:domain ctm:SpecialIndependentResource ;
+    rdfs:range bf:Place .
+
+bf:Place a owl:Class ;
+    rdfs:label ""分布地域"",
+        ""地域"",
+        ""地点"" .
+
+ctm:ChineseInstrument a owl:Class ;
+    rdfs:label ""中华民族乐器"" ;
+    rdfs:comment ""主要指中国传统民族民间器乐中使用的乐器"" ;
+    rdfs:subClassOf ctm:OrientalMusicalInstrument .
+
+ctm:OrientalMusicalInstrument a owl:Class ;
+    rdfs:label ""东方乐器"" ;
+    rdfs:subClassOf mo:Instrument .
+
+mo:Instrument a owl:Class ;
+    rdfs:label ""乐器"" ;
+    rdfs:subClassOf cidoc-crm:E55_Type ;
+    owl:disjointWith ctm:MusicType .
+
+ctm:MusicType a owl:Class ;
+    rdfs:label ""乐种"",
+        ""音乐类型(乐种)"" ;
+    rdfs:subClassOf cidoc-crm:E55_Type .
+
+ctm:SpecialIndependentResource a owl:Class ;
+    rdfs:label ""特藏独立资源_作品"",
+        ""特藏资源"",
+        ""馆藏作品"" ."	
+从子图生成的查询语句sparql	"define input:inference 'urn:owl.ccmusicrules0214' PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?resource ?resourceLabel ?musicType ?musicTypeLabel ?instrument ?instrumentLabel
+WHERE {
+  # Find special resources related to Hue City
+  ?resource a ctm:SpecialIndependentResource ;
+            rdfs:label ?resourceLabel ;
+            ctm:relatesPlace ?place .
+  
+  ?place a bf:Place ;
+         rdfs:label ?placeLabel .
+  
+  FILTER(CONTAINS(?placeLabel, ""顺化市""))
+  
+  # Get music types for these resources
+  OPTIONAL {
+    ?resource ctm:relatesMusicType ?musicType .
+    ?musicType rdfs:label|ctm:nameOfMusicTypeOrInstrument ?musicTypeLabel .
+  }
+  
+  # Get instruments for these resources
+  OPTIONAL {
+    ?resource ctm:relatesInstrument ?instrument .
+    ?instrument rdfs:label|ctm:nameOfMusicTypeOrInstrument ?instrumentLabel .
+  }
+}"	
+修正后的查询语句 sparql		
+对此的解释		
