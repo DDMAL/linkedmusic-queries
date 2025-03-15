@@ -60,6 +60,9 @@ ctm:goodAtPerformingMusic rdfs:label "民间乐人擅长表演…音乐类型(�
 ctm:hasFullNameOf rdfs:label "全称" ;
     rdfs:comment "关联一个东方乐器的名称和它的全称" .
 
+ctm:hasRepresentativeFolkMusician rdfs:label "有…代表性民间乐人" ;
+    rdfs:comment "用于关联一个中华民族的民族和一个民间乐人（艺人）" .
+
 ctm:hasShortNameOf rdfs:label "简称" ;
     rdfs:comment "关联一个东方乐器的名称和它的简称" .
 
