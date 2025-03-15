@@ -1,0 +1,21 @@
+# question: 壮族这个民族有哪些音乐类型(乐种)，其中哪些音乐类型(乐种)在云南省（云南省作为一个地域类）？
+# corresponding correct SPARQL
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX dbpedia-owl: <https://dbpedia.org/ontology/>
+PREFIX places: <http://purl.org/ontology/places#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?musicType ?musicTypeLabel ?yunnanMusicType ?yunnanMusicTypeLabel WHERE {
+  ?ethnicGroup a dbpedia-owl:EthnicGroup ;
+               rdfs:label "壮族" ;
+               ctm:representativeMusicType ?musicType .
+  ?musicType a ctm:MusicType ;
+             ctm:nameOfMusicTypeOrInstrument ?musicTypeLabel .
+
+  ?province a places:Province ;
+            rdfs:label "云南省" ;
+            ctm:placeHasMusicTypeOrInstrument ?yunnanMusicType .
+  ?yunnanMusicType ctm:nameOfMusicTypeOrInstrument ?yunnanMusicTypeLabel .
+
+  FILTER(?musicType = ?yunnanMusicType)
+}
