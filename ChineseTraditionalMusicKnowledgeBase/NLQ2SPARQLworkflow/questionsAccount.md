@@ -36,6 +36,9 @@
     expectedExtractedEntities: {:SpecialIndependentResource :MusicType mo:Instrument dbpedia-owl:EthnicGroup}{:relatesMusicType :relatesInstrument :ethnicGroup}
 *. :MusicType<-:SpecialIndependentResource->bf:Place
     e.g.,我馆有什么特藏资源涉及甘美兰音乐，该资源涉及的地域在哪？[or make it more complicated: 我馆有什么特藏独立资源_作品涉及甘美兰音乐，该资源是在哪里（涉及的地域）采录到的？](translated as: What special collection resources does our library have related to Gamelan music, and which places do these resources cover?)
+*. :SpecialIndependentResource->bf:Place,:MusicType,mo:Instrument
+    e.g.,有哪些特藏独立资源_作品是涉及顺化市（顺化市作为一个地域类）的？这些特藏独立资源_作品分别对应什么“音乐类型(乐种)”和乐器？(translated as: What special independent resources/works are related to Hue City (as a place class)? What music types and instruments are associated with these special independent resources/works?)
+    expectedExtractedEntities: {ctm:SpecialIndependentResource ctm:MusicType}{ctm:relatesPlace ctm:relatesMusicType ctm:relatesInstrument}
 
 # Start with bf:Place
 *. bf:Place->:MusicType->mo:Instrument->dbpedia-owl:EthnicGroup
