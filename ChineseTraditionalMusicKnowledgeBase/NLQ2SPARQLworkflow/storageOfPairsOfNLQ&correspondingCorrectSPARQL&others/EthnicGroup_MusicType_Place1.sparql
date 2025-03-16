@@ -11,7 +11,6 @@ SELECT ?musicType ?musicTypeLabel ?yunnanMusicType ?yunnanMusicTypeLabel WHERE {
                ctm:representativeMusicType ?musicType .
   ?musicType a ctm:MusicType ;
              ctm:nameOfMusicTypeOrInstrument ?musicTypeLabel .
-
   ?province a places:Province ;
             rdfs:label "云南省" ;
             ctm:placeHasMusicTypeOrInstrument ?yunnanMusicType .

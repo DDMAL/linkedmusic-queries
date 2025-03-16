@@ -1,0 +1,12 @@
+# question: 皮影戏包含哪些子类条目？
+# corresponding correct SPARQL
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# Find narrower terms (subclasses) of Shadow Play (皮影戏)
+SELECT ?subtype ?label WHERE {
+  ?shadowPlay a ctm:MusicType ;
+              rdfs:label "皮影戏" ;
+              ctm:musicType_narrowerTerm ?subtype .
+  ?subtype rdfs:label ?label .
+}

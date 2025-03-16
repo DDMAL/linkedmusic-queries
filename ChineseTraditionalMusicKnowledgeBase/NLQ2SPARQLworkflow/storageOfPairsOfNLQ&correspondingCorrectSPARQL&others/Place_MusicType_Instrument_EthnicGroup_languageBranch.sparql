@@ -1,0 +1,36 @@
+# question: 云南省有哪些音乐类型（乐种），这些乐种可能用到什么乐器，这些乐器又可能涉及哪些族群（，这些族群又可能属于哪些语族）？
+# corresponding correct SPARQL
+PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX dbpedia-owl: <https://dbpedia.org/ontology/>
+PREFIX mo: <http://purl.org/ontology/mo/>
+PREFIX places: <http://purl.org/ontology/places#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?musicType ?musicTypeLabel ?instrument ?instrumentLabel ?ethnicGroup ?ethnicGroupLabel ?languageBranch
+WHERE {
+  # 云南省有哪些音乐类型（乐种）
+  ?yunnan rdf:type places:Province ;
+          rdfs:label "云南省" .
+  ?yunnan ctm:placeHasMusicTypeOrInstrument ?musicType .
+  ?musicType rdf:type ctm:MusicType ;
+             rdfs:label ?musicTypeLabel .
+  
+  # 这些乐种可能用到什么乐器
+  OPTIONAL {
+    ?musicType ctm:musicType_instrument ?instrument .
+    ?instrument rdfs:label ?instrumentLabel .
+  }
+  
+  # 这些乐器又可能涉及哪些族群
+  OPTIONAL {
+    ?instrument ctm:ethnicGroup ?ethnicGroup .
+    ?ethnicGroup rdfs:label ?ethnicGroupLabel .
+    
+    # 这些族群又可能属于哪些语族
+    OPTIONAL {
+      ?ethnicGroup ctm:languageBranch ?languageBranch .
+    }
+  }
+}

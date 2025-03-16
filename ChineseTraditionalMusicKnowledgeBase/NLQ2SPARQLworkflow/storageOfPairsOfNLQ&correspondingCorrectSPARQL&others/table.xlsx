@@ -1,7 +1,7 @@
-	问题1	问题2
-自然语言问题	有哪些特藏独立资源_作品是涉及顺化市（顺化市作为一个地域类）的？这些特藏独立资源_作品分别对应什么“音乐类型(乐种)”和乐器？	苗族有哪些民间乐人，他们擅长什么乐种？
-直接提取的类	"{""bf:MusicInstrument"", ""bf:Place"", ""cidoc-crm:E53_Place"", ""cidoc-crm:E55_Type"", ""ctm:ChineseInstrument"", ""ctm:MusicType"", ""ctm:OrientalMusicalInstrument"", ""ctm:SpecialIndependentResource"", ""mo:Instrument"", ""rdfs:Literal""}"	"{""bf:Work"", ""cidoc-crm:E55_Type"", ""ctm:ChineseNation"", ""ctm:FolkMusician"", ""ctm:MusicType"", ""ctm:SpecialIndependentResource"", ""ctm:TraditionalMusicBranch"", ""dbpedia-owl:EthnicGroup"", ""ns1:b8784457"", ""ns1:b8784495"", ""rdfs:Literal""}"
-直接提取的属性	"{""ctm:musicGenre"", ""ctm:nameOfMusicTypeOrInstrument"", ""ctm:relatesInstrument"", ""ctm:relatesMusicType"", ""ctm:relatesPlace""}"	"{""ctm:goodAtPerformingMusic"", ""ctm:musicSystem"", ""ctm:musicianAlias"", ""ctm:nameOfMusicTypeOrInstrument"", ""ctm:representativeFolkMusician"", ""ctm:representativeMusicType"", ""ctm:representativePiece"", ""ctm:representativeQupai"", ""dbo:ethnicity""}"
+	问题1	问题2（关于这个问题，它生成的SPARQL是正确的，只是因为我们数据库里的数据有误，所以，返回的结果是空）	问题3	问题4
+自然语言问题	有哪些特藏独立资源_作品是涉及顺化市（顺化市作为一个地域类）的？这些特藏独立资源_作品分别对应什么“音乐类型(乐种)”和乐器？	苗族有哪些民间乐人，他们擅长什么乐种？	沮水巫音的主奏乐器有哪些？	有没有什么乐种，既属于戏曲音乐范畴，又属于不止一个传统音乐支脉的？
+直接提取的类（绿色的为直接有用的、必须的）	"{""bf:MusicInstrument"", ""bf:Place"", ""cidoc-crm:E53_Place"", ""cidoc-crm:E55_Type"", ""ctm:ChineseInstrument"", ""ctm:MusicType"", ""ctm:OrientalMusicalInstrument"", ""ctm:SpecialIndependentResource"", ""mo:Instrument"", ""rdfs:Literal""}"	"{""bf:Work"", ""cidoc-crm:E55_Type"", ""ctm:ChineseNation"", ""ctm:FolkMusician"", ""ctm:MusicType"", ""ctm:Musicologist"", ""ctm:SpecialIndependentResource"", ""ctm:TraditionalMusicBranch"", ""dbpedia-owl:EthnicGroup"", ""ns1:b8784457"", ""ns1:b8784495"", ""rdfs:Literal""}"	"{""bf:MusicInstrument"", ""cidoc-crm:E55_Type"", ""ctm:ChineseInstrument"", ""ctm:ChuidaMusic"", ""ctm:FolkMusic"", ""ctm:MusicType"", ""ctm:NationalInstrumentalMusic"", ""ctm:OrientalMusicalInstrument"", ""mo:Instrument"", ""ns1:b8784481"", ""ns1:b8784490"", ""rdfs:Literal""}"	"{""cidoc-crm:E55_Type"", ""ctm:ChuidaMusic"", ""ctm:DrumAndCymbalSystem"", ""ctm:FolkMusic"", ""ctm:MusicType"", ""ctm:TraditionalMusicBranch"", ""ctm:TraditionalOperaMusic"", ""ns1:b8784481"", ""rdfs:Literal""}"
+直接提取的属性（绿色的为直接有用的、必须的）	"{""ctm:musicGenre"", ""ctm:nameOfMusicTypeOrInstrument"", ""ctm:relatesInstrument"", ""ctm:relatesMusicType"", ""ctm:relatesPlace""}"	"{""ctm:goodAtPerformingMusic"", ""ctm:hasRepresentativeFolkMusician"", ""ctm:musicGenre"", ""ctm:musicSystem"", ""ctm:musicianAlias"", ""ctm:nameOfMusicTypeOrInstrument"", ""ctm:representativeFolkMusician"", ""ctm:representativeMusicType"", ""dbo:ethnicity""}"	"{""ctm:musicTypePrincipalInstrument"", ""ctm:nameOfMusicTypeOrInstrument"", ""ctm:piecePrincipalInstrument""}"	"{""ctm:musicSystem"", ""ctm:musicTypeIsPartOf"", ""ctm:originationPeriod"", ""ctm:traditionalMusicBranch""}"
 生成查询类的 sparql 语句	"define input:inference 'urn:owl.ccmusicrules0214'
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -9,7 +9,28 @@ select distinct ?class where {
     ?entity rdfs:label ?label ;
             rdf:type ?class .
     VALUES ?label {""特藏独立资源_作品"" ""顺化市"" ""地域类"" ""音乐类型"" ""乐种"" ""乐器""} .
-}"	
+}"	"define input:inference 'urn:owl.ccmusicrules0214'
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+select distinct ?class where {
+    ?entity rdfs:label ?label ;
+            rdf:type ?class .
+    VALUES ?label {""苗族"" ""民间乐人"" ""乐种""} .
+}"	"define input:inference 'urn:owl.ccmusicrules0214'
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+select distinct ?class where {
+    ?entity rdfs:label ?label ;
+            rdf:type ?class .
+    VALUES ?label {""沮水巫音"" ""主奏乐器"" ""乐器""} .
+}"	"define input:inference 'urn:owl.ccmusicrules0214'
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+select distinct ?class where {
+    ?entity rdfs:label ?label ;
+            rdf:type ?class .
+    VALUES ?label {""乐种"" ""戏曲音乐"" ""传统音乐"" ""支脉""} .
+}"
 生成的子图	"@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
 @prefix cidoc-crm: <http://www.cidoc-crm.org/cidoc-crm/> .
 @prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
@@ -77,8 +98,151 @@ ctm:MusicType a owl:Class ;
 ctm:SpecialIndependentResource a owl:Class ;
     rdfs:label ""特藏独立资源_作品"",
         ""特藏资源"",
-        ""馆藏作品"" ."	
-从子图生成的查询语句sparql	"define input:inference 'urn:owl.ccmusicrules0214' PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
+        ""馆藏作品"" ."	"@prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix dbpedia-owl: <https://dbpedia.org/ontology/> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+dbo:ethnicity a owl:ObjectProperty ;
+    rdfs:label ""来自…民族"" ;
+    rdfs:comment ""关联民间乐人和某个中华民族的族群"" ;
+    rdfs:domain ctm:FolkMusician ;
+    rdfs:range ctm:ChineseNation ;
+    owl:inverseOf ctm:hasRepresentativeFolkMusician .
+
+ctm:goodAtPerformingMusic a owl:ObjectProperty ;
+    rdfs:label ""民间乐人擅长表演…音乐类型(乐种)"" ;
+    rdfs:comment ""关联一个民间乐人和其擅长的音乐类型(乐种)"" ;
+    rdfs:domain ctm:FolkMusician ;
+    rdfs:range ctm:MusicType ;
+    owl:inverseOf ctm:representativeFolkMusician .
+
+ctm:musicGenre a owl:DatatypeProperty ;
+    rdfs:label ""涉及…(西方)音乐体裁"" ;
+    rdfs:comment ""关联一个\""特藏独立资源_作品\""和它的体裁，如歌曲、艺术歌曲、室内乐、钢琴音乐、合唱音乐、交响乐、歌剧……"" ;
+    rdfs:domain ctm:SpecialIndependentResource ;
+    rdfs:range rdfs:Literal .
+
+ctm:musicSystem a owl:DatatypeProperty ;
+    rdfs:label ""属于…音乐体系"" ;
+    rdfs:comment ""在中华民族范畴内，关联一个民族（族群、汉族或其他中国或周边的少数民族）和其所属的音乐体系，主要是三大音乐体系，即中国音乐体系、欧洲音乐体系、波斯—阿拉伯音乐体系"" ;
+    rdfs:domain ctm:ChineseNation ;
+    rdfs:range rdfs:Literal .
+
+ctm:nameOfMusicTypeOrInstrument a owl:DatatypeProperty ;
+    rdfs:label ""音乐类型(乐种)或乐器的名称"" ;
+    rdfs:comment ""指一个\""音乐类型(乐种)\""的名称，或指一个\""乐器\""的名称。而对这二者，其名称则不用rdfs:label来表示"" ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( mo:Instrument ctm:MusicType ) ] ;
+    rdfs:range rdfs:Literal .
+
+ctm:representativeMusicType a owl:ObjectProperty ;
+    rdfs:label ""民族有…代表性乐种"" ;
+    rdfs:comment ""关联民族(族群)和音乐类型(乐种)"" ;
+    rdfs:domain dbpedia-owl:EthnicGroup ;
+    rdfs:range ctm:MusicType .
+
+ctm:SpecialIndependentResource a owl:Class ;
+    rdfs:label ""特藏独立资源_作品"",
+        ""特藏资源"",
+        ""馆藏作品"" .
+
+ctm:hasRepresentativeFolkMusician a owl:ObjectProperty ;
+    rdfs:label ""有代表性民间乐人"" ;
+    rdfs:comment ""用于关联一个中华民族的民族和一个民间乐人（艺人）"" ;
+    rdfs:domain ctm:ChineseNation ;
+    rdfs:range ctm:FolkMusician .
+
+ctm:representativeFolkMusician a owl:ObjectProperty ;
+    rdfs:label ""有…代表性民间乐人"" ;
+    rdfs:comment ""关联一个乐种和它的代表性民间乐人"" ;
+    rdfs:domain ctm:MusicType ;
+    rdfs:range ctm:FolkMusician .
+
+dbpedia-owl:EthnicGroup a owl:Class ;
+    rdfs:label ""民族(或族群)"" ;
+    rdfs:comment ""包括中华民族、外国或外国民族（如东亚、东南亚等各民族）"" ;
+    rdfs:subClassOf cidoc-crm:E55_Type .
+
+ctm:ChineseNation a owl:Class ;
+    rdfs:label ""中华民族"" ;
+    rdfs:comment ""包括汉族、55个少数民族及其支系"" ;
+    rdfs:subClassOf dbpedia-owl:EthnicGroup .
+
+ctm:FolkMusician a owl:Class ;
+    rdfs:label ""民间乐人"",
+        ""民间艺人"" ;
+    rdfs:comment ""相当一部分民间乐人都是非遗传承人"" ;
+    rdfs:subClassOf mo:SoloMusicArtist ;
+    owl:disjointWith ctm:Musicologist .
+
+ctm:MusicType a owl:Class ;
+    rdfs:label ""乐种"",
+        ""音乐类型(乐种)"" ;
+    rdfs:subClassOf cidoc-crm:E55_Type ."	"@prefix cidoc-crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ctm:musicTypePrincipalInstrument a owl:ObjectProperty ;
+    rdfs:label ""乐种的主奏乐器有、乐种的主要乐器有"" ;
+    rdfs:comment ""主奏乐器是在乐种乐队编制中居主导地位的乐器，它有时也是该乐种的定律乐器"" ;
+    rdfs:domain ctm:MusicType ;
+    rdfs:range mo:Instrument ;
+    rdfs:subPropertyOf ctm:musicType_instrument .
+
+ctm:nameOfMusicTypeOrInstrument a owl:DatatypeProperty ;
+    rdfs:label ""音乐类型(乐种)或乐器的名称"" ;
+    rdfs:comment ""指一个\""音乐类型(乐种)\""的名称，或指一个\""乐器\""的名称。而对这二者，其名称则不用rdfs:label来表示"" ;
+    rdfs:domain [ a owl:Class ;
+            owl:unionOf ( mo:Instrument ctm:MusicType ) ] ;
+    rdfs:range rdfs:Literal .
+
+mo:Instrument a owl:Class ;
+    rdfs:label ""乐器"" ;
+    rdfs:subClassOf cidoc-crm:E55_Type ;
+    owl:disjointWith ctm:MusicType .
+
+ctm:MusicType a owl:Class ;
+    rdfs:label ""乐种"",
+        ""音乐类型(乐种)"" ;
+    rdfs:subClassOf cidoc-crm:E55_Type ."	"@prefix cidoc-crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ctm:musicTypeIsPartOf a owl:ObjectProperty ;
+    rdfs:label ""音乐类型(乐种)是…的一部分"" ;
+    rdfs:comment ""指一个音乐类型(乐种)是另一个音乐类型(乐种)的一部分"" ;
+    rdfs:domain ctm:MusicType ;
+    rdfs:range ctm:MusicType .
+
+ctm:originationPeriod a owl:DatatypeProperty ;
+    rdfs:label ""起源自…时期"" ;
+    rdfs:comment ""指一个乐种或音乐类型起源自某历史时期"" ;
+    rdfs:domain ctm:MusicType ;
+    rdfs:range rdfs:Literal .
+
+ctm:traditionalMusicBranch a owl:ObjectProperty ;
+    rdfs:label ""对应的传统音乐支脉"" ;
+    rdfs:comment ""指一个乐种对应的传统音乐支脉或分支"" ;
+    rdfs:domain ctm:MusicType ;
+    rdfs:range ctm:TraditionalMusicBranch .
+
+ctm:TraditionalMusicBranch a owl:Class ;
+    rdfs:label ""传统音乐支脉"" ;
+    rdfs:comment ""中国传统音乐的支脉、分支等等"" .
+
+ctm:MusicType a owl:Class ;
+    rdfs:label ""乐种"",
+        ""音乐类型(乐种)"" ;
+    rdfs:subClassOf cidoc-crm:E55_Type ."
+从子图生成的查询语句sparql（注意，这里蓝色的是我手动加上的）	"define input:inference 'urn:owl.ccmusicrules0214' PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
 PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -106,6 +270,221 @@ WHERE {
     ?resource ctm:relatesInstrument ?instrument .
     ?instrument rdfs:label|ctm:nameOfMusicTypeOrInstrument ?instrumentLabel .
   }
-}"	
-修正后的查询语句 sparql		
-对此的解释		
+}"	"PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?musician ?musicianName ?musicType ?musicTypeName 
+WHERE {
+  ?miaoNation a ctm:ChineseNation ;
+              rdfs:label ?nationName ;
+              ctm:hasRepresentativeFolkMusician ?musician .
+  
+  ?musician a ctm:FolkMusician ;
+            rdfs:label ?musicianName ;
+            ctm:goodAtPerformingMusic ?musicType .
+  
+  ?musicType a ctm:MusicType ;
+            ctm:nameOfMusicTypeOrInstrument ?musicTypeName .
+  
+  FILTER(CONTAINS(STR(?nationName), ""苗族""))
+}"	"PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX mo: <http://purl.org/ontology/mo/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?instrument ?instrumentLabel
+WHERE {
+  ?musicType a ctm:MusicType ;
+             ctm:nameOfMusicTypeOrInstrument ""沮水巫音"" ;
+             ctm:musicTypePrincipalInstrument ?instrument .
+  ?instrument rdfs:label ?instrumentLabel .
+}"	"PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?musicType ?musicTypeLabel WHERE {
+  # Find music types that are traditional opera music
+  ?musicType a ctm:TraditionalOperaMusic .
+  ?musicType rdfs:label ?musicTypeLabel .
+  
+  # Must belong to at least two traditional music branches
+  ?musicType ctm:traditionalMusicBranch ?branch1 .
+  ?musicType ctm:traditionalMusicBranch ?branch2 .
+  
+  # Ensure they are different branches
+  ?branch1 rdfs:label ?branch1Label .
+  ?branch2 rdfs:label ?branch2Label .
+  FILTER (?branch1 != ?branch2)
+}"
+修正后的查询语句 sparql		"define input:inference 'urn:owl.ccmusicrules0214'
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?musician ?musicianName ?musicType ?musicTypeName 
+WHERE {
+  ?miaoNation a ctm:ChineseNation ;
+              rdfs:label ?nationName ;
+              ctm:hasRepresentativeFolkMusician ?musician .
+  
+  ?musician a ctm:FolkMusician ;
+            rdfs:label ?musicianName ;
+            ctm:goodAtPerformingMusic ?musicType .
+  
+  ?musicType a ctm:MusicType ;
+            ctm:nameOfMusicTypeOrInstrument ?musicTypeName .
+  
+  FILTER(CONTAINS(STR(?nationName), ""苗族""))
+}"	"define input:inference 'urn:owl.ccmusicrules0214'
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX mo: <http://purl.org/ontology/mo/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# Query to find principal instruments of the ""沮水巫音"" music type
+SELECT ?instrument ?instrumentLabel
+WHERE {
+  ?musicType a ctm:MusicType ;
+             ctm:nameOfMusicTypeOrInstrument ""沮水巫音"" ;
+             ctm:musicTypePrincipalInstrument ?instrument .
+  ?instrument rdfs:label ?instrumentLabel .
+}"	"define input:inference 'urn:owl.ccmusicrules0214'
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT DISTINCT ?musicType ?musicTypeLabel WHERE {
+  # Find music types that are traditional opera music
+  ?musicType rdf:type ctm:TraditionalOperaMusic .
+  ?musicType rdfs:label ?musicTypeLabel .
+  
+  # Must belong to at least two traditional music branches
+  ?musicType ctm:traditionalMusicBranch ?branch1 .
+  ?musicType ctm:traditionalMusicBranch ?branch2 .
+  
+  # Ensure they are different branches
+  ?branch1 rdfs:label ?branch1Label .
+  ?branch2 rdfs:label ?branch2Label .
+  FILTER (?branch1 != ?branch2)
+}"
+对此的解释（RAG_result）			"I'll analyze the query result for the question ""沮水巫音的主奏乐器有哪些？"" (What are the principal instruments of Jushuiwuyin music?)
+
+## 1. Explanation of the Query Result
+
+The SPARQL query searched for principal instruments of the ""沮水巫音"" (Jushuiwuyin) music type by:
+1. Finding a music type entity with name ""沮水巫音""
+2. Following the `ctm:musicTypePrincipalInstrument` property to find its principal instruments
+3. Retrieving the labels of those instruments
+
+The result shows that ""唢呐"" (suona) is the principal instrument of Jushuiwuyin music. The result contains duplicate entries because the same instrument has multiple labels - some in Chinese characters and some in pinyin with language tag 'py'.
+
+## 2. Analysis of the Result
+
+The result is relatively small, containing just one unique instrument (唢呐/suona) with duplicate entries due to different label representations. This indicates that Jushuiwuyin music primarily features the suona as its main instrument.
+
+## 3. Domain Knowledge Comparison
+
+The suona is indeed a prominent wind instrument in Chinese traditional music, often used as a lead instrument in various folk music genres. It has a bright, penetrating sound that makes it suitable as a principal instrument.
+
+However, traditional Chinese music ensembles typically feature multiple instruments. It's somewhat unusual that only one principal instrument is listed for Jushuiwuyin music. Most Chinese traditional music types would have several principal instruments forming the core of the ensemble.
+
+## 4. Recommendations for Broadening the Query
+
+Since the result only shows one instrument, we could broaden the search to get more comprehensive information:
+
+```sparql
+define input:inference 'urn:owl.ccmusicrules0214'
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX mo: <http://purl.org/ontology/mo/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?instrument ?instrumentLabel ?propertyUsed
+WHERE {
+  ?musicType a ctm:MusicType ;
+             ctm:nameOfMusicTypeOrInstrument ""沮水巫音"" .
+  
+  # Use UNION to include both principal and other related instruments
+  {
+    ?musicType ctm:musicTypePrincipalInstrument ?instrument .
+    BIND(""主奏乐器"" AS ?propertyUsed)
+  }
+  UNION
+  {
+    ?musicType ctm:musicType_instrument ?instrument .
+    FILTER NOT EXISTS { ?musicType ctm:musicTypePrincipalInstrument ?instrument }
+    BIND(""其他乐器"" AS ?propertyUsed)
+  }
+  
+  # Get instrument labels, making language tags optional
+  OPTIONAL { ?instrument rdfs:label ?instrumentLabel }
+  
+  # If no direct label, try to get the name
+  OPTIONAL { 
+    ?instrument ctm:nameOfMusicTypeOrInstrument ?nameValue .
+    BIND(?nameValue AS ?instrumentLabel)
+  }
+}
+```
+
+This improved query:
+1. Uses UNION to include both principal instruments and other instruments in the ensemble
+2. Adds a property label to distinguish between principal and other instruments
+3. Uses OPTIONAL to handle cases where instruments might be labeled differently
+4. Tries to get instrument names from both rdfs:label and ctm:nameOfMusicTypeOrInstrument
+
+Additionally, we could explore related properties in the ontology that might connect music types to instruments through different relationships, such as accompanying instruments or characteristic instruments of the genre."	"# Analysis of Query Results for Chinese Traditional Opera Music Types
+
+## 1. Explanation of Query Results
+
+The query asks: ""有没有什么乐种，既属于戏曲音乐范畴，又属于不止一个传统音乐支脉的？"" (Are there any music types that both belong to traditional opera music category and are part of more than one traditional music branch?)
+
+The SPARQL query searches for:
+- Music types that are instances of `ctm:TraditionalOperaMusic` (戏曲音乐)
+- These music types must have connections to at least two different traditional music branches
+- The query ensures the branches are distinct using a FILTER
+
+The results show 7 distinct music types (with some entries duplicated due to having both Chinese and pinyin labels):
+1. 扬剧 (Yang Ju)
+2. 苗剧 (Miao Ju)
+3. 柳子戏 (Liu Zi Xi)
+4. 眉户调 (Mei Hu Diao)
+5. 坠子戏 (Zhui Zi Xi)
+6. 二人台 (Er Ren Tai)
+7. 越剧 (Yue Ju)
+
+## 2. Statistical Analysis
+
+- Total unique music types found: 7
+- Each music type appears twice in the results (once with Chinese label, once with pinyin label marked by 'xml:lang': 'py')
+- All results are valid traditional opera music forms that belong to multiple traditional music branches
+
+## 3. Domain Knowledge Comparison
+
+This result aligns well with Chinese traditional music knowledge:
+
+- **越剧 (Yue Ju)**: One of the most popular forms of Chinese opera, originated in Zhejiang province but incorporates elements from both southern and central Chinese musical traditions.
+
+- **扬剧 (Yang Ju)**: A regional opera form from Jiangsu province that blends elements from both Jiangsu folk music traditions and neighboring regional styles.
+
+- **二人台 (Er Ren Tai)**: An interesting case as it's a northern Chinese traditional performance art form primarily from Inner Mongolia and surrounding regions that combines elements of multiple folk music traditions.
+
+- **柳子戏 (Liu Zi Xi)** and **坠子戏 (Zhui Zi Xi)**: Both draw from multiple regional folk traditions.
+
+The result accurately represents how Chinese traditional opera music often exists at the intersection of multiple musical traditions. Many opera forms developed through cultural exchange between regions, resulting in hybrid forms that belong to multiple branches of traditional music.
+
+## 4. Query Optimization
+
+The current query works well and returns a reasonable number of results. However, if we wanted to broaden the scope, we could consider:
+
+### 4.1 Including Music Types That May Not Be Strictly Opera Music
+
+```sparql
+define input:inference 'urn:owl.ccmusicrules0214'
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT DISTINCT ?musicType ?musicTypeLabel WHERE {
+  # Allow both traditional opera music AND general music types
+  {?musicType rdf:type ctm:TraditionalOperaMusic .} 
+  UNION 
+  {?musicType rdf:type ctm:MusicType .}
+  
+  ?musicType rdfs:label ?musicTypeLabel . }"

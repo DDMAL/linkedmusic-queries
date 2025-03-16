@@ -1,0 +1,20 @@
+# question: 有没有什么乐种，既属于戏曲音乐范畴，又属于不止一个传统音乐支脉的？
+# corresponding correct SPARQL
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT DISTINCT ?musicType ?musicTypeLabel WHERE {
+  # Find music types that are traditional opera music
+  ?musicType rdf:type ctm:TraditionalOperaMusic .
+  ?musicType rdfs:label ?musicTypeLabel .
+  
+  # Must belong to at least two traditional music branches
+  ?musicType ctm:traditionalMusicBranch ?branch1 .
+  ?musicType ctm:traditionalMusicBranch ?branch2 .
+  
+  # Ensure they are different branches
+  ?branch1 rdfs:label ?branch1Label .
+  ?branch2 rdfs:label ?branch2Label .
+  FILTER (?branch1 != ?branch2)
+}

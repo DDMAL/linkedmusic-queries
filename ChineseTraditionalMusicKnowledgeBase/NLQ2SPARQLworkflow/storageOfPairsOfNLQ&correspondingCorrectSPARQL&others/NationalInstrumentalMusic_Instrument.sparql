@@ -1,0 +1,14 @@
+# question: 沮水巫音的主奏乐器有哪些？
+# corresponding correct SPARQL
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX mo: <http://purl.org/ontology/mo/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# Query to find principal instruments of the "沮水巫音" music type
+SELECT ?instrument ?instrumentLabel
+WHERE {
+  ?musicType a ctm:MusicType ;
+             ctm:nameOfMusicTypeOrInstrument "沮水巫音" ;
+             ctm:musicTypePrincipalInstrument ?instrument .
+  ?instrument rdfs:label ?instrumentLabel .
+}
