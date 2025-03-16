@@ -50,7 +50,7 @@ ctm:introOfPerformedPiece rdfs:label "曲目的演出的简介" .
 ctm:languageAdopted rdfs:label "中华民族采用…语言" .
 
 ctm:languageBranch rdfs:label "属于…语族" ;
-    rdfs:comment "关联一个（中华民族范畴内的）民族和它所属的语族" .
+    rdfs:comment "关联一个（中华民族范畴内的）民族（或族群）和它所属的语族" .
 
 ctm:languageFamily rdfs:label "属于…语系" ;
     rdfs:comment "关联一个民族和其对应的语系，比如南岛语系、南亚语系、汉藏语系……" .
