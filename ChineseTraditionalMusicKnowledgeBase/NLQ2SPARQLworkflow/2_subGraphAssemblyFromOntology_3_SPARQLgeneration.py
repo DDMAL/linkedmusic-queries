@@ -376,14 +376,14 @@ and the related ontology snippet: {turtle_output},
 
 and the subsequent SPARQL query: {sparql_query}, 
 
-we retrieved the result from visiting the SPARQL Endpoint: {sparql_results}. 
+from visiting a SPARQL Endpoint we retrieved the result: {sparql_results}. 
 
 1. Explain the query result based on the question, the ontology snippet, and the SPARQL query.
 2. If the result is too large, you can conduct a statistical analysis with a summary.
 3. Compare the result with your own knowledge about the domain. Find out whether there is any inadquacy or inconsistency in the result. Enrich the explaination via comparison.
 ...
 4. Last but not least, if the result is too small or even empty, 
-please "broaden the retrieval scope" by loosening query conditions/constraints in the SPARQL or recommend other possible query patterns.
+please "broaden the retrieval scope" by loosening query conditions/constraints in the SPARQL or recommend other potential query patterns.
 For example:
     4.1 may use the UNION keyword to include multiple options to interpretate a question, especially when the question can be divided into multiple sub-questions, or in case of handling an objectProperty and a dataProperty which have the similar semantic meanings
     4.2 use the | operator to represent a logical OR for properties
@@ -391,10 +391,10 @@ For example:
         4.3.1 also useful when handling an objectProperty and a dataProperty which have the similar semantic meaning, etc.
         4.3.2 to allow partial matches, ensuring that queries remain valid even when certain properties or property values are missing. It is particularly beneficial for handling uncertain or "if, possibly" relationships (e.g., "Something may relate to something else") or when managing properties with similar semantics
     ...
-    4.4 cancel the class constraint on a variable to broaden the retrieval scope
-    4.5 cancel the FILTER condition to broaden the retrieval scope
-    4.6 switch exact matching to containing matching to broaden the retrieval scope
-    4.7 break down multiple hops of the query to fewer hops, to relieve the constraints of meeting all conditions in multiple hops
+    4.4 remove class constraint on a variable to broaden the retrieval scope
+    4.5 cancel FILTER condition to broaden the retrieval scope
+    4.6 switch from exact matching to partial/containing matching to broaden the retrieval scope
+    4.7 break down multiple-hop queries into fewer hops, to relieve the constraints of meeting all conditions across multiple hops
     ...
     4.8 extend the adjacent classes or properties in the subgraph to recommend other possible query patterns that can yield more results
 """
