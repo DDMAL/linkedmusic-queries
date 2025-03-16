@@ -574,7 +574,11 @@ ctm:samplePieceWithPerformance rdf:type owl:ObjectProperty ;
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#traditionalMusicBranch
 ctm:traditionalMusicBranch rdf:type owl:ObjectProperty ;
-                           rdfs:domain ctm:MusicType ;
+                           rdfs:domain [ rdf:type owl:Class ;
+                                         owl:unionOf ( ctm:MusicType
+                                                       ctm:TraditionalOperaMusic
+                                                     )
+                                       ] ;
                            rdfs:range ctm:TraditionalMusicBranch ;
                            rdfs:comment "指一个乐种对应的传统音乐支脉或分支" ;
                            rdfs:label "对应的传统音乐支脉" .
@@ -791,7 +795,7 @@ ctm:languageAdopted rdf:type owl:DatatypeProperty ;
 ctm:languageBranch rdf:type owl:DatatypeProperty ;
                    rdfs:domain ctm:ChineseNation ;
                    rdfs:range rdfs:Literal ;
-                   rdfs:comment "关联一个（中华民族范畴内的）民族和它所属的语族" ;
+                   rdfs:comment "关联一个（中华民族范畴内的）民族（或族群）和它所属的语族" ;
                    rdfs:label "属于…语族" .
 
 
