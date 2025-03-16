@@ -253,7 +253,7 @@ if __name__ == '__main__':
 from openai import OpenAI
 # Invoke the OpenAI API:
 client = OpenAI(
-    api_key="LHAV5AoeevPPQ2iZKCIwCg2i9Jm5axE9mL5cJf0L71p6Iosl",
+    api_key="",
     base_url="https://oneapi.xty.app/v1"
 )
 def callGPT(prompt):
