@@ -168,12 +168,12 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"bf:MusicInstrument", "bf:Place", "cidoc-crm:E53_Place", "cidoc-crm:E55_Type", "ctm:ChinaJurisdiction", "ctm:ChineseInstrument", "ctm:ChineseNation", "ctm:FolkMusic", "ctm:FolkMusicOrganization", "ctm:ForeignNation", "ctm:MusicType", "ctm:OrientalMusicalInstrument", "dbpedia-owl:EthnicGroup", "mo:Instrument", "places:Province", "rdfs:Literal"}
+    given_classes = {"cidoc-crm:E55_Type", "ctm:DrumAndCymbalSystem", "ctm:FolkMusic", "ctm:MusicType", "ctm:NationalInstrumentalMusic", "ctm:PercussionMusicalInstrument", "ns1:b8784481", "ns1:b8784489", "rdfs:Literal"}
     # --corresponding to Transformed ClassList
 
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"bf:place", "ctm:ethnicGroup", "ctm:languageBranch", "ctm:musicSystem", "ctm:musicType_instrument", "ctm:nameOfMusicTypeOrInstrument", "ctm:placeHasMusicTypeOrInstrument", "ctm:representativeInstrument", "ctm:representativeMusicType", "ctm:representativePiece", "ctm:representativeQupai", "dbo:formerName"}
+    given_properties = {"ctm:musicType_narrowerTerm"}
     # --corresponding to Transformed PropertyList
 
     # =====================================================
@@ -268,7 +268,7 @@ def callGPT(prompt):
     )
     return completion.choices[0].message.content
 
-with open("sampleQuestions/question_Place_MusicType_Instrument_EthnicGroup_languageBranch.txt", 'r') as f:
+with open("sampleQuestions/question_MusicType_MusicType1.txt", 'r') as f:
     question = f.readlines()
 
 
@@ -364,8 +364,19 @@ def query_sparql(endpoint, sparql_query_parameter, graph_iri_parameter):
 # Query the SPARQL endpoint:
 sparql_endpoint = "http://www.usources.cn:8891/sparql" # We can also use the endpoint "https://virtuoso.staging.simssa.ca/sparql"
 graph_iri = "https://lib.ccmusic.edu.cn/graph/music" # We can also use the graph IRI "http://ChineseTraditionalMusicCultureKnowledgeBase"
+import json
+from datetime import datetime
 sparql_results = query_sparql(sparql_endpoint, sparql_query, graph_iri)
-print('\n\nsparql_results:', sparql_results) # rendered in JSON format
+
+# Generate timestamp for unique filename:
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+output_QueryResultInJson = f"sparql_results_{timestamp}.json"
+
+# Write results to JSON file:
+with open(output_QueryResultInJson, 'w', encoding='utf-8') as f:
+    json.dump(sparql_results, f, ensure_ascii=False, indent=2)
+print(f"\n\nQuery results have been saved to: {output_QueryResultInJson}")    
+# print('\n\nsparql_results:', sparql_results) # rendered in JSON format
 
 
 # Retrieval Augmented Generation (RAG): 
