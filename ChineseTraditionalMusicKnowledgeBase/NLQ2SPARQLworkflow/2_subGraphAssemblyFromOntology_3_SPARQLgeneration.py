@@ -168,12 +168,12 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"cidoc-crm:E55_Type", "ctm:ChuidaMusic", "ctm:DrumAndCymbalSystem", "ctm:FolkMusic", "ctm:MusicType", "ctm:TraditionalMusicBranch", "ctm:TraditionalOperaMusic", "ns1:b8784481", "rdfs:Literal"}
+    given_classes = {"bf:MusicInstrument", "bf:Place", "cidoc-crm:E53_Place", "cidoc-crm:E55_Type", "ctm:ChinaJurisdiction", "ctm:ChineseInstrument", "ctm:ChineseNation", "ctm:FolkMusic", "ctm:FolkMusicOrganization", "ctm:ForeignNation", "ctm:MusicType", "ctm:OrientalMusicalInstrument", "dbpedia-owl:EthnicGroup", "mo:Instrument", "places:Province", "rdfs:Literal"}
     # --corresponding to Transformed ClassList
 
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"ctm:musicSystem", "ctm:musicTypeIsPartOf", "ctm:originationPeriod", "ctm:traditionalMusicBranch"}
+    given_properties = {"bf:place", "ctm:ethnicGroup", "ctm:languageBranch", "ctm:musicSystem", "ctm:musicType_instrument", "ctm:nameOfMusicTypeOrInstrument", "ctm:placeHasMusicTypeOrInstrument", "ctm:representativeInstrument", "ctm:representativeMusicType", "ctm:representativePiece", "ctm:representativeQupai", "dbo:formerName"}
     # --corresponding to Transformed PropertyList
 
     # =====================================================
@@ -268,7 +268,7 @@ def callGPT(prompt):
     )
     return completion.choices[0].message.content
 
-with open("sampleQuestions/question_MusicType_TraditionalMusicBranch.txt", 'r') as f:
+with open("sampleQuestions/question_Place_MusicType_Instrument_EthnicGroup_languageBranch.txt", 'r') as f:
     question = f.readlines()
 
 
