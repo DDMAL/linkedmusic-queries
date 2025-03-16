@@ -1,0 +1,17 @@
+# question: 鼓吹乐这个音乐类型(乐种)主要分布在什么地域？
+# corresponding correct SPARQL
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+
+SELECT ?place ?placeLabel WHERE {
+  # Find instances of WindAndDrumMusic type
+  ?musicInstance rdf:type ctm:WindAndDrumMusic .
+  
+  # Find places where this music type is distributed
+  ?musicInstance bf:place ?place .
+  
+  # Get the label for each place
+  ?place rdfs:label ?placeLabel .
+}

@@ -1,0 +1,16 @@
+# question: 北京锣鼓乐有哪些子类？
+# corresponding correct SPARQL
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# Query to find subtypes of Beijing Luogu music
+SELECT ?subtype ?label WHERE {
+  # Find the Beijing Luogu music type by its label
+  ?beijingLuogu rdfs:label "北京锣鼓乐" .
+  # Ensure it's categorized as a MusicType
+  ?beijingLuogu a ctm:MusicType .
+  # Find all narrower terms (subtypes) of Beijing Luogu
+  ?beijingLuogu ctm:musicType_narrowerTerm ?subtype .
+  # Get the labels of these subtypes
+  ?subtype rdfs:label ?label .
+}

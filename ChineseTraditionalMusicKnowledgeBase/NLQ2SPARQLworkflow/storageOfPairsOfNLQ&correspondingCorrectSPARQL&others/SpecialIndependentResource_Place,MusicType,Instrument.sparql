@@ -1,0 +1,31 @@
+# question: 有哪些特藏独立资源_作品是涉及顺化市（顺化市作为一个地域类）的？这些特藏独立资源_作品分别对应什么“音乐类型(乐种)”和乐器？
+# corresponding correct SPARQL
+PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?resource ?resourceLabel ?musicType ?musicTypeLabel ?instrument ?instrumentLabel
+WHERE {
+  # Find special resources related to Hue City
+  ?resource a ctm:SpecialIndependentResource ;
+            rdfs:label ?resourceLabel ;
+            ctm:relatesPlace ?place .
+  
+  ?place a bf:Place ;
+         rdfs:label ?placeLabel .
+  
+  FILTER(CONTAINS(?placeLabel, "顺化市"))
+  
+  # Get music types for these resources
+  OPTIONAL {
+    ?resource ctm:relatesMusicType ?musicType .
+    ?musicType rdfs:label|ctm:nameOfMusicTypeOrInstrument ?musicTypeLabel .
+  }
+  
+  # Get instruments for these resources
+  OPTIONAL {
+    ?resource ctm:relatesInstrument ?instrument .
+    ?instrument rdfs:label|ctm:nameOfMusicTypeOrInstrument ?instrumentLabel .
+  }
+}

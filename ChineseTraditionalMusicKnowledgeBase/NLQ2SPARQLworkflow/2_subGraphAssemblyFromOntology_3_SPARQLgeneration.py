@@ -168,12 +168,12 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"bf:MovingImage", "bf:MusicInstrument", "bf:Work", "cidoc-crm:E55_Type", "ctm:ChineseInstrument", "ctm:MusicType", "ctm:OrientalMusicalInstrument", "ctm:SpecialIndependentResource", "ctm:Video-InterviewOrFieldTrip", "dbpedia-owl:EthnicGroup", "mo:Instrument", "ns1:b8784457", "rdfs:Literal"}
+    given_classes = {"cidoc-crm:E55_Type", "ctm:DrumAndCymbalSystem", "ctm:FolkMusic", "ctm:MusicType", "ctm:NationalInstrumentalMusic", "ctm:PercussionMusicalInstrument", "ns1:b8784481", "ns1:b8784489", "rdfs:Literal"}
     # --corresponding to Transformed ClassList
 
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"ctm:musicSystem", "ctm:nameOfMusicTypeOrInstrument", "ctm:relatesEthnicGroup", "ctm:relatesInstrument", "ctm:relatesMusicType", "dbo:formerName"}
+    given_properties = {"ctm:musicType_narrowerTerm"}
     # --corresponding to Transformed PropertyList
 
     # =====================================================
@@ -253,12 +253,12 @@ if __name__ == '__main__':
 from openai import OpenAI
 # Invoke the OpenAI API:
 client = OpenAI(
-    api_key="",
+    api_key="LHAV5AoeevPPQ2iZKCIwCg2i9Jm5axE9mL5cJf0L71p6Iosl",
     base_url="https://oneapi.xty.app/v1"
 )
 def callGPT(prompt):
     completion = client.chat.completions.create(
-        model="gpt-4o", # We can use "gpt-4o" or "o1-preview" or "claude-3-7-sonnet-20250219" model
+        model="claude-3-7-sonnet-20250219", # We can use "gpt-4o" or "o1-preview" or "claude-3-7-sonnet-20250219" model
         max_tokens=4096,
         temperature=0.1,
         messages=[
@@ -268,7 +268,7 @@ def callGPT(prompt):
     )
     return completion.choices[0].message.content
 
-with open("sampleQuestions/question_SpecialIndependentResource_MusicType,Instrument,EthnicGroup.txt", 'r') as f:
+with open("sampleQuestions/question_MusicType_MusicType1.txt", 'r') as f:
     question = f.readlines()
 
 
@@ -317,7 +317,7 @@ Note:
 4. After examination and cross-checking, if modifications are required, do return only the modified SPARQL query without any additional text
 5. De ensure the SPARQL query's logic is inherently consistent with the natural language question and the ontology snippet
 6. Don't forget the clarification of namespaces in the SPARQL query; Delete the needless prefixes clarification (which are not used in the query)
-7. If you are uncertain about precision of specific classes or properties, you can broaden the retrieval scope using techniques such as: 
+7. If you are uncertain about precision of specific classes or properties, you can broaden the retrieval scope using syntax such as: 
     7.1 The UNION keyword: to include multiple options to interpretate a question, especially when the question can be divided into multiple sub-questions, or in case of handling an objectProperty and a dataProperty which have the similar semantic meanings
     7.2 The | operator to represent a logical OR for properties
     7.3 The OPTIONAL keyword: 
@@ -364,8 +364,19 @@ def query_sparql(endpoint, sparql_query_parameter, graph_iri_parameter):
 # Query the SPARQL endpoint:
 sparql_endpoint = "http://www.usources.cn:8891/sparql" # We can also use the endpoint "https://virtuoso.staging.simssa.ca/sparql"
 graph_iri = "https://lib.ccmusic.edu.cn/graph/music" # We can also use the graph IRI "http://ChineseTraditionalMusicCultureKnowledgeBase"
+import json
+from datetime import datetime
 sparql_results = query_sparql(sparql_endpoint, sparql_query, graph_iri)
-print('\n\nsparql_results:', sparql_results) # rendered in JSON format
+
+# Generate timestamp for unique filename:
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+output_QueryResultInJson = f"sparql_results_{timestamp}.json"
+
+# Write results to JSON file:
+with open(output_QueryResultInJson, 'w', encoding='utf-8') as f:
+    json.dump(sparql_results, f, ensure_ascii=False, indent=2)
+print(f"\n\nQuery results have been saved to: {output_QueryResultInJson}")    
+# print('\n\nsparql_results:', sparql_results) # rendered in JSON format
 
 
 # Retrieval Augmented Generation (RAG): 
@@ -376,14 +387,27 @@ and the related ontology snippet: {turtle_output},
 
 and the subsequent SPARQL query: {sparql_query}, 
 
-we retrieved the result from visiting the SPARQL Endpoint: {sparql_results}. 
+from visiting a SPARQL Endpoint we retrieved the result: {sparql_results}. 
 
 1. Explain the query result based on the question, the ontology snippet, and the SPARQL query.
 2. If the result is too large, you can conduct a statistical analysis with a summary.
-3. Compare the result with your own knowledge about the domain. Find out whether there is any inconsistency or inadquacy in the result. Contrast then enrich the explaination.
-
+3. Compare the result with your own knowledge about the domain. Find out whether there is any inadquacy or inconsistency in the result. Enrich the explaination via comparison.
+...
 4. Last but not least, if the result is too small or even empty, 
-please "broaden the retrieval scope" by loosening (defined) constraints in the SPARQL query or recommend other possible query patterns
+please "broaden the retrieval scope" by loosening query conditions/constraints in the SPARQL or recommend other potential query patterns.
+For example:
+    4.1 may use the UNION keyword to include multiple options to interpretate a question, especially when the question can be divided into multiple sub-questions, or in case of handling an objectProperty and a dataProperty which have the similar semantic meanings
+    4.2 use the | operator to represent a logical OR for properties
+    4.3 use the OPTIONAL keyword:
+        4.3.1 also useful when handling an objectProperty and a dataProperty which have the similar semantic meaning, etc.
+        4.3.2 to allow partial matches, ensuring that queries remain valid even when certain properties or property values are missing. It is particularly beneficial for handling uncertain or "if, possibly" relationships (e.g., "Something may relate to something else") or when managing properties with similar semantics
+    ...
+    4.4 remove class constraint on a variable to broaden the retrieval scope
+    4.5 cancel FILTER condition to broaden the retrieval scope
+    4.6 switch from exact matching to partial/containing matching to broaden the retrieval scope
+    4.7 break down multiple-hop queries into fewer hops, to relieve the constraints of meeting all conditions across multiple hops
+    ...
+    4.8 extend the adjacent classes or properties in the subgraph to recommend other possible query patterns that can yield more results
 """
 
 

@@ -38,14 +38,14 @@ with open("ontologySnippet_objectProperties_simplified.ttl", "r") as context3:
 with open("ontologySnippet_dataProperties_simplified.ttl", "r") as context4:
     context_ontology_dataProperty = context4.readlines()
 # The natural language question is read from a text file:
-with open("sampleQuestions/question_SpecialIndependentResource_MusicType,Instrument,EthnicGroup.txt", 'r') as f:
+with open("sampleQuestions/question_MusicType_MusicType1.txt", 'r') as f:
     question = f.readlines()
 
 prompt0 = f"""
 Extract the classes or entities from the natural language question: {question}. 
 E.g., for the question 河南大调曲子板头曲这个乐种用了什么民族乐器？--return `["民族乐器", "民族", "乐器", "河南大调曲子板头曲", "河南", "河南省", "板头曲"]`, which allows overlapping classes or entities.
 Note:
-1. If the entity is in 《》, please prepare 2 versions, with one maintaining the 《》, e.g., `["《彩云追月》", "彩云追月"]`.
+1. If the entity is in 《》, please prepare 2 versions, with one maintaining the 《》, while the other not, e.g., `["《彩云追月》", "彩云追月"]`.
 2. If a literal part is enclosed by "" or “”, view the part as a whole, e.g., 请问“河南大调曲子板头曲”主要用了什么乐器？--you can extract the entities in this format: `["河南大调曲子板头曲", "乐器"]`. 
 3. Return only the extracted classes or entities (represented in Chinese characters, words or phrases), in such json format `["thing1", "thing2", "thing3"]`(no adding redundant strings).
 """
@@ -140,7 +140,7 @@ select distinct ?class where {{
 ```
 As to the extracted entities (or classes), do only provide one corresponding SPARQL query with no additional or redundant text, including backticks
 """
-
+# --In the future, we may supplement the scope by updating `?entity rdfs:label ?label ;` to `?entity rdfs:lable|ctm:ethnicGroupAlias|ctm:musicianAlias|dbo:formerName|gn:alternateName ?label ;` to cover more cases
 
 response = callGPT(prompt5).strip()
 # print('\n\n','response:', response)

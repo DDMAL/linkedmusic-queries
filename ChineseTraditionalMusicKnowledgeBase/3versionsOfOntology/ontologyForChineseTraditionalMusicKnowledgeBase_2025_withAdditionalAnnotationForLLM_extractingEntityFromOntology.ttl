@@ -6,6 +6,7 @@
 @prefix tl: <http://purl.org/NET/c4dm/timeline.owl> .
 @prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
 @prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
@@ -49,7 +50,8 @@ This version uses bf:Work of BibFrame model, which may bring about some inconsis
 
 Since 2025Feb25, following modifications are as belows:
 (1) ObjectProperty `:musicType_Instrument` is updated to `:musicType_instrument`
-(2) Added a new object property `:hasRepresentativeFolkMusician`, which is inverse of `dbo:ethnicity`""" .
+(2) Added a new object property `:hasRepresentativeFolkMusician`, which is inverse of `dbo:ethnicity`
+(3) Add name space and prefix. See geo""" .
 
 #################################################################
 #    Annotation properties
