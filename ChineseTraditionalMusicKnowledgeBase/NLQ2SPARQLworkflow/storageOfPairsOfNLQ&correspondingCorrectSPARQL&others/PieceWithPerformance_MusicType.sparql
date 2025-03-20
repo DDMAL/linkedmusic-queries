@@ -1,0 +1,32 @@
+# question: 有没有涉及泉州北管这个乐种的曲目？
+# corresponding correct SPARQL
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX cidoc-crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT DISTINCT ?piece ?pieceLabel WHERE {
+  # Find the music type "泉州北管"
+  ?musicType a ctm:MusicType ;
+             rdfs:label ?musicTypeLabel .
+  
+  FILTER(CONTAINS(?musicTypeLabel, "泉州北管"))
+  
+  # Option 1: Direct relationship with representative piece as literal
+  {
+    ?musicType ctm:representativePiece ?piece .
+    BIND(?piece AS ?pieceLabel)
+  }
+  # Option 2: Piece with performance object relationship
+  UNION
+  {
+    ?musicType ctm:samplePieceWithPerformance ?piece .
+    ?piece rdfs:label ?pieceLabel .
+  }
+  # Option 3: Representative qupai (specific type of piece)
+  UNION
+  {
+    ?musicType ctm:representativeQupai ?piece .
+    BIND(?piece AS ?pieceLabel)
+  }
+}
