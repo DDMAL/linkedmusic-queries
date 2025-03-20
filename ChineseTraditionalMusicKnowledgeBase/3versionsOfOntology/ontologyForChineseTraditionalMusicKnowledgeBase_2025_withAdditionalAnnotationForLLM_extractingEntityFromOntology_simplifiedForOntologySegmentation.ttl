@@ -436,7 +436,9 @@ ctm:pieceType rdf:type owl:ObjectProperty ;
               rdfs:domain ctm:PieceWithPerformance ;
               rdfs:range ctm:MusicType ;
               rdfs:comment "关联“演出的曲目”和它涉及的乐种或所属的音乐类型，或关联“演出的曲目”和它涉及的体裁。实际上，该属性的值域主要是音乐类型(乐种)" ;
-              rdfs:label "曲目的音乐类型(乐种)或体裁是" .
+              rdfs:label "乐种" ,
+                         "曲目涉及…乐种" ,
+                         "曲目的音乐类型(乐种)或体裁是" .
 
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#placeHasMusicTypeOrInstrument
