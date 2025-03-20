@@ -1,5 +1,6 @@
-# question: 鼻箫这件乐器是哪个民族的？潮尔又是哪个民族的？
+# question: 鼻箫这件乐器是哪个民族的？潮尔又是哪个民族的？(translation: Which ethnic group does the nose flute belong to? And which ethnic group does Tsuur belong to?)
 # corresponding correct SPARQL
+# define input:inference 'urn:owl.ccmusicrules0214' # Caution: Do cancel the well sign to enable the inference
 PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
