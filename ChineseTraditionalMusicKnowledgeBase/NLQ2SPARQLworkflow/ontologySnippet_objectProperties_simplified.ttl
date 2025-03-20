@@ -116,7 +116,7 @@ ctm:nativePlace rdfs:label "籍贯" ;
 ctm:piecePrincipalInstrument rdfs:label "曲目的主奏乐器有" ;
     rdfs:comment "关联一个演出的曲目和它的主奏乐器。“曲目的主奏乐器有”这个属性有时候意义较为宽泛，如同“曲目的主要乐器有”" .
 
-ctm:pieceType rdfs:label "曲目的音乐类型(乐种)或体裁是" ;
+ctm:pieceType rdfs:label "曲目的音乐类型(乐种)或体裁是" , "乐种" , "曲目涉及…乐种" ;
     rdfs:comment "关联“演出的曲目”和它涉及的乐种或所属的音乐类型，或关联“演出的曲目”和它涉及的体裁。实际上，该属性的值域主要是音乐类型(乐种)" .
 
 ctm:placeHasMusicTypeOrInstrument rdfs:label "地域有音乐类型(乐种)或乐器" ;
