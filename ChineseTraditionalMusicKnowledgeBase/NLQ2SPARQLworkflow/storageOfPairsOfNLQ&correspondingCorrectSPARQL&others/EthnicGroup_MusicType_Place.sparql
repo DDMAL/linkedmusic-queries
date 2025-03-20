@@ -1,5 +1,6 @@
-# question: 蒙古族有哪些音乐类型_乐种，这些乐种的分布地域各是什么？
+# question: 蒙古族有哪些音乐类型_乐种，这些乐种的分布地域各是什么？(translation: What music types exist in Mongol ethnic group, and what are the regional distributions of these types?)
 # corresponding correct SPARQL
+# define input:inference 'urn:owl.ccmusicrules0214' # Caution: Do cancel the well sign to enable the inference
 PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
 PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
 PREFIX dbpedia-owl: <https://dbpedia.org/ontology/>
@@ -9,7 +10,8 @@ SELECT DISTINCT ?musicTypeLabel ?placeLabel
 WHERE {
     ?ethnicGroup rdfs:label "蒙古族" .
     ?ethnicGroup ctm:representativeMusicType ?musicType .
-    ?musicType rdfs:label ?musicTypeLabel .
+    ?musicType rdfs:label ?musicTypeLabel ;
+               a ctm:MusicType .
     
     OPTIONAL {
         ?musicType bf:place ?place .
