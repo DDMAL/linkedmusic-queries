@@ -1,5 +1,6 @@
-# question: 《越南闲愁》涉及到什么音乐类型(乐种)、乐器、民族？
+# question: 《越南闲愁》涉及到什么音乐类型(乐种)、乐器、民族？ (translation: What music types, instruments, and ethnic groups are involved in "Vietnamese Idle Sorrow"?)
 # corresponding correct SPARQL
+# define input:inference 'urn:owl.ccmusicrules0214' # Caution: Do cancel the well sign to enable the inference
 PREFIX cidoc-crm: <http://www.cidoc-crm.org/cidoc-crm/>
 PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
