@@ -17,5 +17,4 @@ WHERE {
   ?entity rdfs:label "潮尔" ;
           ctm:ethnicGroup ?ethnicGroup2 .
   ?ethnicGroup2 rdfs:label ?ethnicGroupLabel2 .
-}
-}
+}}
