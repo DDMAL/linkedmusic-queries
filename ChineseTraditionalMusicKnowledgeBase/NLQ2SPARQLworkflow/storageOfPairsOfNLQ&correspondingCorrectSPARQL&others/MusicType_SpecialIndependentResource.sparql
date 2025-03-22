@@ -1,5 +1,6 @@
-# question: 朝鲜族民歌、潮尔在我馆是否有对应的特藏资源收录？
+# question: 朝鲜族民歌、潮尔在我馆是否有对应的特藏资源收录？[translation: Does our library have any special collection resources on Korean folk songs and Tsuur(Chao'er)?]
 # corresponding correct SPARQL
+# define input:inference 'urn:owl.ccmusicrules0214' # Caution: Do cancel the well sign to enable the inference
 SELECT DISTINCT ?resource ?resourceLabel
 WHERE {
   ?resource a ctm:SpecialIndependentResource ;
