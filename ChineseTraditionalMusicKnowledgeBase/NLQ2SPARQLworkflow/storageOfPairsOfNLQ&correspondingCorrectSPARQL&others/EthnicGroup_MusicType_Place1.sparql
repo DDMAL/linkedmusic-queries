@@ -1,5 +1,6 @@
-# question: 壮族这个民族有哪些音乐类型(乐种)，其中哪些音乐类型(乐种)在云南省（云南省作为一个地域类）？
+# question: 壮族这个民族有哪些音乐类型(乐种)，其中哪些音乐类型(乐种)在云南省（云南省作为一个地域类）？(translation: What music types does the Zhuang ethnic group have, and which of these music types are found in Yunnan Province?)
 # corresponding correct SPARQL
+# define input:inference 'urn:owl.ccmusicrules0214' # Caution: Do cancel the well sign to enable the inference
 PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
 PREFIX dbpedia-owl: <https://dbpedia.org/ontology/>
 PREFIX places: <http://purl.org/ontology/places#>
