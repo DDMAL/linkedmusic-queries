@@ -37,13 +37,13 @@
 
 <https://lib.ccmusic.edu.cn/ontologies/oriental_instrument&music> rdf:type owl:Ontology ;
                                                                    owl:imports <http://www.w3.org/2004/02/skos/core> ;
-                                                                   dcterms:creator "曹军军（中国音乐学院中国音乐研究基地），中国音乐学院图书馆技术部、数字人文工作坊全体成员，麦吉尔大学音乐科技系分布式数字音乐档案和图书馆实验室 LinkedMusic 项目组" ;
+                                                                   dcterms:creator "曹军军（中国音乐学院中国音乐研究基地），中国音乐学院图书馆技术部、数字人文工作坊全体成员；麦吉尔大学音乐科技系分布式数字音乐档案和图书馆实验室 LinkedMusic 项目组（提供支持）" ;
                                                                    dcterms:description """以中国音乐学院图书馆“中华传统音乐文化资源库”的实践为基础，尤其结合其“影像志”特点，进行基础本体方案设计；再结合传统音乐文化关联多领域的特点，构建相应类、关系和语义约束方式，如涉及乐种、乐器、民族主题词表，及对曲目、乐人、地域、文字文献等领域的语义关联。该方案将有利于传统音乐分类研究和垂直领域的知识检索，且具有音乐地理学、音乐人类学社群分析等方向上的应用前景。
 
 相关论文可参考《中国传统音乐知识库的“元数据本体”构建研究》（《数字人文研究》2022年第4期）。
 
 联系我们：
-①邮箱：alienmusedh@gmail.com; 529360500@qq.com②微信：MusicDHumanities
+①邮箱：alienmusedh@gmail.com; 529360500@qq.com②微信：MuseDH
 
 
 关于 versionInfo:
