@@ -1,5 +1,6 @@
-# question: 我馆有什么特藏资源涉及甘美兰音乐，该资源涉及的地域在哪？
+# question: 我馆有什么特藏资源涉及甘美兰音乐，该资源涉及的地域在哪？(translation: What special collection resources does our library have related to Gamelan music, and which places do these resources cover?)
 # corresponding correct SPARQL
+# define input:inference 'urn:owl.ccmusicrules0214' # Caution: Do cancel the well sign to enable the inference
 PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
 PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>

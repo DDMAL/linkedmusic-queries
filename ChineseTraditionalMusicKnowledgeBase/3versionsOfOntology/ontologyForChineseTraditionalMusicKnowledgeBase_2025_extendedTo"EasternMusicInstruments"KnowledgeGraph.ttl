@@ -775,7 +775,8 @@ ctm:pieceType rdf:type owl:ObjectProperty ;
               owl:inverseOf ctm:samplePieceWithPerformance ;
               rdfs:domain ctm:PieceWithPerformance ;
               rdfs:comment "关联“演出的曲目”和它涉及的乐种或所属的音乐类型，或关联“演出的曲目”和它涉及的体裁。实际上，该属性的值域主要是音乐类型(乐种)，而不是音乐体裁。只是因为，对乐种的界定，难免会掺杂体裁的维度，譬如中国传统民间音乐五大类的分类方式本身就充分参考了体裁和形式的角度……" ;
-              rdfs:label "曲目的音乐类型(乐种)或体裁是" ;
+              rdfs:label "乐种" ,
+                         "曲目的音乐类型(乐种)或体裁是" ;
               rdfs:seeAlso "http://id.loc.gov/ontologies/bibframe/genreForm" ;
               ctm:intactFragmentIdentifier "typeOfPieceOfMusic" .
 

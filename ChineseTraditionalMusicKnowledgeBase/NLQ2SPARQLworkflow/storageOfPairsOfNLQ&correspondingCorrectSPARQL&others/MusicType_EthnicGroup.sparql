@@ -1,5 +1,6 @@
-# question: 喊傣亮、四簧口弦琴曲、御神歌、“宫廷筵宴乐-缅甸乐”、加美兰、扎平各是哪些民族的？
+# question: 喊傣亮、四簧口弦琴曲、御神歌、“宫廷筵宴乐-缅甸乐”、加美兰、扎平各是哪些民族的？[translation: Which ethnic groups do Hǎn Dǎi Liàng, four-reed jaw harp music, Sacred Shinto Hymns(ぎょしんか), “Imperial Banquet Music – Burmese Music”, Gamelan, and Zhāpíng belong to?]
 # corresponding correct SPARQL
+# define input:inference 'urn:owl.ccmusicrules0214' # Caution: Do cancel the well sign to enable the inference
 PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
