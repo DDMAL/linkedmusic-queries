@@ -1,3 +1,0 @@
-#给定5个节点，如下：
-@prefix ex: <http://example/>.
-{ ex:class_2 ex:class_3 ex:class_4 ex:class_5 ex:class_6 ex:class_9 }
