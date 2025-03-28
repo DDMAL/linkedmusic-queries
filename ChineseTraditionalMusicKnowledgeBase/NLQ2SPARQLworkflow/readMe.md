@@ -26,3 +26,13 @@ This Python script is designed to extract information from an OWL (Web Ontology 
 --refer to "3.2.2 Ontology Segmentation" of Junjun Cao's paper or refer to "1_entitiesExtractionFromNLQ_basedOnOntology.py"
 
 # prompt_generatePythonForSubGraphExtraction：
+This is a prompt fed to LLMs to generate python script which is for ontology subgraph extraction. The script was then incorporated into the "2_subGraphAssemblyFromOntology_3_SPARQLgeneration.py" file
+
+# subGraphExtraction.sparql
+(obselete)
+
+# transcribeUnicodeToNormalCharacters.py
+This script transcribes Unicode escape sequences in a text file to their corresponding characters
+
+# trimOntologyByDeletingSomeTriples.py
+This script reads an RDF graph from a TTL file, filters triples by keeping only those with predicates rdfs:label and rdfs:comment, and writes the filtered triples to a new TTL file

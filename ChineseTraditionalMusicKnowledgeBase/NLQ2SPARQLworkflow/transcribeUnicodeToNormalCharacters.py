@@ -1,3 +1,4 @@
+# This script transcribes Unicode escape sequences in a text file to their corresponding characters.
 import re
 import sys
 

@@ -1,3 +1,4 @@
+# This script reads an RDF graph from a TTL file, filters triples by keeping only those with predicates rdfs:label and rdfs:comment, and writes the filtered triples to a new TTL file.
 from rdflib import Graph, Namespace, RDF, RDFS
 
 # Load the TTL file
