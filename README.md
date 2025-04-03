@@ -10,7 +10,7 @@ Junjun Cao has been utlizing the Chinese Traditional Music KnowledgeBase (abbrev
 
 This experiment has solved some problems/issues:
 
-This experiment addresses the challenge of oversized ontologies hindering LLMs in generating accurate SPARQL queries. Our 
+This experiment addresses the challenge of oversized ontologies hindering LLMs in generating accurate SPARQL queries. Our--
 
 ### "ontology-subgraph-extraction approach"
 
@@ -18,6 +18,15 @@ This experiment addresses the challenge of oversized ontologies hindering LLMs i
 
 For more details, please contact Junjun Cao (alienmusedh@gmail.com)for the entire paper on this subject.
 
-## 2. For other RDF databases, how to extract the ontology automatically?
 
-## 3. How to faciliate NLQ2SPARQL in federal queries-query across different databases?
+## 1.1 For other RDF databases, how to extract the ontology automatically?
+There are at least 2 methods:
+(1) Please locate to https://github.com/JervenBolleman/void-generator.
+You can generate "shapes" for any given RDF graph, then prompt LLMs to convert shapes to a "norminal" ontology.
+(2) For RDB2RDF in the internal process of Open Link Virtuoso, you can map a schema of a relational database to an ontology.
+
+## 1.2 How to carry out NLQ2SPARQL in federal queries-query across different databases?
+--especially when the different databases are all reconciled with Wikidata. This is to be explored.
+
+## 2. There are other potential approaches especially when it's difficult to obtain the ontology or in other special cases
+Please refer to https://github.com/DDMAL/linkedmusic-queries/discussions/27
