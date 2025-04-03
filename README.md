@@ -29,4 +29,5 @@ You can generate "shapes" for any given RDF graph, then prompt LLMs to convert s
 --especially when the different databases are all reconciled with Wikidata. This is to be explored.
 
 ## 2. There are other potential approaches especially when it's difficult to obtain the ontology or in other special cases
-Please refer to https://github.com/DDMAL/linkedmusic-queries/discussions/27
+2.1 Please refer to https://github.com/DDMAL/linkedmusic-queries/discussions/27.
+2.2 Junjun Cao has also conducted a primary literature review on NLQ2SPARQL which can be read on his paper to be published, titled _"Knowledge Base for ESEA (East-and-Southeast-Asian) Traditional Music and its Ontology-subgraph-driven NLQ2SPARQL Intelligent Question-Answering System Research"_.
