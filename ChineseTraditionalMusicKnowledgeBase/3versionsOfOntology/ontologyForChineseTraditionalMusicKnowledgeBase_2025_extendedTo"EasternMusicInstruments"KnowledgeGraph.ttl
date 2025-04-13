@@ -2183,7 +2183,8 @@ places:City rdf:type owl:Class ;
                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                               owl:onClass places:Province
                             ] ;
-            rdfs:label "市级行政单位" .
+            rdfs:label "municipal-level administrative division"@en ,
+                       "市级行政单位" .
 
 
 ###  http://purl.org/ontology/places#County
@@ -2195,13 +2196,15 @@ places:County rdf:type owl:Class ;
                                 owl:onClass places:City
                               ] ;
               rdfs:comment "包括“……旗”等" ;
-              rdfs:label "县、区级行政单位" .
+              rdfs:label "county-level administrative division"@en ,
+                         "县、区级行政单位" .
 
 
 ###  http://purl.org/ontology/places#Province
 places:Province rdf:type owl:Class ;
                 rdfs:subClassOf ctm:ChinaJurisdiction ;
-                rdfs:label "省级行政单位" .
+                rdfs:label "provincial-level administrative division"@en ,
+                           "省级行政单位" .
 
 
 ###  http://purl.org/ontology/places#Town
@@ -2225,7 +2228,8 @@ places:Village rdf:type owl:Class ;
                                  owl:onClass ctm:Town
                                ] ;
                rdfs:comment "村级也包括寨（参考《中国乐种学》p.251）" ;
-               rdfs:label "村、社区级行政单位" .
+               rdfs:label "village and community-level administrative division"@en ,
+                          "村、社区级行政单位" .
 
 
 ###  http://purl.org/spar/fabio/JournalArticle
@@ -2965,7 +2969,8 @@ ctm:Town rdf:type owl:Class ;
                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                            owl:onClass places:County
                          ] ;
-         rdfs:label "乡、镇级行政单位(含城市中的街道)" ;
+         rdfs:label "township-level administrative division (including subdistricts in urban areas)"@en ,
+                    "乡、镇级行政单位(含城市中的街道)" ;
          ctm:intactFragmentIdentifier "TownshipOrTownLevelAdministrativeUnit" .
 
 
