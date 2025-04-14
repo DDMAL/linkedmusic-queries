@@ -26,6 +26,7 @@ There are at least 2 methods:
 You can generate "shapes" for any given RDF graph, then prompt LLMs to convert shapes to a "norminal" ontology.
 
 (2) For RDB2RDF in the internal process of Open Link Virtuoso, you can map a schema of a relational database to an ontology. Please refer to recorded tutorials in https://github.com/DDMAL/linkedmusic-datalake/tree/main/doc/rdb2rdf.
+> However, for ontology customization in the process, refer to R2RML language that is introduced in "2. ISQL of Terminal + R2RML" section of the file "Documentation_CSV2RDF_Virtuoso2024Nov" located at https://github.com/DDMAL/linkedmusic-datalake/tree/main/doc/CSV2RDFInVirtuoso.
 
 ## 1.2 How to carry out NLQ2SPARQL in federal queries-query across different databases?
 --especially when the different databases are all reconciled with Wikidata. This is to be explored.
