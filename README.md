@@ -3,10 +3,15 @@ There are various methods to query our data lake, e.g., Using SPARQL against Ope
 
 ### Achieving NLQ2SPARQL through Prompt Engineering on Large Language Models
 
+## 0. The initial experiment 
+> (2024June-2024Oct)
+
+For any individual question, we custimize context as minimun as possible. The context can be anything, including ontology rendered in OWL language. We conducted experiment with result in the "LLM2SPARQL_TheSession_WikiData_MusicBrainz" folder, domonstrated on LinkedMusic 2024 conference
 
 ## 1. Use ontology snippet as context for prompte engineering 
 > (2024Dec-2025Mar)
-Junjun Cao has been utlizing the Chinese Traditional Music KnowledgeBase (abbreviated as CTM) as a prior experiment because this knowledge base has a comprehensive ontology, which can serve as ready-made context for prompting ChatGPT to convert NLQ(natural language query) into SPARQL
+
+Junjun Cao has been utlizing a Chinese Traditional Music KnowledgeBase (abbreviated as CTM) as a prior experiment because this knowledge base has a comprehensive ontology, which can serve as ready-made context for prompting ChatGPT to convert NLQ(natural language query) into SPARQL
 > for issues marked with "CTM", it's specifically meant for Chinese Traditional Music knowledgeBase
 
 This experiment has solved some problems/issues:
@@ -29,7 +34,7 @@ There are at least 2 methods:
 
 > generate "shapes" (a genuine schema of an RDF database) for any given RDF graph
 
-- That said, we can prompt LLMs to create a "norminal" ontology based on VOID information directly
+- That said, we can prompt LLMs to create a "norminal" ontology directly based on VOID information. Refer to
 
 ### 1.1.2 From Schema of (RDB or serveral CSVs) to Ontology
 For RDB2RDF in the internal process of Open Link Virtuoso, you can map a schema of a relational database (which usually contains sevearl CSVs whthin) to an ontology. Please refer to recorded tutorials in https://github.com/DDMAL/linkedmusic-datalake/tree/main/doc/rdb2rdf
