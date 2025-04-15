@@ -1,5 +1,5 @@
 # linkedmusic-queries
-There are various methods to query our data lake, e.g., Using SPARQL against Open Link Virtuoso's graphs. However, For music users, what if they don't know how to handle SPARQL coding, the accessibility of our data lake would be weakened. Therefore, the initial goal in this repository is to explore "How to convert the users' natural language queries to SPARQL query, with the efficacy of Large Language Models". Above all, it's about 
+There are various methods to query our data lake, e.g., Using SPARQL against Open Link Virtuoso's graphs. However, For music users, what if they don't know how to handle SPARQL coding, the accessibility of our data lake would be weakened. Therefore, the initial goal in this repository is to explore "How to convert the users' natural language queries to SPARQL query, with the efficacy of Large Language Models". Above all, it's about ->
 
 ### Achieving NLQ2SPARQL through Prompt Engineering on Large Language Models
 
@@ -10,7 +10,7 @@ Junjun Cao has been utlizing the Chinese Traditional Music KnowledgeBase (abbrev
 
 This experiment has solved some problems/issues:
 
-This experiment addresses the challenge of oversized ontologies hindering LLMs in generating accurate SPARQL queries. Our->
+This experiment addresses the challenge of oversized ontologies hindering LLMs in generating accurate SPARQL queries. Our ->
 
 ### "ontology-subgraph-extraction approach"
 
@@ -22,8 +22,13 @@ For more details, please contact Junjun Cao (alienmusedh@gmail.com) for the enti
 There are at least 2 methods:
 
 ### 1.1.1 Via VOID (Vocabulary of Interlinked Datasets)
-Please locate to https://github.com/JervenBolleman/void-generator or what has been cloned to our DDMAL: https://github.com/DDMAL/void-generator
-You can generate "shapes" (schema of an RDF database) for any given RDF graph, then prompt LLMs to convert shapes to a "norminal" ontology
+- Please locate to a cloned repository to DDMAL: https://github.com/DDMAL/void-generator which has been refined specifically, or refer to the original: https://github.com/JervenBolleman/void-generator
+
+- void-generator is associated with the paper _"LLM-based SPARQL Query Generation from Natural Language over Federated Knowledge Graphs"_(Vincent, 2024) which proposed to:
+
+> generate "shapes" (a genuine schema of an RDF database) for any given RDF graph
+
+- That said, we can prompt LLMs to create a "norminal" ontology based on VOID information directly
 
 ### 1.1.2 From Schema of (RDB or serveral CSVs) to Ontology
 For RDB2RDF in the internal process of Open Link Virtuoso, you can map a schema of a relational database (which usually contains sevearl CSVs whthin) to an ontology. Please refer to recorded tutorials in https://github.com/DDMAL/linkedmusic-datalake/tree/main/doc/rdb2rdf
