@@ -4,7 +4,8 @@ There are various methods to query our data lake, e.g., Using SPARQL against Ope
 ### Achieving NLQ2SPARQL through Prompt Engineering on Large Language Models
 
 
-## 1. Use ontology snippet as context for prompte engineering (2024Dec-2025Mar)
+## 1. Use ontology snippet as context for prompte engineering 
+> (2024Dec-2025Mar)
 Junjun Cao has been utlizing the Chinese Traditional Music KnowledgeBase (abbreviated as CTM) as a prior experiment because this knowledge base has a comprehensive ontology, which can serve as ready-made context for prompting ChatGPT to convert NLQ(natural language query) into SPARQL
 > for issues marked with "CTM", it's specifically meant for Chinese Traditional Music knowledgeBase
 
