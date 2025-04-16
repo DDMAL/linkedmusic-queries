@@ -6,7 +6,9 @@ There are various methods to query our data lake, e.g., Using SPARQL against Ope
 ## 0. The initial experiment 
 > (2024June-2024Oct)
 
-For any individual question, we custimize context as minimun as possible. The context can be anything, including ontology rendered in OWL language. We conducted experiment with result in the "LLM2SPARQL_TheSession_WikiData_MusicBrainz" folder, domonstrated on LinkedMusic 2024 conference
+--Finding the Appropriate Context to Prompt LLMs for SPARQL Generation
+
+For any individual question, we custimize context to be as minimun and targeted as possible. The context can be anything, including ontology rendered in OWL (Web Ontology Language). We conducted experiments, documented in the "LLM2SPARQL_TheSession_WikiData_MusicBrainz" folder, domonstrated on LinkedMusic 2024 conference
 
 ## 1. Use ontology snippet as context for prompte engineering 
 > (2024Dec-2025Mar)
@@ -28,17 +30,17 @@ For more details, please contact Junjun Cao (alienmusedh@gmail.com) for the enti
 There are at least 2 methods:
 
 ### 1.1.1 Via VOID (Vocabulary of Interlinked Datasets)
-- Please locate to a cloned repository to DDMAL: https://github.com/DDMAL/void-generator which has been refined specifically, or refer to the original: https://github.com/JervenBolleman/void-generator
+- Please locate to a cloned repository hosted at DDMAL: https://github.com/DDMAL/void-generator, which includes specific refinements, or refer to the original: https://github.com/JervenBolleman/void-generator
 
-- void-generator is associated with the paper _"LLM-based SPARQL Query Generation from Natural Language over Federated Knowledge Graphs"_(Vincent, 2024) which proposed to:
+- void-generator is associated with the paper _"LLM-based SPARQL Query Generation from Natural Language over Federated Knowledge Graphs"_(Vincent, 2024), which proposed to:
 
-> generate "shapes" (a genuine schema of an RDF database) for any given RDF graph
+> generate "shapes" (a genuine **schema** of an RDF database) for any given RDF graph
 
-- That said, we can prompt LLMs to create a "norminal" ontology directly based on VOID information. Refer to
+- That said, we can prompt LLMs to create a "norminal" ontology directly based on VOID information. Refer to the following:
 
 ### 1.1.2 From Schema of (RDB or serveral CSVs) to Ontology
-For RDB2RDF in the internal process of Open Link Virtuoso, you can map a schema of a relational database (which usually contains sevearl CSVs whthin) to an ontology. Please refer to recorded tutorials in https://github.com/DDMAL/linkedmusic-datalake/tree/main/doc/rdb2rdf
-> However, for ontology customization in the process, refer to R2RML language that is introduced in "2. ISQL of Terminal + R2RML" section of the file "Documentation_CSV2RDF_Virtuoso2024Nov" located at https://github.com/DDMAL/linkedmusic-datalake/tree/main/doc/CSV2RDFInVirtuoso
+For RDB2RDF within the internal process of Open Link Virtuoso, you can map a schema of a relational database (typically comprising sevearl CSV files) to an ontology. For guidance, refer to recorded tutorials in https://github.com/DDMAL/linkedmusic-datalake/tree/main/doc/rdb2rdf
+> However, for ontology customization in the process, refer to R2RML language that is introduced in "2. ISQL of Terminal + R2RML" section of the file "Documentation_CSV2RDF_Virtuoso2024Nov" located at https://github.com/DDMAL/linkedmusic-datalake/tree/main/doc/CSV2RDFInVirtuoso [This it to be verified]
 
 ## 1.2 How to carry out NLQ2SPARQL in federal queries-query across different databases?
 --especially when the different databases are all reconciled with Wikidata. This is to be explored
