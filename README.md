@@ -1,5 +1,5 @@
 # linkedmusic-queries
-There are various methods to query our data lake, e.g., Using SPARQL against Open Link Virtuoso's graphs. However, For music users, what if they don't know how to handle SPARQL coding, the accessibility of our data lake would be weakened. Therefore, the initial goal in this repository is to explore "How to convert the users' natural language queries to SPARQL query, with the efficacy of Large Language Models". Above all, it's about ->
+There are various methods to query our data lake, e.g., Using SPARQL against Open Link Virtuoso's graphs. However, For music users, what if they don't know how to handle SPARQL coding, the accessibility of our data lake would be weakened. Therefore, the initial goal in this repository is to explore **"How to convert the users' natural language queries to SPARQL query (NLQ2SPARQL), with the efficacy of Large Language Models"**. Above all, it's about ->
 
 ### Achieving NLQ2SPARQL through Prompt Engineering on Large Language Models
 
