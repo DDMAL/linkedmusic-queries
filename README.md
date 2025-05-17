@@ -34,7 +34,7 @@ There are at least 2 methods:
 
 > generate "shapes" (a genuine schema of an RDF database) for any given RDF graph
 
-- That said, we can prompt LLMs to create a "norminal" ontology directly based on VOID information. Refer to
+- That said, we can prompt LLMs to automatically create a "norminal" ontology directly based on VOID information. Refer to https://github.com/DDMAL/void-generator/tree/main
 
 ### 1.1.2 From Schema of (RDB or serveral CSVs) to Ontology
 For RDB2RDF in the internal process of Open Link Virtuoso, you can map a schema of a relational database (which usually contains sevearl CSVs whthin) to an ontology. Please refer to recorded tutorials in https://github.com/DDMAL/linkedmusic-datalake/tree/main/doc/rdb2rdf
