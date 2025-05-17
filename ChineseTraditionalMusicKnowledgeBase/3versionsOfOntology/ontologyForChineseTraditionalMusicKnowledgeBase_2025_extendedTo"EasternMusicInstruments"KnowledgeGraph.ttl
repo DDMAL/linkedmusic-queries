@@ -620,6 +620,7 @@ ctm:instrumentAlternateName rdf:type owl:ObjectProperty ;
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#instrumentEvolvesFrom
 ctm:instrumentEvolvesFrom rdf:type owl:ObjectProperty ;
                           rdfs:subPropertyOf bf:derivativeOf ;
+                          rdf:type owl:TransitiveProperty ;
                           rdfs:domain mo:Instrument ;
                           rdfs:range mo:Instrument ;
                           rdfs:comment "包括改良乐器的情况" ;
@@ -680,6 +681,7 @@ ctm:musicTypeAlternateName rdf:type owl:ObjectProperty ;
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#musicTypeEvolvesFrom
 ctm:musicTypeEvolvesFrom rdf:type owl:ObjectProperty ;
                          rdfs:subPropertyOf bf:derivativeOf ;
+                         rdf:type owl:TransitiveProperty ;
                          rdfs:domain ctm:MusicType ;
                          rdfs:range ctm:MusicType ;
                          rdfs:label "音乐类型(乐种)由…衍变而成" ;
@@ -3171,6 +3173,12 @@ ctm:XiansuoMusic rdf:type owl:Class ;
                                                               ctm:nameOfMusicTypeOrInstrument "陶角"^^rdfs:Literal .
 
 
+###  https://lib.ccmusic.edu.cn/data/instrument/qkXr706E4cX2A4x1
+<https://lib.ccmusic.edu.cn/data/instrument/qkXr706E4cX2A4x1> rdf:type owl:NamedIndividual ,
+                                                                       mo:Instrument ;
+                                                              rdfs:label "铜笛" .
+
+
 ###  https://lib.ccmusic.edu.cn/data/instrument/6Hti0Iv240SAL6fI
 <https://lib.ccmusic.edu.cn/data/instrument/6Hti0Iv240SAL6fI> rdf:type owl:NamedIndividual ,
                                                                        ctm:PercussionMusicalInstrument ;
@@ -3190,6 +3198,13 @@ ctm:XiansuoMusic rdf:type owl:Class ;
                                                                        ctm:PercussionMusicalInstrument ;
                                                               bf:hasInstance ctm:哈尼族竹筒 ;
                                                               ctm:nameOfMusicTypeOrInstrument "哈尼族竹筒" .
+
+
+###  https://lib.ccmusic.edu.cn/data/musictype/xOO3q734v7HgGd7Z
+<https://lib.ccmusic.edu.cn/data/musictype/xOO3q734v7HgGd7Z> rdf:type owl:NamedIndividual ,
+                                                                      ctm:SurnaySystem ;
+                                                             ctm:musicTypePrincipalInstrument <https://lib.ccmusic.edu.cn/data/instrument/qkXr706E4cX2A4x1> ;
+                                                             rdfs:label "鲁中南鼓吹乐" .
 
 
 ###  https://lib.ccmusic.edu.cn/data/place/371122
