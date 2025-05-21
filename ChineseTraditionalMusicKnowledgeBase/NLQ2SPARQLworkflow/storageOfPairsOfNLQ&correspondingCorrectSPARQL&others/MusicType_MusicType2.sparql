@@ -1,0 +1,14 @@
+# question: 北京锣鼓乐有哪些子类？
+# corresponding correct SPARQL
+# define input:inference 'urn:owl.ccmusicrules0214'
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+# Query to retrieve evolution relationships between music types
+# '请返回乐种之间的衍变关系信息' translates to 'Please return information about the evolution relationships between music types'
+SELECT ?musicType1 ?musicType1Label ?musicType2 ?musicType2Label
+WHERE {
+  ?musicType1 ctm:musicTypeEvolvesFrom ?musicType2 .
+  ?musicType1 rdfs:label ?musicType1Label .
+  ?musicType2 rdfs:label ?musicType2Label .
+}
