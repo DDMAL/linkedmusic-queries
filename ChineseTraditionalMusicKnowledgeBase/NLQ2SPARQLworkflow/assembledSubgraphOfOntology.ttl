@@ -1,49 +1,38 @@
-@prefix cidoc-crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
 @prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
-@prefix dbo: <http://dbpedia.org/ontology/> .
 @prefix event: <http://purl.org/NET/c4dm/event.owl#> .
-@prefix mo: <http://purl.org/ontology/mo/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
-dbo:formerName a owl:DatatypeProperty ;
-    rdfs:label "音乐类型(乐种)曾用名/乐器曾用名" ;
-    rdfs:comment "指一个乐种或音乐类型的曾用名，或指一件东方乐器的曾用名。注意将它区别于对象属性中的曾用名" ;
+bf:partOf a owl:ObjectProperty ;
+    rdfs:label "曲目被特藏独立资源_作品包含" ;
+    rdfs:comment "指某演出的曲目（或曲目的演出）属于某\"特藏独立资源_作品\"（尤其是视频、录音）" ;
+    rdfs:domain ctm:PieceWithPerformance ;
+    rdfs:range [ a owl:Class ;
+            owl:unionOf ( bf:Audio bf:MovingImage ctm:SpecialIndependentResource ) ] .
+
+bf:subject a owl:DatatypeProperty ;
+    rdfs:label "主题" ;
+    rdfs:comment "即采录事件（采录事项）或特藏独立资源的名称、题名" ;
     rdfs:domain [ a owl:Class ;
-            owl:unionOf ( ctm:MusicType ctm:OrientalMusicalInstrument ) ] ;
+            owl:unionOf ( ctm:EventOfRecording ctm:SpecialIndependentResource ) ] ;
     rdfs:range rdfs:Literal .
 
-ctm:nameOfMusicTypeOrInstrument a owl:DatatypeProperty ;
-    rdfs:label "音乐类型(乐种)或乐器的名称" ;
-    rdfs:comment "指一个\"音乐类型(乐种)\"的名称，或指一个\"乐器\"的名称。而对这二者，其名称则不用rdfs:label来表示" ;
-    rdfs:domain [ a owl:Class ;
-            owl:unionOf ( mo:Instrument ctm:MusicType ) ] ;
-    rdfs:range rdfs:Literal .
+ctm:recordingAddress a owl:ObjectProperty ;
+    rdfs:label "采录地址" ;
+    rdfs:comment "指一个\"特藏独立资源_作品\"的采录地址、地点，摄制地址、地点" ;
+    rdfs:domain ctm:SpecialIndependentResource ;
+    rdfs:range bf:Place ;
+    rdfs:subPropertyOf owl:topObjectProperty ;
+    skos:hiddenLabel "采录地点" .
 
-ctm:representativeQupai a owl:DatatypeProperty ;
-    rdfs:label "有代表曲牌" ;
-    rdfs:comment "指一个乐种或音乐类型的代表性曲牌" ;
-    rdfs:domain ctm:MusicType ;
-    rdfs:range rdfs:Literal ;
-    rdfs:subPropertyOf ctm:representativePiece .
-
-ctm:samplePieceWithPerformance a owl:ObjectProperty ;
-    rdfs:label "有代表曲目",
-        "示例曲目的演出" ;
-    rdfs:comment "关联一个乐器和它的代表曲目，或关联一个音乐类型(乐种)和它的代表曲目" ;
-    rdfs:domain [ a owl:Class ;
-            owl:unionOf ( mo:Instrument ctm:MusicType ) ] ;
-    rdfs:range ctm:PieceWithPerformance .
-
-ctm:representativePiece a owl:DatatypeProperty ;
-    rdfs:label "有代表曲目或剧目" ;
-    rdfs:comment "专指乐种或乐器的代表曲目（或剧目），一般用书名号表示（对于曲牌，则用半角中括号表示" ;
-    rdfs:domain [ a owl:Class ;
-            owl:unionOf ( ctm:MusicType ctm:OrientalMusicalInstrument ) ],
-        [ a owl:Class ;
-            owl:complementOf ctm:PieceWithPerformance ] ;
-    rdfs:range rdfs:Literal .
+ctm:relatesPlace a owl:ObjectProperty ;
+    rdfs:label "特藏独立资源涉及…地域" ;
+    rdfs:comment "指\"特藏独立资源_作品\"涉及某地域或地点" ;
+    rdfs:domain ctm:SpecialIndependentResource ;
+    rdfs:range bf:Place .
 
 ctm:PieceWithPerformance a owl:Class ;
     rdfs:label "曲目",
@@ -53,8 +42,13 @@ ctm:PieceWithPerformance a owl:Class ;
     rdfs:subClassOf event:Event,
         ctm:SpecialIndependentResource .
 
-ctm:MusicType a owl:Class ;
-    rdfs:label "乐种",
-        "音乐类型(乐种)" ;
-    rdfs:subClassOf cidoc-crm:E55_Type .
+bf:Place a owl:Class ;
+    rdfs:label "分布地域",
+        "地域",
+        "地点" .
+
+ctm:SpecialIndependentResource a owl:Class ;
+    rdfs:label "特藏独立资源_作品",
+        "特藏资源",
+        "馆藏作品" .
 
