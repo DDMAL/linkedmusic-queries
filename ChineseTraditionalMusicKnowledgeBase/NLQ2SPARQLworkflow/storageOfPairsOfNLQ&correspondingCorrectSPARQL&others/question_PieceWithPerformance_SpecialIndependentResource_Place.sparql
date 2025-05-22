@@ -1,0 +1,15 @@
+# question: 哪些曲目所被收录的特藏独立资源的采录地址是杭州市？？
+# corresponding correct SPARQL
+# define input:inference 'urn:owl.ccmusicrules0214' # Caution: Do cancel the well sign to enable the inference
+PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?piece ?pieceLabel WHERE {
+  ?piece a ctm:PieceWithPerformance .
+  ?piece bf:partOf ?resource .
+  ?resource a ctm:SpecialIndependentResource .
+  ?resource ctm:recordingAddress ?place .
+  ?place rdfs:label "杭州市" .
+  ?piece rdfs:label ?pieceLabel .
+}

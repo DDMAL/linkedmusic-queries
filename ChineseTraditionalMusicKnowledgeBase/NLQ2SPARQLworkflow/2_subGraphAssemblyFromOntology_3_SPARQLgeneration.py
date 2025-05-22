@@ -168,12 +168,12 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"cidoc-crm:E55_Type", "ctm:ChuidaMusic", "ctm:FolkMusic", "ctm:MusicType", "ctm:NationalInstrumentalMusic", "ctm:PieceWithPerformance", "ctm:SizhuMusic", "ns1:b8784458", "ns1:b8784481", "rdfs:Literal"}
+    given_classes = {"bf:Place", "cidoc-crm:E53_Place", "ctm:ChinaJurisdiction", "ctm:PieceWithPerformance", "ctm:SpecialIndependentResource", "ns1:b8784499", "places:City", "rdfs:Literal"}
     # --corresponding to Transformed ClassList
 
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"ctm:nameOfMusicTypeOrInstrument", "ctm:relatesMusicType", "ctm:representativePiece", "ctm:representativeQupai", "ctm:samplePieceWithPerformance", "dbo:formerName"}
+    given_properties = {"bf:derivedFrom", "bf:partOf", "bf:subject", "ctm:recordingAddress", "ctm:relatesPlace", "ctm:relatesWork"}
     # --corresponding to Transformed PropertyList
 
     # =====================================================
@@ -268,7 +268,7 @@ def callGPT(prompt):
     )
     return completion.choices[0].message.content
 
-with open("sampleQuestions/question_PieceWithPerformance_MusicType.txt", 'r') as f:
+with open("sampleQuestions/question_PieceWithPerformance_SpecialIndependentResource_Place.txt", 'r') as f:
     question = f.readlines()
 
 
