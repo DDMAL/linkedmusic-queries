@@ -168,12 +168,12 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"bf:Place", "cidoc-crm:E53_Place", "ctm:ChinaJurisdiction", "ctm:PieceWithPerformance", "ctm:SpecialIndependentResource", "ns1:b8784499", "places:City", "rdfs:Literal"}
+    given_classes = {"bf:MusicInstrument", "bf:Place", "cidoc-crm:E55_Type", "ctm:ChineseInstrument", "ctm:OrientalMusicalInstrument", "ctm:PluckedStringInstrument", "mo:Instrument", "wd:Q7403902", "rdfs:Literal"}
     # --corresponding to Transformed ClassList
 
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"bf:derivedFrom", "bf:partOf", "bf:subject", "ctm:recordingAddress", "ctm:relatesPlace", "ctm:relatesWork"}
+    given_properties = {"bf:place", "ctm:acousticClassification", "ctm:placeHasMusicTypeOrInstrument", "event:place", "gn:alternateName", "gn:historicalName", "wdt:P1762"}
     # --corresponding to Transformed PropertyList
 
     # =====================================================
@@ -253,12 +253,12 @@ if __name__ == '__main__':
 from openai import OpenAI
 # Invoke the OpenAI API:
 client = OpenAI(
-    api_key="",
+    api_key="LHAV5AoeevPPQ2iZKCIwCg2i9Jm5axE9mL5cJf0L71p6Iosl",
     base_url="https://oneapi.xty.app/v1"
 )
 def callGPT(prompt):
     completion = client.chat.completions.create(
-        model="claude-3-7-sonnet-20250219", # We can use "gpt-4o" or "o1-preview" or "claude-3-7-sonnet-20250219" model
+        model="claude-sonnet-4-20250514", # We can use "gpt-4o" or "o1-preview" or "claude-3-7-sonnet-20250219" model
         max_tokens=4096,
         temperature=0.1,
         messages=[
@@ -268,7 +268,7 @@ def callGPT(prompt):
     )
     return completion.choices[0].message.content
 
-with open("sampleQuestions/question_PieceWithPerformance_SpecialIndependentResource_Place.txt", 'r') as f:
+with open("sampleQuestions/question_Instrument_Place_Instrument.txt", 'r') as f:
     question = f.readlines()
 
 
@@ -394,7 +394,7 @@ from visiting a SPARQL Endpoint we retrieved the result: {sparql_results}.
 3. Compare the result with your own knowledge about the domain. Find out whether there is any inadquacy or inconsistency in the result. Enrich the explaination via comparison.
 ...
 4. Last but not least, if the result is too small or even empty, 
-please "broaden the retrieval scope" by loosening query conditions/constraints in the SPARQL or recommend other potential query patterns.
+please "broaden the retrieval scope" by relaxing query conditions/constraints in the SPARQL or ...
 For example:
     4.1 may use the UNION keyword to include multiple options to interpretate a question, especially when the question can be divided into multiple sub-questions, or in case of handling an objectProperty and a dataProperty which have the similar semantic meanings
     4.2 use the | operator to represent a logical OR for properties
@@ -407,13 +407,34 @@ For example:
     4.6 switch from exact matching to partial/containing matching to broaden the retrieval scope
     4.7 break down multiple-hop queries into fewer hops, to relieve the constraints of meeting all conditions across multiple hops
     ...
-    4.8 extend the adjacent classes or properties in the subgraph to recommend other possible query patterns that can yield more results
+    
 """
-
 
 RAG_result = callGPT(prompt7)
 print('\n\nRAG_result:', RAG_result)
 
+# Ontology-based Recommendation System
+prompt8 = f"""
+Based on a natural language question: {question}, 
+
+and the related ontology snippet: {turtle_output}, 
+
+and the subsequent SPARQL query: {sparql_query}, 
+
+from visiting a SPARQL Endpoint we retrieved the result: {sparql_results}. 
+
+Please recommend other potential SPARQL query patterns:
+These are tips of generating the recommendations, only for your reference:
+    0. **Identify the classes and properties in the ontology snippet that are used in the existing SPARQL query;
+    1. **Determine their current relationships and position in the ontology snippet;
+    2. **Expand to other adjacent classes or properties in the ontology snippet to recommend other possible query patterns that can yield more results;
+3. **This idea is regarding the ontology as a graph/network, and the recommendation is to explore other nodes (classes or properties) that are connected/adjacent to the ones embodied in the existing SPARQL query.
+
+Return several SPARQL query patterns, along with the corresponding natural language questions, in a structured format.
+"""
+
+Recommendation_result = callGPT(prompt8)
+print('\n\nRecommendation_result:', Recommendation_result)
 
 
 # Other tips for RAG: For the retrieved results from the SPARQL visiting the Endpoint, please
