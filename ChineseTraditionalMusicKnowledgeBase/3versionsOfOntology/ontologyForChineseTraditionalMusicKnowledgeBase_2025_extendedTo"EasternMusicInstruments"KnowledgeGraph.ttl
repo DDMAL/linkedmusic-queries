@@ -1,7 +1,7 @@
 @prefix : <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
 @prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
-@prefix gn: <https://www.geonames.org/ontology#> .
+@prefix gn: <http://www.geonames.org/ontology#> .
 @prefix mo: <http://purl.org/ontology/mo/> .
 @prefix tl: <http://purl.org/NET/c4dm/timeline.owl> .
 @prefix wd: <http://www.wikidata.org/entity/> .
@@ -407,6 +407,76 @@ cidoc-crm:P127_has_broader_term rdf:type owl:ObjectProperty ;
                                              "相当于叙词表词间关系中的属种关系" ;
                                 rdfs:label "有…广义术语" ;
                                 rdfs:seeAlso "http://www.w3.org/2004/02/skos/core#broadMatch" .
+
+
+###  http://www.geonames.org/ontology#neighbour
+gn:neighbour rdf:type owl:ObjectProperty ,
+                      owl:SymmetricProperty ;
+             rdfs:domain places:City ;
+             rdfs:range places:City ;
+             rdfs:label "市级行政单位与另一市级行政单位毗邻" .
+
+
+###  http://www.geonames.org/ontology#parentADM1
+gn:parentADM1 rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf gn:parentFeature ;
+              rdf:type owl:FunctionalProperty ;
+              rdfs:domain places:City ;
+              rdfs:range places:Province ;
+              rdfs:comment "一个市级行政单位只能属于一个省级行政单位" ;
+              rdfs:label "市级行政单位地域隶属于" ;
+              skos:altLabel "level 1 administrative parent" ;
+              skos:changeNote "将原来的http://localhost:8890/ontology/province改为https://www.geonames.org/ontology#parentADM1" .
+
+
+###  http://www.geonames.org/ontology#parentADM2
+gn:parentADM2 rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf gn:parentFeature ;
+              rdf:type owl:FunctionalProperty ;
+              rdfs:domain places:County ;
+              rdfs:range places:City ;
+              rdfs:comment "一个县、区级行政单位只能属于一个市级行政单位" ;
+              rdfs:label "县、区级行政单位地域隶属于" ;
+              skos:altLabel "level 2 administrative parent" ;
+              skos:changeNote "将原来的http://localhost:8890/ontology/city改为https://www.geonames.org/ontology#parentADM2" .
+
+
+###  http://www.geonames.org/ontology#parentADM3
+gn:parentADM3 rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf gn:parentFeature ;
+              rdf:type owl:FunctionalProperty ;
+              rdfs:domain ctm:Town ;
+              rdfs:range places:County ;
+              rdfs:comment "一个乡、镇级行政单位只能属于一个县、区级行政单位" ;
+              rdfs:label "乡、镇级行政单位地域隶属于" ;
+              skos:altLabel "level 3 administrative parent" ;
+              skos:changeNote "将原来的http://localhost:8890/ontology/county改为https://www.geonames.org/ontology#parentADM3" .
+
+
+###  http://www.geonames.org/ontology#parentADM4
+gn:parentADM4 rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf gn:parentFeature ;
+              rdf:type owl:FunctionalProperty ;
+              rdfs:domain places:Village ;
+              rdfs:range ctm:Town ;
+              rdfs:comment "一个村、社区级行政单位只能属于一个乡、镇级行政单位（含城市中的街道）" ;
+              rdfs:label "村、社区级行政单位地域隶属于" ;
+              skos:altLabel "level 4 administrative parent" ;
+              skos:changeNote "将原来的http://localhost:8890/ontology/town改为https://www.geonames.org/ontology#parentADM4" .
+
+
+###  http://www.geonames.org/ontology#parentFeature
+gn:parentFeature rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf dcterms:isPartOf ;
+                 rdf:type owl:TransitiveProperty ;
+                 rdfs:domain bf:Place ;
+                 rdfs:range bf:Place ;
+                 rdfs:comment "Relates a place to a place it is contained by e.g. town in constituency in county in country." ,
+                              "局部和整体的关系" ;
+                 rdfs:label "地域隶属于" ;
+                 rdfs:seeAlso "http://parliament.uk/ontologies/place/containedByPlace" ,
+                              "https://www.geonames.org/ontology#locatedIn" ;
+                 skos:changeNote "将原来的http://parliament.uk/ontologies/place/containedByPlace改为目前的https://www.geonames.org/ontology#parentFeature" .
 
 
 ###  http://www.kanzaki.com/ns/music#plays
@@ -977,76 +1047,6 @@ ctm:traditionalMusicBranch rdf:type owl:ObjectProperty ;
                                                                                                  owl:deprecated "true"^^xsd:boolean .
 
 
-###  https://www.geonames.org/ontology#neighbour
-gn:neighbour rdf:type owl:ObjectProperty ,
-                      owl:SymmetricProperty ;
-             rdfs:domain places:City ;
-             rdfs:range places:City ;
-             rdfs:label "市级行政单位与另一市级行政单位毗邻" .
-
-
-###  https://www.geonames.org/ontology#parentADM1
-gn:parentADM1 rdf:type owl:ObjectProperty ;
-              rdfs:subPropertyOf gn:parentFeature ;
-              rdf:type owl:FunctionalProperty ;
-              rdfs:domain places:City ;
-              rdfs:range places:Province ;
-              rdfs:comment "一个市级行政单位只能属于一个省级行政单位" ;
-              rdfs:label "市级行政单位地域隶属于" ;
-              skos:altLabel "level 1 administrative parent" ;
-              skos:changeNote "将原来的http://localhost:8890/ontology/province改为https://www.geonames.org/ontology#parentADM1" .
-
-
-###  https://www.geonames.org/ontology#parentADM2
-gn:parentADM2 rdf:type owl:ObjectProperty ;
-              rdfs:subPropertyOf gn:parentFeature ;
-              rdf:type owl:FunctionalProperty ;
-              rdfs:domain places:County ;
-              rdfs:range places:City ;
-              rdfs:comment "一个县、区级行政单位只能属于一个市级行政单位" ;
-              rdfs:label "县、区级行政单位地域隶属于" ;
-              skos:altLabel "level 2 administrative parent" ;
-              skos:changeNote "将原来的http://localhost:8890/ontology/city改为https://www.geonames.org/ontology#parentADM2" .
-
-
-###  https://www.geonames.org/ontology#parentADM3
-gn:parentADM3 rdf:type owl:ObjectProperty ;
-              rdfs:subPropertyOf gn:parentFeature ;
-              rdf:type owl:FunctionalProperty ;
-              rdfs:domain ctm:Town ;
-              rdfs:range places:County ;
-              rdfs:comment "一个乡、镇级行政单位只能属于一个县、区级行政单位" ;
-              rdfs:label "乡、镇级行政单位地域隶属于" ;
-              skos:altLabel "level 3 administrative parent" ;
-              skos:changeNote "将原来的http://localhost:8890/ontology/county改为https://www.geonames.org/ontology#parentADM3" .
-
-
-###  https://www.geonames.org/ontology#parentADM4
-gn:parentADM4 rdf:type owl:ObjectProperty ;
-              rdfs:subPropertyOf gn:parentFeature ;
-              rdf:type owl:FunctionalProperty ;
-              rdfs:domain places:Village ;
-              rdfs:range ctm:Town ;
-              rdfs:comment "一个村、社区级行政单位只能属于一个乡、镇级行政单位（含城市中的街道）" ;
-              rdfs:label "村、社区级行政单位地域隶属于" ;
-              skos:altLabel "level 4 administrative parent" ;
-              skos:changeNote "将原来的http://localhost:8890/ontology/town改为https://www.geonames.org/ontology#parentADM4" .
-
-
-###  https://www.geonames.org/ontology#parentFeature
-gn:parentFeature rdf:type owl:ObjectProperty ;
-                 rdfs:subPropertyOf dcterms:isPartOf ;
-                 rdf:type owl:TransitiveProperty ;
-                 rdfs:domain bf:Place ;
-                 rdfs:range bf:Place ;
-                 rdfs:comment "Relates a place to a place it is contained by e.g. town in constituency in county in country." ,
-                              "局部和整体的关系" ;
-                 rdfs:label "地域隶属于" ;
-                 rdfs:seeAlso "http://parliament.uk/ontologies/place/containedByPlace" ,
-                              "https://www.geonames.org/ontology#locatedIn" ;
-                 skos:changeNote "将原来的http://parliament.uk/ontologies/place/containedByPlace改为目前的https://www.geonames.org/ontology#parentFeature" .
-
-
 #################################################################
 #    Data properties
 #################################################################
@@ -1314,6 +1314,28 @@ cidoc-crm:P3_has_note rdf:type owl:DatatypeProperty ;
                       rdfs:range rdfs:Literal ;
                       rdfs:comment "如果定义域为演出的曲目，那么，值域可以包括表演形式、模式、程式方面的注释，参考《中国乐种学》p.258" ;
                       rdfs:label "备注与涉及的其他当事人" .
+
+
+###  http://www.geonames.org/ontology#alternateName
+gn:alternateName rdf:type owl:DatatypeProperty ;
+                 rdfs:domain bf:Place ;
+                 rdfs:range rdfs:Literal ;
+                 rdfs:comment """<!-- Datatype Properties -->
+  <owl:DatatypeProperty rdf:about=\"#alternateName\">
+    <rdfs:domain rdf:resource=\"#Feature\"/>
+    <rdfs:subPropertyOf rdf:resource=\"http://www.w3.org/2004/02/skos/core#altLabel\"/>
+  </owl:DatatypeProperty>""" ;
+                 rdfs:label "地域又名" ;
+                 owl:incompatibleWith "https://schema.org/alternateName" .
+
+
+###  http://www.geonames.org/ontology#historicalName
+gn:historicalName rdf:type owl:DatatypeProperty ;
+                  rdfs:subPropertyOf gn:alternateName ;
+                  rdfs:domain bf:Place ;
+                  rdfs:range rdfs:Literal ;
+                  rdfs:comment "地域曾用名、旧称" ;
+                  rdfs:label "地域史称" .
 
 
 ###  http://www.w3.org/2004/02/skos/core#definition
@@ -1977,28 +1999,6 @@ ctm:workKeyword rdf:type owl:DatatypeProperty ;
                 ctm:intactFragmentIdentifier "workHasKeywordsOf" .
 
 
-###  https://www.geonames.org/ontology#alternateName
-gn:alternateName rdf:type owl:DatatypeProperty ;
-                 rdfs:domain bf:Place ;
-                 rdfs:range rdfs:Literal ;
-                 rdfs:comment """<!-- Datatype Properties -->
-  <owl:DatatypeProperty rdf:about=\"#alternateName\">
-    <rdfs:domain rdf:resource=\"#Feature\"/>
-    <rdfs:subPropertyOf rdf:resource=\"http://www.w3.org/2004/02/skos/core#altLabel\"/>
-  </owl:DatatypeProperty>""" ;
-                 rdfs:label "地域又名" ;
-                 owl:incompatibleWith "https://schema.org/alternateName" .
-
-
-###  https://www.geonames.org/ontology#historicalName
-gn:historicalName rdf:type owl:DatatypeProperty ;
-                  rdfs:subPropertyOf gn:alternateName ;
-                  rdfs:domain bf:Place ;
-                  rdfs:range rdfs:Literal ;
-                  rdfs:comment "地域曾用名、旧称" ;
-                  rdfs:label "地域史称" .
-
-
 #################################################################
 #    Classes
 #################################################################
@@ -2308,6 +2308,7 @@ ontolex:Word rdf:type owl:Class ;
 ###  http://www.wikidata.org/entity/Q7403902
 wd:Q7403902 rdf:type owl:Class ;
             rdfs:subClassOf cidoc-crm:E55_Type ;
+            rdfs:comment "一个乐器声学分类类目的集合" ;
             rdfs:label "Category:霍恩博斯特尔-萨克斯分类法类目" .
 
 
