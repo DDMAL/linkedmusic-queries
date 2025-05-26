@@ -1,0 +1,43 @@
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix event: <http://purl.org/NET/c4dm/event.owl#> .
+@prefix gn: <https://www.geonames.org/ontology#> .
+@prefix kanzaki: <http://www.kanzaki.com/ns/music#> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix wdt: <http://www.wikidata.org/prop/direct/> .
+
+dbo:ethnicity rdfs:label "来自…民族" ;
+    rdfs:comment "关联民间乐人和某个中华民族的族群" .
+
+event:place rdfs:label "采录事项发生在…地点" .
+
+mo:composer rdfs:label "的作曲者是" ;
+    rdfs:comment "关联曲目和音乐人" .
+
+mo:performer rdfs:label "的表演者是" ;
+    rdfs:comment "关联一部曲目和它的表演者，往往是一个演奏家或音乐人" .
+
+kanzaki:plays rdfs:label "音乐人擅长演奏" ;
+    rdfs:comment "关联一个音乐人和其擅长演奏的乐器" .
+
+gn:neighbour rdfs:label "市级行政单位与另一市级行政单位毗邻" .
+
+gn:parentADM1 rdfs:label "市级行政单位地域隶属于" ;
+    rdfs:comment "关联一个中国的市级行政单位和它所隶属的某个上一层级即省级行政单位" .
+
+gn:parentADM2 rdfs:label "县、区级行政单位地域隶属于" ;
+    rdfs:comment "关联一个中国的县、区级行政单位和它所隶属的某个上一层级即市级行政单位" .
+
+gn:parentADM3 rdfs:label "乡、镇级行政单位地域隶属于" ;
+    rdfs:comment "关联一个中国的乡、镇级行政单位和它所隶属的某个上一层级即县级或区级行政单位" .
+
+gn:parentADM4 rdfs:label "村、社区级行政单位地域隶属于" ;
+    rdfs:comment "关联一个中国的村、社区级行政单位和它所隶属的某个上一层级即乡、镇级行政单位" .
+
+gn:parentFeature rdfs:label "地域隶属于" ;
+    rdfs:comment "关联一块地域和它所从属的更广阔的地域，即体现局部和整体的关系（部分和整体的关系）" .
+
+wdt:P1762 rdfs:label "乐器类型（声学角度）" , "乐器霍萨分类" , "Hornbostel-SachsClassification" ;
+    rdfs:comment "关联一件乐器和它所属的霍萨声学分类类目" .
