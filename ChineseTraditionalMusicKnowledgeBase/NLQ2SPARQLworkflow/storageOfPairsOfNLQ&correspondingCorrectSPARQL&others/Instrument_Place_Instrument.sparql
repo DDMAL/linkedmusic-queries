@@ -1,0 +1,24 @@
+# question: 东不拉分布在哪里，其所分布的地域还有哪些弹弦类乐器？[translate: Where is the "dongbula" (东不拉) distributed, and what other plucked string instruments are distributed in the same regions?]
+# corresponding correct SPARQL
+# define input:inference 'urn:owl.ccmusicrules0214' # Caution: Do cancel the well sign to enable the inference
+PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?place ?placeLabel ?otherInstrument ?otherInstrumentLabel WHERE {
+  # Find the dongbula instrument
+  ?dongbula rdfs:label "东不拉" .
+  ?dongbula a ctm:PluckedStringInstrument .
+  
+  # Find places where dongbula is distributed
+  ?dongbula bf:place ?place .
+  ?place rdfs:label ?placeLabel .
+  
+  # Find other plucked string instruments in the same places
+  ?place ctm:placeHasMusicTypeOrInstrument ?otherInstrument .
+  ?otherInstrument a ctm:PluckedStringInstrument .
+  ?otherInstrument rdfs:label ?otherInstrumentLabel .
+  
+  # Exclude the dongbula itself from the results
+  FILTER(?otherInstrument != ?dongbula)
+}

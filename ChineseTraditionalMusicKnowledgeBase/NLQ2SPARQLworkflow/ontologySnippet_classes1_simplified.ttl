@@ -8,6 +8,7 @@
 @prefix mo: <http://purl.org/ontology/mo/> .
 @prefix places: <http://purl.org/ontology/places#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix wd: <http://www.wikidata.org/entity/> .
 
 <http://dbtune.org/musicbrainz/page/instrument/68> rdfs:label "笙" .
 
@@ -69,6 +70,9 @@ foaf:Person rdfs:label "人" .
 dbpedia-owl:EthnicGroup rdfs:label "民族(或族群)" ;
     rdfs:comment "包括中华民族、外国或外国民族（如东亚、东南亚等各民族）" .
 
+wd:Q7403902 rdfs:label "乐器的类（声学）" , "Category:霍恩博斯特尔-萨克斯分类法类目" ;
+    rdfs:comment "一个乐器声学分类类目的集合，也是乐器分类的一种角度" .
+
 ctm:BambooFlute rdfs:label "笛" .
 
 ctm:BlowPipeInstrument rdfs:label "吹管类乐器" .
@@ -116,4 +120,3 @@ ctm:ForeignNation rdfs:label "外国或外国民族" ;
     rdfs:comment "其“外国民族”是指几乎不在中国国内存在、有分布的民族" .
 
 ctm:GongCheMusicScore rdfs:label "工尺谱" .
-
