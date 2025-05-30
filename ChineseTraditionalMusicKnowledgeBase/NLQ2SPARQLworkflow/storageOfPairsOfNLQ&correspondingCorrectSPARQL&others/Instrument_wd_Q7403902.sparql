@@ -1,0 +1,20 @@
+# question: 东不拉的声学分类是怎样的？[translation: What is the acoustic classification of the "dongbula" (东不拉)?]
+# corresponding correct SPARQL
+# define input:inference 'urn:owl.ccmusicrules0214' # Caution: Do cancel the well sign to enable the inference
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+
+# Query both object property (wdt:P1762) and data property (ctm:acousticClassification) for acoustic classification
+SELECT ?label ?classification
+WHERE {
+  ?instrument rdfs:label "东不拉" .
+  {
+    ?instrument wdt:P1762 ?class .
+    ?class rdfs:label ?classification .
+  } UNION {
+    ?instrument ctm:acousticClassification ?classification .
+  }
+  ?instrument rdfs:label ?label .
+}
