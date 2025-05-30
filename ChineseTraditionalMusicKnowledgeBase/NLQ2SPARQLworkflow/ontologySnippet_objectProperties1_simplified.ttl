@@ -7,9 +7,6 @@
 @prefix mo: <http://purl.org/ontology/mo/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
-dbo:ethnicity rdfs:label "来自…民族" ;
-    rdfs:comment "关联民间乐人和某个中华民族的族群" .
-
 bf:accompanies rdfs:label "特藏独立资源_作品伴随" ;
     rdfs:comment "关联一个\"特藏独立资源_作品\"和另一个相关的\"特藏独立资源_作品\"" .
 
@@ -33,17 +30,6 @@ bf:place rdfs:label "分布于",
 
 bf:succeededBy rdfs:label "曲目其后为" ;
     rdfs:comment "关联一个曲目和它后面的曲目。可以将这种关系看做若干曲目组成的\"列表、歌单\"等" .
-
-event:place rdfs:label "采录事项发生在…地点" .
-
-mo:composer rdfs:label "的作曲者是" ;
-    rdfs:comment "关联曲目和音乐人" .
-
-mo:performer rdfs:label "的表演者是" ;
-    rdfs:comment "关联一部曲目和它的表演者，往往是一个演奏家或音乐人" .
-
-kanzaki:plays rdfs:label "音乐人擅长演奏" ;
-    rdfs:comment "关联一个音乐人和其擅长演奏的乐器" .
 
 ctm:ethnicGroup rdfs:label "对应…族群(民族)" ;
     rdfs:comment "关联一个乐种或乐器对应的族群或民族信息" .
@@ -161,21 +147,3 @@ ctm:samplePieceWithPerformance rdfs:label "示例曲目的演出" , "有代表�
 
 ctm:traditionalMusicBranch rdfs:label "对应的传统音乐支脉" ;
     rdfs:comment "指一个乐种对应的传统音乐支脉或分支" .
-
-gn:neighbour rdfs:label "市级行政单位与另一市级行政单位毗邻" .
-
-gn:parentADM1 rdfs:label "市级行政单位地域隶属于" ;
-    rdfs:comment "关联一个中国的市级行政单位和它所隶属的某个上一层级即省级行政单位" .
-
-gn:parentADM2 rdfs:label "县、区级行政单位地域隶属于" ;
-    rdfs:comment "关联一个中国的县、区级行政单位和它所隶属的某个上一层级即市级行政单位" .
-
-gn:parentADM3 rdfs:label "乡、镇级行政单位地域隶属于" ;
-    rdfs:comment "关联一个中国的乡、镇级行政单位和它所隶属的某个上一层级即县级或区级行政单位" .
-
-gn:parentADM4 rdfs:label "村、社区级行政单位地域隶属于" ;
-    rdfs:comment "关联一个中国的村、社区级行政单位和它所隶属的某个上一层级即乡、镇级行政单位" .
-
-gn:parentFeature rdfs:label "地域隶属于" ;
-    rdfs:comment "关联一块地域和它所从属的更广阔的地域，即体现局部和整体的关系（部分和整体的关系）" .
-

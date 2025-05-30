@@ -1,0 +1,40 @@
+# question: 有哪些戏曲音乐在华中一带的城市分布，进而是否有曲目、曲牌和它们相关，此外，我馆是否有相应资源收藏？(translation: Which opera music is distributed in the cities of Central China? Are there any pieces, musical patterns related to them? Besides, does our library have any corresponding resources for collection?)
+# corresponding correct SPARQL
+# define input:inference 'urn:owl.ccmusicrules0214' # Caution: Do cancel the well sign to enable the inference
+PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?operaMusic ?operaMusicLabel ?place ?placeLabel ?piece ?qupai ?resource ?resourceLabel
+WHERE {
+  # Find music types (opera music)
+  ?operaMusic rdf:type ctm:MusicType .
+  ?operaMusic rdfs:label ?operaMusicLabel .
+  
+  # Filter for opera/theatrical music types
+  FILTER(CONTAINS(LCASE(?operaMusicLabel), "戏") || CONTAINS(LCASE(?operaMusicLabel), "剧") || CONTAINS(LCASE(?operaMusicLabel), "曲"))
+  
+  # Find places where the music is distributed
+  ?operaMusic bf:place ?place .
+  ?place rdfs:label ?placeLabel .
+  
+  # Filter for Central China regions
+  FILTER(CONTAINS(LCASE(?placeLabel), "华中") || CONTAINS(LCASE(?placeLabel), "湖北") || CONTAINS(LCASE(?placeLabel), "湖南") || CONTAINS(LCASE(?placeLabel), "河南") || CONTAINS(LCASE(?placeLabel), "江西") || CONTAINS(LCASE(?placeLabel), "安徽"))
+  
+  # Optional: Find representative pieces
+  OPTIONAL {
+    ?operaMusic ctm:representativePiece ?piece .
+  }
+  
+  # Optional: Find representative qupai (musical patterns)
+  OPTIONAL {
+    ?operaMusic ctm:representativeQupai ?qupai .
+  }
+  
+  # Optional: Find related library resources/collections
+  OPTIONAL {
+    ?operaMusic ctm:relatesWork ?resource .
+    ?resource rdfs:label ?resourceLabel .
+  }
+}
