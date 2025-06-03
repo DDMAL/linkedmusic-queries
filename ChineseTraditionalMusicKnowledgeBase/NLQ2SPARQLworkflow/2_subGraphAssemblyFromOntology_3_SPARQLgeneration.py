@@ -168,12 +168,12 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"bf:MusicInstrument", "bf:Place", "cidoc-crm:E55_Type", "ctm:ChineseInstrument", "ctm:OrientalMusicalInstrument", "ctm:PluckedStringInstrument", "mo:Instrument", "wd:Q7403902", "rdfs:Literal"}
+    given_classes = {"bf:Audio", "bf:NotatedMusic", "bf:Place", "bf:Text", "cidoc-crm:E55_Type", "ctm:FolkMusic", "ctm:FolkSong", "ctm:MusicType", "ctm:PieceWithPerformance", "ctm:SpecialIndependentResource", "ctm:TraditionalOperaMusic", "ns1:b8784481", "places:City", "rdfs:Literal"}
     # --corresponding to Transformed ClassList
 
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"bf:place", "ctm:acousticClassification", "ctm:placeHasMusicTypeOrInstrument", "event:place", "gn:alternateName", "gn:historicalName", "wdt:P1762"}
+    given_properties = {"bf:hasPart", "bf:partOf", "bf:place", "bf:subject", "ctm:placeHasMusicTypeOrInstrument", "ctm:relatesPlace", "ctm:relatesWork", "ctm:representativePiece", "ctm:representativeQupai", "ctm:workKeyword", "event:place"}
     # --corresponding to Transformed PropertyList
 
     # =====================================================
@@ -253,7 +253,7 @@ if __name__ == '__main__':
 from openai import OpenAI
 # Invoke the OpenAI API:
 client = OpenAI(
-    api_key="",
+    api_key="LHAV5AoeevPPQ2iZKCIwCg2i9Jm5axE9mL5cJf0L71p6Iosl",
     base_url="https://oneapi.xty.app/v1"
 )
 def callGPT(prompt):
@@ -268,7 +268,7 @@ def callGPT(prompt):
     )
     return completion.choices[0].message.content
 
-with open("sampleQuestions/question_Instrument_Place_Instrument.txt", 'r') as f:
+with open("sampleQuestions/question_random.txt", 'r') as f:
     question = f.readlines()
 
 
