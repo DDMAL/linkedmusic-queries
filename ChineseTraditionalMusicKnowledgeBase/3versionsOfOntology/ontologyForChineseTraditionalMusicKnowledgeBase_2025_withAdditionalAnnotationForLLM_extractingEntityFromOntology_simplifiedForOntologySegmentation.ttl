@@ -808,6 +808,14 @@ ctm:ethnicGroupAlias rdf:type owl:DatatypeProperty ;
                      rdfs:label "民族别称" .
 
 
+###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#ethnicity
+ctm:ethnicity rdf:type owl:DatatypeProperty ;
+              rdfs:domain mo:SoloMusicArtist ;
+              rdfs:range rdfs:Literal ;
+              rdfs:comment "关联一个音乐人和其所属的民族信息" ;
+              rdfs:label "民族" .
+
+
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#hasResearchArea
 ctm:hasResearchArea rdf:type owl:DatatypeProperty ;
                     rdfs:domain ctm:Musicologist ;
@@ -957,6 +965,7 @@ bf:NotatedMusic rdf:type owl:Class ;
 
 ###  http://id.loc.gov/ontologies/bibframe/Place
 bf:Place rdf:type owl:Class ;
+         rdfs:comment "也有可能是籍贯地" ;
          rdfs:label "分布地域" ,
                     "地域" ,
                     "地点" .
