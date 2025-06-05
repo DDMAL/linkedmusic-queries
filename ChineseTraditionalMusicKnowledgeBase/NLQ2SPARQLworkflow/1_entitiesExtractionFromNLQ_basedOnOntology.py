@@ -40,7 +40,7 @@ with open("ontologySnippet_objectProperties2_simplified.ttl", "r") as context4:
 with open("ontologySnippet_dataProperties_simplified.ttl", "r") as context5:
     context_ontology_dataProperty = context5.readlines()
 # The natural language question is read from a text file:
-with open("sampleQuestions/question_random.txt", 'r') as f:
+with open("sampleQuestions/question_random1.txt", 'r') as f:
     question = f.readlines()
 
 prompt0 = f"""
