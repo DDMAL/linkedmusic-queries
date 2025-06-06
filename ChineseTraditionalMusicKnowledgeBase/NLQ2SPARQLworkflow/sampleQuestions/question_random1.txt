@@ -1,2 +1,1 @@
-我想看看资源库里有哪些音乐人，这些音乐人自身的情况如何,比如籍贯、民族、擅长的乐种乐器？然后，与他们关联的演出的曲目、特藏资源大致是什么情况?
-（translation: I'd like to see what musicians are in our repository and learn about their personal backgrounds, such as their hometown, ethnicity, and the types of music or instruments they specialize in. Then, what are the general details of the performance pieces and special collection resources associated with them?
+我想看看乐器中，哪些是涉及新疆维吾尔自治区（地域）或中国的大西北地区的，尤其是它的弹拨乐器（也可以考虑从霍萨分类法的角度来考察）。再如，这些乐器可能用在我们的哪些特藏资源或者演出的曲目中？（translation: I'd like to see which instruments are related to Xinjiang or the Northwest region of China, especially plucked instruments (or considering the Hossa classification system). Additionally, which special collection resources or performance pieces might these instruments be used in?）
