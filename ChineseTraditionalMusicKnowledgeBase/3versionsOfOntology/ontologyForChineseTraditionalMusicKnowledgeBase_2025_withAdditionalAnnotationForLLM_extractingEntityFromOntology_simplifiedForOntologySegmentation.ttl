@@ -905,6 +905,9 @@ ctm:representativePiece rdf:type owl:DatatypeProperty ;
                                     ] ,
                                     [ rdf:type owl:Class ;
                                       owl:complementOf ctm:PieceWithPerformance
+                                    ] ,
+                                    [ rdf:type owl:Class ;
+                                      owl:complementOf ctm:SpecialIndependentResource
                                     ] ;
                         rdfs:range rdfs:Literal ;
                         rdfs:comment "专指乐种或乐器的代表曲目（或剧目），一般用书名号表示（对于曲牌，则用半角中括号表示" ;
@@ -967,6 +970,7 @@ bf:NotatedMusic rdf:type owl:Class ;
 bf:Place rdf:type owl:Class ;
          rdfs:comment "也有可能是籍贯地" ;
          rdfs:label "分布地域" ,
+                    "地区" ,
                     "地域" ,
                     "地点" .
 
@@ -1415,7 +1419,8 @@ ctm:SizhuMusic rdf:type owl:Class ;
 
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#SpecialIndependentResource
 ctm:SpecialIndependentResource rdf:type owl:Class ;
-                               rdfs:label "特藏独立资源_作品" ,
+                               rdfs:label "Special Collection Resources"@en ,
+                                          "特藏独立资源_作品" ,
                                           "特藏资源" ,
                                           "馆藏作品" .
 
