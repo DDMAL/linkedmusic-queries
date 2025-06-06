@@ -1,0 +1,59 @@
+# question: 我想看看乐器中，哪些是涉及新疆维吾尔自治区（地域）或中国的大西北地区的，尤其是它的弹拨乐器（也可以考虑从霍萨分类法的角度来考察）。再如，这些乐器可能用在我们的哪些特藏资源或者演出的曲目中？（translation: I want to see which instruments are related to the Xinjiang Uygur Autonomous Region (region) or the Northwest region of China, especially its plucked instruments (considering the Hosa classification method). For example, which of these instruments might be used in our special collections or performance repertoire?）
+# corresponding correct SPARQL
+# define input:inference 'urn:owl.ccmusicrules0214' # Caution: Do cancel the well sign to enable the inference
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX wd: <http://www.wikidata.org/entity/>
+
+SELECT DISTINCT ?instrument ?instrumentLabel ?place ?placeLabel 
+       ?resourceOrPiece ?resourceOrPieceLabel ?classification
+WHERE {
+  # Broaden instrument type constraint
+  {
+    ?instrument a ctm:PluckedStringInstrument
+  } UNION {
+    ?instrument a mo:Instrument ;
+               ctm:instrument_broaderTerm* ?broader .
+    ?broader a ctm:PluckedStringInstrument
+  }
+  
+  ?instrument rdfs:label ?instrumentLabel .
+  
+  # Multiple ways to connect instrument with place
+  {
+    ?instrument bf:place ?place
+  } UNION {
+    ?place ctm:placeHasMusicTypeOrInstrument ?instrument
+  }
+  
+  ?place rdfs:label ?placeLabel .
+  
+  # Broader place matching
+  FILTER(CONTAINS(LCASE(str(?placeLabel)), "新疆") || 
+         CONTAINS(LCASE(str(?placeLabel)), "西北") ||
+         CONTAINS(LCASE(str(?placeLabel)), "甘肃") ||
+         CONTAINS(LCASE(str(?placeLabel)), "陕西") ||
+         CONTAINS(LCASE(str(?placeLabel)), "宁夏"))
+         
+  # Optional Hornbostel-Sachs classification
+  OPTIONAL {
+    ?instrument wdt:P1762 ?classification
+  }
+  
+  # Multiple ways to find related resources or pieces
+  OPTIONAL {
+    {
+      ?instrument ctm:relatesWork ?resourceOrPiece
+    } UNION {
+      ?resourceOrPiece bf:instrument ?instrument
+    } UNION {
+      ?resourceOrPiece ctm:piecePrincipalInstrument ?instrument
+    } UNION {
+      ?resourceOrPiece ctm:relatesInstrument ?instrument
+    }
+    ?resourceOrPiece rdfs:label ?resourceOrPieceLabel
+  }
+}
