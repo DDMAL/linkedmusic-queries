@@ -968,7 +968,7 @@ bf:NotatedMusic rdf:type owl:Class ;
 
 ###  http://id.loc.gov/ontologies/bibframe/Place
 bf:Place rdf:type owl:Class ;
-         rdfs:comment "也有可能是籍贯地" ;
+         rdfs:comment "一个地域（比如河北省）可能会有特别的乐器或乐种。地域在有些情况下，也有可能是籍贯地" ;
          rdfs:label "分布地域" ,
                     "地区" ,
                     "地域" ,
