@@ -168,12 +168,12 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"bf:Audio", "bf:NotatedMusic", "bf:Place", "bf:Text", "cidoc-crm:E55_Type", "ctm:FolkMusic", "ctm:FolkSong", "ctm:MusicType", "ctm:PieceWithPerformance", "ctm:SpecialIndependentResource", "ctm:TraditionalOperaMusic", "ns1:b8784481", "places:City", "rdfs:Literal"}
+    given_classes = {"bf:MusicInstrument", "bf:NotatedMusic", "bf:Place", "bf:Work", "cidoc-crm:E55_Type", "ctm:ChineseInstrument", "ctm:MusicType", "ctm:Musicologist", "ctm:OrientalMusicalInstrument", "ctm:PieceWithPerformance", "ctm:SpecialIndependentResource", "dbpedia-owl:EthnicGroup", "event:Event", "mo:Instrument", "mo:SoloMusicArtist", "ns1:b8784457", "ns1:b8784481", "rdfs:Literal"}
     # --corresponding to Transformed ClassList
 
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"bf:hasPart", "bf:partOf", "bf:place", "bf:subject", "ctm:placeHasMusicTypeOrInstrument", "ctm:relatesPlace", "ctm:relatesWork", "ctm:representativePiece", "ctm:representativeQupai", "ctm:workKeyword", "event:place"}
+    given_properties = {"bf:subject", "ctm:ethnicGroup", "ctm:ethnicGroupAlias", "ctm:goodAtPerformingMusic", "ctm:instrumentalist", "ctm:musicianAlias", "ctm:nameOfMusicTypeOrInstrument", "ctm:nativePlace", "ctm:pieceType", "ctm:relatesEthnicGroup", "ctm:relatesInstrument", "ctm:relatesMusicType", "ctm:relatesMusician", "ctm:relatesPlace", "ctm:relatesWork", "dbo:ethnicity", "kanzaki:plays", "mo:performer", "musicbrainz:title"}
     # --corresponding to Transformed PropertyList
 
     # =====================================================
@@ -268,7 +268,7 @@ def callGPT(prompt):
     )
     return completion.choices[0].message.content
 
-with open("sampleQuestions/question_random.txt", 'r') as f:
+with open("sampleQuestions/question_random1.txt", 'r') as f:
     question = f.readlines()
 
 
@@ -311,6 +311,7 @@ Natural language question:
 !Caution: in your feedback for this prompt, do return only the refined SPARQL query code.
 
 Note: 
+0. In addition to `rdfs:label`, the classes and properties in the SPARQL query should be consistent with the ontology snippet
 1. Don't use language tag for the rdfs:Literals value in the SPARQL query
 2. The question is associated with the domain of Chinese or East-and-Southeast-Asian music, so you may understand the entities priorly that you can correspond them to the classes in the given ontology
 3. For each instance variable in the SPARQL, ensure that the labels for them are represented using `rdfs:label` property even if it is not explicitly mentioned in the ontology snippet
@@ -374,8 +375,8 @@ output_QueryResultInJson = f"sparql_results_{timestamp}.json"
 
 # Write results to JSON file:
 with open(output_QueryResultInJson, 'w', encoding='utf-8') as f:
-    json.dump(sparql_results, f, ensure_ascii=False, indent=2)
-print(f"\n\nQuery results have been saved to: {output_QueryResultInJson}")    
+    json.dump(sparql_results, f, ensure_ascii=False, indent=2) # This will save the SPARQL query results in a JSON file with a timestamp in its name
+print(f"\n\nQuery results have been saved to: {output_QueryResultInJson}")
 # print('\n\nsparql_results:', sparql_results) # rendered in JSON format
 
 

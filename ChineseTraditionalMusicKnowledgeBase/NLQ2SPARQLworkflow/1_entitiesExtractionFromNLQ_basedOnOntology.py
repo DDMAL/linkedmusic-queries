@@ -9,13 +9,13 @@ from SPARQLWrapper import SPARQLWrapper, JSON # SPARQLWrapper is a Python wrappe
 # 1. SubGraph Extraction
 # Invoke the OpenAI API:
 client = OpenAI( # We initiatively set the model to "gpt-4o" for the first call so the function name is OpenAI
-    api_key="LHAV5AoeevPPQ2iZKCIwCg2i9Jm5axE9mL5cJf0L71p6Iosl", # To check the consumption of the API key, please visit https://cx.xty.app/#/. Put "sk-" before the API key then query the consumption
+    api_key="", # To check the consumption of the API key, please visit https://cx.xty.app/#/. Put "sk-" before the API key then query the consumption
     base_url="https://oneapi.xty.app/v1"
 )
 
 def callGPT(prompt): # We initiatively set the model to "gpt-4o" for the first call so the function name is callGPT
     completion = client.chat.completions.create(
-        model="gpt-4o", # We can use "gpt-4o" or "o1-preview" or "deepseek-r1" model (currently, it's not stable using "deepseek-r1" model and by using that, the final output of Transformed PropertyList is empty for unknown reason)
+        model="gpt-4.1-2025-04-14", # We can use "gpt-4o" or "o1-preview" or "deepseek-r1" model (currently, it's not stable using "deepseek-r1" model and by using that, the final output of Transformed PropertyList is empty for unknown reason)
         max_tokens=4096,
         temperature=0.1,
         messages=[
@@ -40,7 +40,7 @@ with open("ontologySnippet_objectProperties2_simplified.ttl", "r") as context4:
 with open("ontologySnippet_dataProperties_simplified.ttl", "r") as context5:
     context_ontology_dataProperty = context5.readlines()
 # The natural language question is read from a text file:
-with open("sampleQuestions/question_random.txt", 'r') as f:
+with open("sampleQuestions/有啥曲牌.txt", 'r') as f:
     question = f.readlines()
 
 prompt0 = f"""
@@ -69,7 +69,7 @@ such as `["ex:class1", "ex:class2", "ex:class3"]`.
 3. Extract all classes that are even minimally relevant to the question.
 4. As long as any semantic fragment (such as a word, phrase, or expression) in the natural language question semantically matches the content of the `rdfs:label` of a class in the ontology, that class will be extracted from the ontology.
 5. As long as an entity(or class) in the natural language question exactly matches one value of the `rdfs:label` of a class in the ontology, that class must be extracted from the ontology.
-For the entity(or class) list, you can refer to {result0}.
+For the entity(or class) list, you can refer to {result0}. 
 6. 如果问句中涉及…类乐器，也不妨参考`wd:Q7403902 rdfs:label "乐器的类（声学）".`
 """
 
@@ -105,7 +105,7 @@ such as `["ex:property1", "ex:property2", "ex:property3"]`.
 4. Extract all properties that are even minimally relevant to the question.
 5. Examine each property with its label and comment, one by one.
 6. As long as an entity in the natural language question matches one value of the `rdfs:label` of a property in the ontology, that property must be extracted from the ontology.
-For the entity list, you can refer to {result0}
+For the entity list, you can refer to {result0}.
 """
 
 prompt4= f"""
@@ -124,7 +124,7 @@ such as `["ex:property1", "ex:property2", "ex:property3"]`.
 5. Examine each property with its label and comment, one by one.
 6. As long as an entity in the natural language question matches one value of the `rdfs:label` of a property in the ontology, that property must be extracted from the ontology.
 7. 句子中若存在形容词+名词的结构，也有可能从中提取出属性，比如，“某地域有哪些拉弦类乐器？”，它就可能涉及属性“rdfs:label: "乐器类型（声学角度）"”。
-For the entity list, you can refer to {result0}
+For the entity list, you can refer to {result0}.
 """
 
 prompt5 = f"""

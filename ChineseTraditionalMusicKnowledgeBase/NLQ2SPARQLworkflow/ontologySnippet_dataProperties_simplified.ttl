@@ -43,6 +43,9 @@ ctm:administrative_unit_code rdfs:label "各级行政单位编码" .
 
 ctm:ethnicGroupAlias rdfs:label "民族别称" .
 
+ctm:ethnicity rdfs:label "民族" ;
+    rdfs:comment "关联一个音乐人和其所属的民族信息" .
+
 ctm:hasResearchArea rdfs:label "研究领域" .
 
 ctm:introOfPerformedPiece rdfs:label "曲目的演出的简介" .

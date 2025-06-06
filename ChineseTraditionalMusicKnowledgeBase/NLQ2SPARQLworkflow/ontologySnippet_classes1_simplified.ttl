@@ -22,7 +22,8 @@ bf:NotatedMusic rdfs:label "乐谱" ;
     rdfs:comment "乐谱、曲谱等" .
 
 bf:Place rdfs:label "地域", "分布地域",
-        "地点" .
+        "地点" ;
+    rdfs:comment "也有可能是籍贯地" .
 
 bf:StillImage rdfs:label "图片" ;
     rdfs:comment "包括幻灯片" .
