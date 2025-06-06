@@ -33,6 +33,8 @@
 @prefix dbpedia-owl: <https://dbpedia.org/ontology/> .
 @prefix musicbrainz: <http://musicbrainz.org/ns/mmd-2.0#> .
 @prefix relationship: <http://purl.org/vocab/relationship/> .
+@prefix dataMusicType: <https://lib.ccmusic.edu.cn/data/musictype/> .
+@prefix dataInstrument: <https://lib.ccmusic.edu.cn/data/instrument/> .
 @base <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#> .
 
 <https://lib.ccmusic.edu.cn/ontologies/oriental_instrument&music> rdf:type owl:Ontology ;
@@ -61,7 +63,9 @@
 Since 2025Feb25, following modifications are as belows:
 (1) ObjectProperty `:musicType_Instrument` is updated to `:musicType_instrument`
 (2) ...
-(3) Add name space and prefix. See geo""" .
+(3) Add name space and prefix. See geo
+
+2025June4, modified""" .
 
 #################################################################
 #    Annotation properties
@@ -495,6 +499,10 @@ rdf:type rdf:type owl:ObjectProperty ;
          rdfs:comment "此对象属性之所以可内嵌如是两个属性，是因为——根据论文《非物质文化遗产本体构建与语义化组织研究》（《数字图书馆论坛》，2014）中关于类型（Type）的陈述：类型（Type）实体主要应用于非遗知识元素分类体系的构建，其类别实例可以依据不同的分类准则进行定义，可以来源于各类受控词表，也可以依据不同的分类体系来定义，如依据我国《非物质文化遗产名录》将非遗分为民间文学、【民间音乐】、传统医药、民俗等十大类，依据非遗的【民族】特性又可划分汉族、土家族、苗族等类别。类别实例之间还可以利用类属性crm:has border term进行层级关系的搭建，建立一个多视角、多层次、灵活的分类体系，其他类实体可分别构建与类型实体的映射关系" ;
          rdfs:label "曲目类型" ;
          owl:deprecated "true"^^xsd:boolean .
+
+
+###  http://www.w3.org/1999/02/22-rdf-syntax-ns#value
+rdf:value rdf:type owl:ObjectProperty .
 
 
 ###  http://www.w3.org/2002/07/owl#topObjectProperty
@@ -2332,6 +2340,12 @@ dbpedia-owl:EthnicGroup rdf:type owl:Class ;
                         rdfs:label "民族(或族群)" .
 
 
+###  https://lib.ccmusic.edu.cn/data/musictype/xOO3q734v7HgGd7Z
+dataMusicType:xOO3q734v7HgGd7Z rdf:type owl:Class ;
+                               owl:equivalentClass ctm:WindAndDrumMusicOfCentral-SouthShandongProvince ;
+                               rdfs:subClassOf ctm:SurnaySystem .
+
+
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#AcousticInstrument
 ctm:AcousticInstrument rdf:type owl:Class ;
                        rdfs:subClassOf mo:Instrument ;
@@ -2348,12 +2362,12 @@ ctm:BambooFlute rdf:type owl:Class ;
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#BlankNode_InstrumentAlternateName
 ctm:BlankNode_InstrumentAlternateName rdf:type owl:Class ;
                                       owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                                                   owl:onProperty ctm:ethnicGroup ;
-                                                                                   owl:someValuesFrom dbpedia-owl:EthnicGroup
+                                                                                   owl:onProperty rdf:value ;
+                                                                                   owl:someValuesFrom ctm:OrientalMusicalInstrument
                                                                                  ]
                                                                                  [ rdf:type owl:Restriction ;
-                                                                                   owl:onProperty ctm:instrumentAlternateName ;
-                                                                                   owl:someValuesFrom ctm:OrientalMusicalInstrument
+                                                                                   owl:onProperty ctm:ethnicGroup ;
+                                                                                   owl:someValuesFrom dbpedia-owl:EthnicGroup
                                                                                  ]
                                                                                ) ;
                                                             rdf:type owl:Class
@@ -2361,9 +2375,9 @@ ctm:BlankNode_InstrumentAlternateName rdf:type owl:Class ;
                                       rdfs:comment """作为属性“乐器别称”（ctm:instrumentAlternateName）值域的一部分。某些东方乐器被某民族(或族群)别称为……故须用此空节点，该空节点中必须有两个属性：（1）ctm:instrumentAlternateName（2）ctm:ethnicGroup。
 比如：
 （1）对于\"八角鼓\"，有这样的描述——\"白族地区亦称“金钱鼓”\"，相应的数据则处理成：
-<八角鼓> ctm:instrumentAlternateName [ctm:instrumentAlternateName <金钱鼓>;ctm:ethnicGroup <白族>] .
+<八角鼓> ctm:instrumentAlternateName [rdf:value <金钱鼓>;ctm:ethnicGroup <白族>] .
 （2）对于\"阿腊\"，有这样的描述——\"“土锣”的汉译名，壮族语音\"，相应的数据则处理成：
-<土锣> ctm:instrumentAlternateName [ctm:instrumentAlternateName <阿腊>;ctm:ethnicGroup <壮族>] .""" ;
+<土锣> ctm:instrumentAlternateName [rdf:value <阿腊>;ctm:ethnicGroup <壮族>] .""" ;
                                       rdfs:label "空节点_乐器别称" ;
                                       owl:versionInfo "added for instrument knowledge base, version 2.0" .
 
@@ -3098,6 +3112,19 @@ ctm:WindAndDrumMusic rdf:type owl:Class ;
                      rdfs:label "鼓吹乐" .
 
 
+###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#WindAndDrumMusicOfCentral-SouthShandongProvince
+ctm:WindAndDrumMusicOfCentral-SouthShandongProvince rdf:type owl:Class ;
+                                                    rdfs:subClassOf ctm:SurnaySystem ,
+                                                                    [ rdf:type owl:Restriction ;
+                                                                      owl:onProperty ctm:musicTypePrincipalInstrument ;
+                                                                      owl:allValuesFrom [ rdf:type owl:Class ;
+                                                                                          owl:oneOf ( dataInstrument:qkXr706E4cX2A4x1
+                                                                                                    )
+                                                                                        ]
+                                                                    ] ;
+                                                    rdfs:label "鲁中南鼓吹乐" .
+
+
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#WoodBlockOrBoard
 ctm:WoodBlockOrBoard rdf:type owl:Class ;
                      rdfs:subClassOf ctm:PercussionMusicalInstrument ;
@@ -3138,46 +3165,47 @@ ctm:XiansuoMusic rdf:type owl:Class ;
 #################################################################
 
 ###  https://lib.ccmusic.edu.cn/data/instrument/Tdl5794g8q7YDw7y
-<https://lib.ccmusic.edu.cn/data/instrument/Tdl5794g8q7YDw7y> rdf:type owl:NamedIndividual ,
-                                                                       ctm:Unpitched_Percussion_Musical_Instrument ;
-                                                              bf:hasInstance ctm:梆木鱼 ;
-                                                              ctm:nameOfMusicTypeOrInstrument "梆木鱼"^^rdfs:Literal .
+dataInstrument:Tdl5794g8q7YDw7y rdf:type owl:NamedIndividual ,
+                                         ctm:Unpitched_Percussion_Musical_Instrument ;
+                                bf:hasInstance ctm:梆木鱼 ;
+                                ctm:nameOfMusicTypeOrInstrument "梆木鱼"^^rdfs:Literal .
 
 
 ###  https://lib.ccmusic.edu.cn/data/instrument/XsmQW52XUWHH2c32
-<https://lib.ccmusic.edu.cn/data/instrument/XsmQW52XUWHH2c32> rdf:type owl:NamedIndividual ,
-                                                                       ctm:ChineseInstrument ;
-                                                              ctm:nameOfMusicTypeOrInstrument "素琴" ;
-                                                              rdfs:comment "仅为\"概念层\"乐器，其难以找到相应的实例" .
+dataInstrument:XsmQW52XUWHH2c32 rdf:type owl:NamedIndividual ,
+                                         ctm:ChineseInstrument ;
+                                ctm:nameOfMusicTypeOrInstrument "素琴" ;
+                                rdfs:comment "仅为\"概念层\"乐器，其难以找到相应的实例" .
 
 
 ###  https://lib.ccmusic.edu.cn/data/instrument/dLla0t5NRVWuSfH2
-<https://lib.ccmusic.edu.cn/data/instrument/dLla0t5NRVWuSfH2> rdf:type owl:NamedIndividual ,
-                                                                       ctm:Drum ,
-                                                                       ctm:Unpitched_Percussion_Musical_Instrument ;
-                                                              bf:hasItem ctm:曾侯乙建鼓 ;
-                                                              ctm:nameOfMusicTypeOrInstrument "建鼓"^^rdfs:Literal .
+dataInstrument:dLla0t5NRVWuSfH2 rdf:type owl:NamedIndividual ,
+                                         ctm:Drum ,
+                                         ctm:Unpitched_Percussion_Musical_Instrument ;
+                                bf:hasItem ctm:曾侯乙建鼓 ;
+                                ctm:nameOfMusicTypeOrInstrument "建鼓"^^rdfs:Literal .
 
 
 ###  https://lib.ccmusic.edu.cn/data/instrument/p7w5dvy0Vy90Lg1U
-<https://lib.ccmusic.edu.cn/data/instrument/p7w5dvy0Vy90Lg1U> rdf:type owl:NamedIndividual ,
-                                                                       ctm:Unpitched_Percussion_Musical_Instrument ;
-                                                              bf:hasInstance ctm:团墩型木鱼 ,
-                                                                             ctm:梆木鱼 ;
-                                                              ctm:nameOfMusicTypeOrInstrument "木鱼"^^rdfs:Literal .
+dataInstrument:p7w5dvy0Vy90Lg1U rdf:type owl:NamedIndividual ,
+                                         ctm:Unpitched_Percussion_Musical_Instrument ;
+                                bf:hasInstance ctm:团墩型木鱼 ,
+                                               ctm:梆木鱼 ;
+                                ctm:nameOfMusicTypeOrInstrument "木鱼"^^rdfs:Literal .
 
 
 ###  https://lib.ccmusic.edu.cn/data/instrument/qE687OL5y43gX9g1
-<https://lib.ccmusic.edu.cn/data/instrument/qE687OL5y43gX9g1> rdf:type owl:NamedIndividual ,
-                                                                       ctm:ChineseInstrument ;
-                                                              bf:hasItem ctm:莒县陶角 ;
-                                                              ctm:nameOfMusicTypeOrInstrument "陶角"^^rdfs:Literal .
+dataInstrument:qE687OL5y43gX9g1 rdf:type owl:NamedIndividual ,
+                                         ctm:ChineseInstrument ;
+                                bf:hasItem ctm:莒县陶角 ;
+                                ctm:nameOfMusicTypeOrInstrument "陶角"^^rdfs:Literal .
 
 
 ###  https://lib.ccmusic.edu.cn/data/instrument/qkXr706E4cX2A4x1
-<https://lib.ccmusic.edu.cn/data/instrument/qkXr706E4cX2A4x1> rdf:type owl:NamedIndividual ,
-                                                                       mo:Instrument ;
-                                                              rdfs:label "铜笛" .
+dataInstrument:qkXr706E4cX2A4x1 rdf:type owl:NamedIndividual ,
+                                         mo:Instrument ;
+                                rdfs:label "铜笛" ;
+                                skos:note "关于铜笛的案例，其是用于验证一个高级推理的有效性。详参《基于中华传统音乐馆藏资源的“知识库”建设和“知识地图”研究》（2.0 正文）的“2.1.2.6 新版元数据本体介绍”之A" .
 
 
 ###  https://lib.ccmusic.edu.cn/data/instrument/6Hti0Iv240SAL6fI
@@ -3202,10 +3230,8 @@ ctm:XiansuoMusic rdf:type owl:Class ;
 
 
 ###  https://lib.ccmusic.edu.cn/data/musictype/xOO3q734v7HgGd7Z
-<https://lib.ccmusic.edu.cn/data/musictype/xOO3q734v7HgGd7Z> rdf:type owl:NamedIndividual ,
-                                                                      ctm:SurnaySystem ;
-                                                             ctm:musicTypePrincipalInstrument <https://lib.ccmusic.edu.cn/data/instrument/qkXr706E4cX2A4x1> ;
-                                                             rdfs:label "鲁中南鼓吹乐" .
+dataMusicType:xOO3q734v7HgGd7Z rdf:type owl:NamedIndividual ,
+                                        ctm:WindAndDrumMusicOfCentral-SouthShandongProvince .
 
 
 ###  https://lib.ccmusic.edu.cn/data/place/371122
@@ -3699,6 +3725,10 @@ owl:Thing rdfs:comment "目前复用了来自The Music Ontology的元数据本�
 
 
 skos:definition rdfs:label "定义与详释" .
+
+
+dataMusicType:xOO3q734v7HgGd7Z rdfs:label "鲁中南鼓吹乐" ;
+                               skos:note "关于鲁中南鼓吹乐的案例，其是用于验证一个高级推理的有效性。详参《基于中华传统音乐馆藏资源的“知识库”建设和“知识地图”研究》（2.0 正文）的“2.1.2.6 新版元数据本体介绍”之A" .
 
 
 ctm:MusicType rdfs:comment "According to tips of Wikidata, there are other entities (serving as classes) to be associated with, such as music genre, East Asian classical music, music of China" ,
