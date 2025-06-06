@@ -16,7 +16,7 @@ The code handles owl:unionOf and owl:intersectionOf constructs and ignores any b
 from rdflib import Graph, URIRef, BNode, RDF, RDFS, OWL
 import rdflib
 
-def process_rdf_list(graph, list_node):
+def process_rdf_list(graph, list_node): # 处理RDF列表（用于owl:unionOf或owl:intersectionOf）并返回类URI集合
     """
     Process an RDF list (used for owl:unionOf or owl:intersectionOf)
     and return a set of class URIs.
@@ -100,7 +100,17 @@ def extract_connected_subgraph_from_owl(owl_file_path, given_classes, given_prop
     
     Returns:
       A tuple (extracted_classes, extracted_properties) where each is a set of strings.
+    
+    函数功能：从OWL本体中提取"连通子图"：给定一组类和属性作为"种子"，找出所有能在这些类之间建立连接的属性，以及这些属性涉及的相关类。
+    连通性判断标准：
+        对象属性：domain和range中都必须有给定类 → 确保类之间有双向连接
+        数据属性：只要domain中有给定类即可 → 因为range通常是字面值
+    当遇到OWL的复合类表达式时：
+        ✅ 支持 owl:unionOf（并集）：A ∪ B ∪ C → 提取所有类
+        ✅ 支持 owl:intersectionOf（交集）：A ∩ B ∩ C → 提取所有类
+        ❌ 忽略 owl:complementOf（补集）：¬A → 直接跳过
     """
+
     graph = Graph()
     # Parse the ontology file (format is Turtle).
     graph.parse(owl_file_path, format="turtle")
@@ -158,20 +168,20 @@ def extract_connected_subgraph_from_owl(owl_file_path, given_classes, given_prop
     
     return owl_file_path, extracted_classes, extracted_properties
 
-def main():
+def main(): # 这是这个脚本的主要执行函数，它负责配置参数并执行本体子图提取的核心流程
     # =====================================================
     # FILL IN THE FOLLOWING VARIABLES WITH YOUR OWN VALUES
     # =====================================================
     
-    # 1. Provide the full path (and file name) of your ontology file (in Turtle format).
+    # 1. Provide the full path (and file name) of your ontology file (in Turtle format). 本体文件路径
     owl_file_path = "/Users/caojunjun/WPS_Synchronized_Folder/McGill_DDMAL/GitHub/linkedmusic-queries/ChineseTraditionalMusicKnowledgeBase/3versionsOfOntology/ontologyForChineseTraditionalMusicKnowledgeBase_2025_withAdditionalAnnotationForLLM_extractingEntityFromOntology_simplifiedForOntologySegmentation.ttl"  # e.g., "C:/ontologies/myontology.ttl"
     
-    # 2. Provide the given classes.
+    # 2. Provide the given classes. 给定的类集合
     # For test case (*), for example, use:
     given_classes = {"bf:NotatedMusic", "ctm:PieceWithPerformance", "rdfs:Literal"}
     # --corresponding to Transformed ClassList
 
-    # 3. Provide the given properties.
+    # 3. Provide the given properties. 给定的属性集合
     # For test case (*), for example, use:
     given_properties = {"bf:hasPart", "bf:partOf", "ctm:instrumentalist", "ctm:pieceType", "ctm:representativePiece", "ctm:representativeQupai", "ctm:samplePieceWithPerformance", "musicbrainz:title"}
     # --corresponding to Transformed PropertyList
@@ -180,19 +190,34 @@ def main():
     # End of user configuration.
     # =====================================================
     
+    # 调用核心处理函数
     owl_file_path, extracted_classes, extracted_properties = extract_connected_subgraph_from_owl(
         owl_file_path, given_classes, given_properties
     )
     
     # print("Extracted Classes:")
-    for c in sorted(extracted_classes):
+    for c in sorted(extracted_classes): # 这里的sorted函数用于对提取的类进行排序，以便于输出
         print("  ", c)
     # print("Extracted Properties:")
     for p in sorted(extracted_properties):
         print("  ", p)
-    return owl_file_path, extracted_classes, extracted_properties
+    return owl_file_path, extracted_classes, extracted_properties # 这里的 extracted_classes 和 extracted_properties 分别是提取的类和属性集合，它们将被返回以供后续处理使用
 
-def retrieve_specific_subset(owl_file_path, extracted_classes, extracted_properties):
+def retrieve_specific_subset(owl_file_path, extracted_classes, extracted_properties): 
+    """
+    从 OWL 本体文件中提取以指定的类和属性为主语的所有三元组，即构成所需的子图。
+    
+    使用广度优先搜索（BFS）从给定的类和属性开始，提取所有以它们为主语的三元组，
+    并递归处理遇到的空白节点以确保完整性。
+    
+    Args:
+        owl_file_path: OWL本体文件的完整路径
+        extracted_classes: 提取的类集合
+        extracted_properties: 提取的属性集合
+    
+    Returns:
+        list: 包含所有相关三元组的列表，每个三元组形如 (主语, 谓语, 宾语)
+    """
     import rdflib
     from rdflib import URIRef, BNode
 
@@ -249,6 +274,7 @@ if __name__ == '__main__':
         f.write(turtle_output) # turtle_output is the assembled ontology subgraph in Turtle format
 
 
+
 # 3_Step3_SPARQL generation.py
 from openai import OpenAI
 # Invoke the OpenAI API:
@@ -268,7 +294,7 @@ def callGPT(prompt):
     )
     return completion.choices[0].message.content
 
-with open("sampleQuestions/question_random1.txt", 'r') as f:
+with open("sampleQuestions/question_random2.txt", 'r') as f:
     question = f.readlines()
 
 
@@ -405,7 +431,8 @@ For example:
     ...
     4.4 remove class constraint on a variable to broaden the retrieval scope
     4.5 cancel FILTER condition to broaden the retrieval scope
-    4.6 switch from exact matching to partial/containing matching to broaden the retrieval scope
+        4.6 switch from exact matching to partial/containing matching to broaden the retrieval scope, especially when you determine that a term might be an abbreviation and has a full name behind it
+        e.g., you may use `filter(contains())` or `filter(regex())`
     4.7 break down multiple-hop queries into fewer hops, to relieve the constraints of meeting all conditions across multiple hops
     ...
     
