@@ -168,12 +168,12 @@ def main():
     
     # 2. Provide the given classes.
     # For test case (*), for example, use:
-    given_classes = {"bf:MusicInstrument", "bf:NotatedMusic", "bf:Place", "bf:Work", "cidoc-crm:E55_Type", "ctm:ChineseInstrument", "ctm:MusicType", "ctm:Musicologist", "ctm:OrientalMusicalInstrument", "ctm:PieceWithPerformance", "ctm:SpecialIndependentResource", "dbpedia-owl:EthnicGroup", "event:Event", "mo:Instrument", "mo:SoloMusicArtist", "ns1:b8784457", "ns1:b8784481", "rdfs:Literal"}
+    given_classes = {"bf:NotatedMusic", "ctm:PieceWithPerformance", "rdfs:Literal"}
     # --corresponding to Transformed ClassList
 
     # 3. Provide the given properties.
     # For test case (*), for example, use:
-    given_properties = {"bf:subject", "ctm:ethnicGroup", "ctm:ethnicGroupAlias", "ctm:goodAtPerformingMusic", "ctm:instrumentalist", "ctm:musicianAlias", "ctm:nameOfMusicTypeOrInstrument", "ctm:nativePlace", "ctm:pieceType", "ctm:relatesEthnicGroup", "ctm:relatesInstrument", "ctm:relatesMusicType", "ctm:relatesMusician", "ctm:relatesPlace", "ctm:relatesWork", "dbo:ethnicity", "kanzaki:plays", "mo:performer", "musicbrainz:title"}
+    given_properties = {"bf:hasPart", "bf:partOf", "ctm:instrumentalist", "ctm:pieceType", "ctm:representativePiece", "ctm:representativeQupai", "ctm:samplePieceWithPerformance", "musicbrainz:title"}
     # --corresponding to Transformed PropertyList
 
     # =====================================================
