@@ -1,1 +1,9 @@
 .DS_Store
+
+# Generated ontology subgraph files
+assembledSubgraphOfOntology.ttl
+**/assembledSubgraphOfOntology.ttl
+
+# Other generated files from NLQ2SPARQL workflow
+sparql_results_*.json
+sparql_results_truncated_*.json
