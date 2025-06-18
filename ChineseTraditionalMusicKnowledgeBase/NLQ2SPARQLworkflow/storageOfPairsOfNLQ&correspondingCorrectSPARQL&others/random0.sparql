@@ -1,4 +1,4 @@
-# question: 我想看看资源库里有哪些音乐人，这些音乐人自身的情况如何,比如籍贯、民族、擅长的乐种乐器？然后，与他们关联的演出的曲目、特藏资源大致是什么情况?
+# question: 我想看看资源库里有哪些音乐人，这些音乐人自身的情况如何，比如籍贯、民族、擅长的乐种乐器？然后，与他们关联的演出的曲目、特藏资源大致是什么情况?
 #（translation: I'd like to see what musicians are in our repository and learn about their personal backgrounds, such as their hometown, ethnicity, and the types of music or instruments they specialize in. Then, what are the general details of the performance pieces and special collection resources associated with them?
 # corresponding correct SPARQL
 # define input:inference 'urn:owl.ccmusicrules0214' # Caution: Do cancel the well sign to enable the inference
@@ -10,7 +10,7 @@ PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
 PREFIX kanzaki: <http://www.kanzaki.com/ns/music#>
 PREFIX musicbrainz: <http://musicbrainz.org/ns/mmd-2.0#>
 
-SELECT DISTINCT *
+SELECT DISTINCT * 
 WHERE {
   ?musician rdf:type mo:SoloMusicArtist ;
             rdfs:label ?musicianLabel .
