@@ -7,3 +7,5 @@ assembledSubgraphOfOntology.ttl
 # Other generated files from NLQ2SPARQL workflow
 sparql_results_*.json
 sparql_results_truncated_*.json
+*_backup.py
+2_subGraphAssemblyFromOntology_3_SPARQLgeneration_backup.py
