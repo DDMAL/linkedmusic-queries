@@ -16,6 +16,9 @@ dbo:ethnicity rdfs:label "来自…民族" ;
 
 event:place rdfs:label "采录事项发生在…地点" .
 
+foaf:member rdfs:label "有…成员" ;
+    rdfs:comment "关联一个民间音乐组织和它包含的民间乐人" .
+
 mo:composer rdfs:label "的作曲者是" ;
     rdfs:comment "关联曲目和音乐人" .
 
