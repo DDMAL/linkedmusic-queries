@@ -168,40 +168,8 @@ def extract_connected_subgraph_from_owl(owl_file_path, given_classes, given_prop
     
     return owl_file_path, extracted_classes, extracted_properties
 
-def main(): # 这是这个脚本的主要执行函数，它负责配置参数并执行本体子图提取的核心流程
-    # =====================================================
-    # FILL IN THE FOLLOWING VARIABLES WITH YOUR OWN VALUES
-    # =====================================================
-    
-    # 1. Provide the full path (and file name) of your ontology file (in Turtle format). 本体文件路径
-    owl_file_path = "/Users/caojunjun/WPS_Synchronized_Folder/McGill_DDMAL/GitHub/linkedmusic-queries/ChineseTraditionalMusicKnowledgeBase/3versionsOfOntology/ontologyForChineseTraditionalMusicKnowledgeBase_2025_withAdditionalAnnotationForLLM_extractingEntityFromOntology_simplifiedForOntologySegmentation.ttl"  # e.g., "C:/ontologies/myontology.ttl"
-    
-    # 2. Provide the given classes. 给定的类集合
-    # For test case (*), for example, use:
-    given_classes = {"bf:NotatedMusic", "ctm:PieceWithPerformance", "rdfs:Literal"}
-    # --corresponding to Transformed ClassList
-
-    # 3. Provide the given properties. 给定的属性集合
-    # For test case (*), for example, use:
-    given_properties = {"bf:hasPart", "bf:partOf", "ctm:instrumentalist", "ctm:pieceType", "ctm:representativePiece", "ctm:representativeQupai", "ctm:samplePieceWithPerformance", "musicbrainz:title"}
-    # --corresponding to Transformed PropertyList
-
-    # =====================================================
-    # End of user configuration.
-    # =====================================================
-    
-    # 调用核心处理函数
-    owl_file_path, extracted_classes, extracted_properties = extract_connected_subgraph_from_owl(
-        owl_file_path, given_classes, given_properties
-    )
-    
-    # print("Extracted Classes:")
-    for c in sorted(extracted_classes): # 这里的sorted函数用于对提取的类进行排序，以便于输出
-        print("  ", c)
-    # print("Extracted Properties:")
-    for p in sorted(extracted_properties):
-        print("  ", p)
-    return owl_file_path, extracted_classes, extracted_properties # 这里的 extracted_classes 和 extracted_properties 分别是提取的类和属性集合，它们将被返回以供后续处理使用
+# 注意：原有的 main() 函数已被移除，所有逻辑已整合到 if __name__ == '__main__': 部分
+# 这样避免了重复定义和混淆
 
 def retrieve_specific_subset(owl_file_path, extracted_classes, extracted_properties): 
     """
@@ -229,6 +197,14 @@ def retrieve_specific_subset(owl_file_path, extracted_classes, extracted_propert
     for item in set(extracted_classes).union(extracted_properties):
         if item.startswith('http'):
             seeds.append(URIRef(item))
+        elif ':' in item:
+            # CURIE format - resolve it
+            resolved_uri = resolve_curie(g, item)
+            seeds.append(resolved_uri)
+        # Skip items that are neither full URIs nor CURIEs
+    print(f"Debug: Total seeds found: {len(seeds)}")
+    for seed in seeds:
+        print(f"  Seed: {seed}")
 
     visited = set()
     queue = list(seeds)
@@ -243,13 +219,50 @@ def retrieve_specific_subset(owl_file_path, extracted_classes, extracted_propert
                 subset_triples.append((s, p, o))
                 if isinstance(o, BNode):
                     queue.append(o)
-
+    print(f"Debug: Total triples extracted: {len(subset_triples)}")
     return subset_triples
 
 
 if __name__ == '__main__':
-    owl_file_path, extracted_classes, extracted_properties = main()
-    # owl_file_path = "/Users/caojunjun/WPS_Synchronized_Folder/McGill_DDMAL/GitHub/linkedmusic-queries/ChineseTraditionalMusicKnowledgeBase/3versionsOfOntology/ontologyForChineseTraditionalMusicKnowledgeBase_2025_withAdditionalAnnotationForLLM_extractingEntityFromOntology_simplifiedForOntologySegmentation.ttl"
+    # 获取初始配置
+    owl_file_path = "/Users/caojunjun/WPS_Synchronized_Folder/McGill_DDMAL/GitHub/linkedmusic-queries/ChineseTraditionalMusicKnowledgeBase/3versionsOfOntology/ontologyForChineseTraditionalMusicKnowledgeBase_2025_withAdditionalAnnotationForLLM_extractingEntityFromOntology_simplifiedForOntologySegmentation.ttl"
+    # Transformed ClassList
+    given_classes = {"bf:MusicInstrument", "cidoc-crm:E55_Type", "ctm:ChineseInstrument", "ctm:FolkMusicOrganization", "ctm:GenreOfPiece", "ctm:Guan", "ctm:GudiSystem", "ctm:MusicType", "ctm:MusicType_YueShengXi", "ctm:MusicType_YueWuXi", "ctm:NationalInstrumentalMusic", "ctm:OrientalMusicalInstrument", "ctm:PercussionMusicalInstrument", "ctm:PluckedStringInstrument", "ctm:ShengPipeAndGuanSystem", "ctm:SizhuMusic", "ctm:Surnay", "ctm:SurnaySystem", "ctm:TraditionalMusicBranch", "ctm:WindAndDrumMusic", "ctm:XiansuoMusic", "mo:Instrument", "ns1:b8784481", "wd:Q7403902", "rdfs:Literal"}
+    # Transformed PropertyList
+    given_properties = {"ctm:acousticClassification", "ctm:nameOfMusicTypeOrInstrument", "ctm:piecePrincipalInstrument", "ctm:relatesFolkMusicOrg", "ctm:relatesInstrument", "ctm:relatesMusicType", "ctm:representativePiece", "ctm:representativeQupai", "dbo:formerName", "wdt:P1762"}
+    
+    # 统计给定实体的总数
+    total_entities = len(given_classes) + len(given_properties)
+    print(f"Total given entities: {total_entities} (classes: {len(given_classes)}, properties: {len(given_properties)})")
+    
+    # 根据实体数量决定处理策略
+    if total_entities <= 25: # 如果给定的实体（类+属性）的总数小于或等于该值，就不用采用“连通性过滤”策略（默认值为20，可以想象，如果大模型的能力越强，这个值可以更大）
+        print("Entity count ≤ 25: Using direct extraction without connectivity filtering")
+        # 直接使用给定的类和属性进行三元组提取
+        extracted_classes = given_classes
+        extracted_properties = given_properties
+        
+        print("Given Classes:")
+        for c in sorted(extracted_classes):
+            print("  ", c)
+        print("Given Properties:")
+        for p in sorted(extracted_properties):
+            print("  ", p)
+    else:
+        print("Entity count > 25: Using connectivity filtering first")
+        # 先进行连通性过滤，再提取三元组
+        owl_file_path, extracted_classes, extracted_properties = extract_connected_subgraph_from_owl(
+            owl_file_path, given_classes, given_properties
+        )
+        
+        print("Extracted Classes (after connectivity filtering):")
+        for c in sorted(extracted_classes):
+            print("  ", c)
+        print("Extracted Properties (after connectivity filtering):")
+        for p in sorted(extracted_properties):
+            print("  ", p)
+    
+    # 无论采用哪种策略，最终都调用retrieve_specific_subset进行三元组提取
     triple_subset = retrieve_specific_subset(
         owl_file_path, extracted_classes, extracted_properties
     )
@@ -401,9 +414,59 @@ output_QueryResultInJson = f"sparql_results_{timestamp}.json"
 
 # Write results to JSON file:
 with open(output_QueryResultInJson, 'w', encoding='utf-8') as f:
-    json.dump(sparql_results, f, ensure_ascii=False, indent=2) # This will save the SPARQL query results in a JSON file with a timestamp in its name
+    json.dump(sparql_results, f, ensure_ascii=False, indent=2) # This will save the SPARQL query results in a JSON file with a timestamp in its name （将 SPARQL query 的结果保存成一个 json 文件）
 print(f"\n\nQuery results have been saved to: {output_QueryResultInJson}")
 # print('\n\nsparql_results:', sparql_results) # rendered in JSON format
+
+
+def truncate_sparql_results_for_prompts(results, max_rows=1000):
+    """
+    Truncate(删节、截取) SPARQL results to approximately max_rows while maintaining JSON structure.
+    
+    Args:
+        results: The original SPARQL results (dict)
+        max_rows: Maximum number of rows to include (default: 1000)
+    
+    Returns:
+        Truncated results maintaining JSON structure
+    """
+    # 1. 检查数据结构是否有效
+    if not isinstance(results, dict) or 'results' not in results:
+        return results
+    
+    bindings = results.get('results', {}).get('bindings', [])
+    
+    # 2. If we have fewer than max_rows, return the original (如果数据量≤1000行，返回原始数据)
+    if len(bindings) <= max_rows:
+        return results
+    
+    # 3. 如果数据量>1000行，Create truncated version
+    truncated_results = {
+        'head': results.get('head', {}),
+        'results': {
+            'bindings': bindings[:max_rows] # 只取前1000行
+        }
+    }
+    
+    # 4. Add metadata about truncation
+    if 'head' in truncated_results:
+        truncated_results['head']['truncated'] = True
+        truncated_results['head']['original_count'] = len(bindings) # 原始数量
+        truncated_results['head']['truncated_count'] = max_rows # 截取数量
+    
+    return truncated_results
+
+# Create truncated version for prompts
+sparql_results_for_prompts = truncate_sparql_results_for_prompts(sparql_results, 1000) # 这里的sparql_results是从SPARQL Endpoint查询得到的结果，sparql_results_for_prompts是“截取后的结果”（最多1000行）
+# ——sparql_results_for_prompts既包括如果文件大于 1000 行的截取后的结果，也包括如果文件小于 1000 行的即保留的原结果
+
+# Optional: Save truncated version to a separate file for inspection
+if sparql_results_for_prompts != sparql_results: # 如果截取（判别）后的数据与原始数据不相等（即发生了截取），就执行下面的代码块
+    truncated_filename = f"sparql_results_truncated_{timestamp}.json" # 构造截取后的json文件的文件名
+    with open(truncated_filename, 'w', encoding='utf-8') as f: # with为上下文管理器，自动处理文件打开和关闭
+        # 将截取后的结果写入文件
+        json.dump(sparql_results_for_prompts, f, ensure_ascii=False, indent=2) # 括弧中，第一个参数是要写入的对象，第二个参数是文件对象，ensure_ascii=False表示不转义非ASCII字符，indent=2表示缩进为2个空格
+    print(f"Truncated results (for prompts) saved to: {truncated_filename}")
 
 
 # Retrieval Augmented Generation (RAG): 
