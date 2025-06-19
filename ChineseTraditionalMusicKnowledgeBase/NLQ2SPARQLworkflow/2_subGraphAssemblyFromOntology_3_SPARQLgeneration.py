@@ -253,7 +253,7 @@ if __name__ == '__main__':
     triple_subset = retrieve_specific_subset(
         owl_file_path, extracted_classes, extracted_properties
     )
-        # Create a new rdflib Graph for the subgraph.
+
     subgraph = rdflib.Graph()
     for triple in triple_subset:
         subgraph.add(triple)
