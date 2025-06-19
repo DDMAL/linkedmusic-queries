@@ -340,9 +340,9 @@ Note:
 0. In addition to `rdfs:label`, the classes and properties in the SPARQL query should be consistent with the ontology snippet
 1. Don't use language tag for the rdfs:Literals value in the SPARQL query
 2. The question is associated with the domain of Chinese or East-and-Southeast-Asian music, so you may understand the entities priorly that you can correspond them to the classes in the given ontology
-3. For each instance variable in the SPARQL, ensure that the labels for them are represented using `rdfs:label` property even if it is not explicitly mentioned in the ontology snippet
+3. For each instance variable in the SPARQL, ensure that the labels for them are represented using `rdfs:label` property even if it is not explicitly mentioned in the ontology snippet. 但要注意，对象属性的值是一个对象，可能有rdfs:label；而数据属性的值是一个字面值，通常没有rdfs:label 
 4. After examination and cross-checking, if modifications are required, do return only the modified SPARQL query without any additional text
-5. De ensure the SPARQL query's logic is inherently consistent with the natural language question and the ontology snippet
+5. Do ensure the SPARQL query's logic is inherently consistent with the natural language question and the ontology snippet
 6. Don't forget the clarification of namespaces in the SPARQL query; Delete the needless prefixes clarification (which are not used in the query)
 7. If you are uncertain about precision of specific classes or properties, you can broaden the retrieval scope using syntax such as: 
     7.1 The UNION keyword: to include multiple options to interpretate a question, especially when the question can be divided into multiple sub-questions, or in case of handling an objectProperty and a dataProperty which have the similar semantic meanings
@@ -350,7 +350,7 @@ Note:
     7.3 The OPTIONAL keyword: 
         7.2.1 also useful when handling an objectProperty and a dataProperty which have the similar semantic meaning, etc.
         7.2.2 to allow partial matches, ensuring that queries remain valid even when certain properties or property values are missing. It is particularly beneficial for handling uncertain or "if, possibly" relationships (e.g., "Something may relate to something else") or when managing properties with similar semantics
-        
+8. 以封闭世界假设的思维来看待本体，譬如，一个属性的定义域或值域规定了哪些类，就用哪些类，其他类的实例不要轻易地连接这些属性     
 !!!Caution: for this prompt, do return only the refined SPARQL query code. Don't add any extra text before or after the SPARQL query code. However, you may include comments preceded `#` symbol to explain the logic, enhancing user's understanding (these comments with `#` symbol will be ignored by the SPARQL endpoint)
 """
 
@@ -414,7 +414,7 @@ and the related ontology snippet: {turtle_output},
 
 and the subsequent SPARQL query: {sparql_query}, 
 
-from visiting a SPARQL Endpoint we retrieved the result: {sparql_results}. 
+from visiting a SPARQL Endpoint we retrieved the result, part of which is shown as: {sparql_results_for_prompts}. 
 
 1. Explain the query result based on the question, the ontology snippet, and the SPARQL query.
 2. If the result is too large, you can conduct a statistical analysis with a summary.
@@ -435,11 +435,11 @@ For example:
         e.g., you may use `filter(contains())` or `filter(regex())`
     4.7 break down multiple-hop queries into fewer hops, to relieve the constraints of meeting all conditions across multiple hops
     ...
-    
+5. 但是还是要谨记，除了 rdfs:label 之外，SPARQL查询中涉及的类和属性应与本体片段保持一致。不要捏造本体中不存在的类或属性
 """
 
 RAG_result = callGPT(prompt7)
-print('\n\nRAG_result:', RAG_result)
+print('\n\nprompt7_RAG_result:', RAG_result)
 
 # Ontology-based Recommendation System
 prompt8 = f"""
@@ -449,20 +449,21 @@ and the related ontology snippet: {turtle_output},
 
 and the subsequent SPARQL query: {sparql_query}, 
 
-from visiting a SPARQL Endpoint we retrieved the result: {sparql_results}. 
+from visiting a SPARQL Endpoint we retrieved the result, part of which is shown as: {sparql_results_for_prompts}. 
 
 Please recommend other potential SPARQL query patterns:
 These are tips of generating the recommendations, only for your reference:
-    0. **Identify the classes and properties in the ontology snippet that are used in the existing SPARQL query;
-    1. **Determine their current relationships and position in the ontology snippet;
-    2. **Expand to other adjacent classes or properties in the ontology snippet to recommend other possible query patterns that can yield more results;
-3. **This idea is regarding the ontology as a graph/network, and the recommendation is to explore other nodes (classes or properties) that are connected/adjacent to the ones embodied in the existing SPARQL query.
+    1. **Identify the classes and properties in the ontology snippet that are used in the existing SPARQL query;
+    2. **Determine their current relationships and position in the ontology snippet;
+    3. **Expand to other adjacent classes or properties in the ontology snippet to recommend other possible query patterns that can yield more results;
+- **This idea is regarding the ontology as a graph/network, and the recommendation is to explore other nodes (classes or properties) that are connected/adjacent to the ones embodied in the existing SPARQL query.
+- **(以封闭世界假设的思维来看待本体，譬如，一个属性的定义域或值域规定了哪些类，就用哪些类，其他类的实例不要轻易地连接这些属性)
 
 Return several SPARQL query patterns, along with the corresponding natural language questions, in a structured format.
 """
 
 Recommendation_result = callGPT(prompt8)
-print('\n\nRecommendation_result:', Recommendation_result)
+print('\n\nprompt8_recommendation_result:', Recommendation_result)
 
 
 # Other tips for RAG: For the retrieved results from the SPARQL visiting the Endpoint, please
