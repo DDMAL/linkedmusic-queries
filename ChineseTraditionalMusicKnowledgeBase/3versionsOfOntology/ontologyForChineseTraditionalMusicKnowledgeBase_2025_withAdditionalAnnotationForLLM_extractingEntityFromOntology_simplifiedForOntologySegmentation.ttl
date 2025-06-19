@@ -279,6 +279,18 @@ wdt:P1762 rdf:type owl:ObjectProperty ;
                      "声学分类" .
 
 
+###  http://xmlns.com/foaf/0.1/member
+foaf:member rdf:type owl:ObjectProperty ;
+            rdfs:domain [ rdf:type owl:Class ;
+                          owl:unionOf ( mo:MusicGroup
+                                        ctm:FolkMusicOrganization
+                                      )
+                        ] ;
+            rdfs:range ctm:FolkMusician ;
+            rdfs:comment "关联一个民间音乐组织和它包含的民间乐人" ;
+            rdfs:label "有…成员" .
+
+
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#ethnicGroup
 ctm:ethnicGroup rdf:type owl:ObjectProperty ;
                 rdfs:domain [ rdf:type owl:Class ;
@@ -892,7 +904,7 @@ ctm:nameOfMusicTypeOrInstrument rdf:type owl:DatatypeProperty ;
 ctm:originationPeriod rdf:type owl:DatatypeProperty ;
                       rdfs:domain ctm:MusicType ;
                       rdfs:range rdfs:Literal ;
-                      rdfs:comment "指一个乐种或音乐类型起源自某历史时期" ;
+                      rdfs:comment "指一个乐种或音乐类型起源自某历史时期（如历朝历代）" ;
                       rdfs:label "起源自…时期" .
 
 
@@ -968,7 +980,7 @@ bf:NotatedMusic rdf:type owl:Class ;
 
 ###  http://id.loc.gov/ontologies/bibframe/Place
 bf:Place rdf:type owl:Class ;
-         rdfs:comment "也有可能是籍贯地" ;
+         rdfs:comment "一个地域（比如河北省）可能会有特别的乐器或乐种。地域在有些情况下，也有可能是籍贯地" ;
          rdfs:label "分布地域" ,
                     "地区" ,
                     "地域" ,

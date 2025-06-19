@@ -1,0 +1,47 @@
+# question: 我想看看资源库里有哪些音乐人，这些音乐人自身的情况如何，比如籍贯、民族、擅长的乐种乐器？然后，与他们关联的演出的曲目、特藏资源大致是什么情况?
+#（translation: I'd like to see what musicians are in our repository and learn about their personal backgrounds, such as their hometown, ethnicity, and the types of music or instruments they specialize in. Then, what are the general details of the performance pieces and special collection resources associated with them?
+# corresponding correct SPARQL
+# define input:inference 'urn:owl.ccmusicrules0214' # Caution: Do cancel the well sign to enable the inference
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX mo: <http://purl.org/ontology/mo/>
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+PREFIX kanzaki: <http://www.kanzaki.com/ns/music#>
+PREFIX musicbrainz: <http://musicbrainz.org/ns/mmd-2.0#>
+
+SELECT DISTINCT * 
+WHERE {
+  ?musician rdf:type mo:SoloMusicArtist ;
+            rdfs:label ?musicianLabel .
+
+  OPTIONAL {
+    ?musician ctm:nativePlace ?nativePlace .
+    ?nativePlace rdfs:label ?nativePlaceLabel .
+  }
+# 这里的 OPTIONAL 有问题，必须消除它(comment out)才能返回结果。（translation: There is an issue with the OPTIONAL clause here; it must be commented out to return results.）
+#  OPTIONAL {
+#    ?musician ctm:ethnicity ?ethnicity .
+#  }
+
+  OPTIONAL {
+    ?musician kanzaki:plays ?instrument .
+    ?instrument rdfs:label ?instrumentLabel .
+  }
+
+  OPTIONAL {
+    ?piece ctm:instrumentalist ?musician ;
+           musicbrainz:title ?pieceTitle .
+    OPTIONAL {
+      ?piece ctm:pieceType ?musicType .
+      ?musicType rdfs:label ?musicTypeLabel .
+    }
+  }
+
+  OPTIONAL {
+    ?specialResource rdf:type ctm:SpecialIndependentResource ;
+                    rdfs:label ?specialResourceLabel ;
+                    ctm:relatesMusician ?musician .
+  }
+}
+ORDER BY ?musicianLabel

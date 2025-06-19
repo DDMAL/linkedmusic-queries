@@ -1,1 +1,16 @@
 .DS_Store
+
+# Generated ontology subgraph files
+assembledSubgraphOfOntology.ttl
+**/assembledSubgraphOfOntology.ttl
+
+# Other generated files from NLQ2SPARQL workflow
+sparql_results_*.json
+sparql_results_truncated_*.json
+*_backup.py
+2_subGraphAssemblyFromOntology_3_SPARQLgeneration_backup.py
+ChineseTraditionalMusicKnowledgeBase/NLQ2SPARQLworkflow/transformed_class_list.txt
+ChineseTraditionalMusicKnowledgeBase/NLQ2SPARQLworkflow/transformed_property_list.txt
+ChineseTraditionalMusicKnowledgeBase/NLQ2SPARQLworkflow/generated_sparql_query.sparql
+transformed_class_list.txt
+transformed_property_list.txt

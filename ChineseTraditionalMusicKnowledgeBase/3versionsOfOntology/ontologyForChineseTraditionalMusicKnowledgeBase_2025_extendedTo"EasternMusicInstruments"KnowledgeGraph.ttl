@@ -795,6 +795,7 @@ ctm:musicTypePrincipalInstrument rdf:type owl:ObjectProperty ;
 
 主奏乐器所在这个属性的定义域其实不仅是狭义的乐种，譬如，我们可以说，梆子戏的主奏乐器是梆胡（参见《中国乐器大词典》p.13【梆胡】词条），故而，主奏乐器可以适用于剧种、曲种（说唱音乐）等""" ;
                                  rdfs:label "乐种的主奏(主要)乐器有" ;
+                                 skos:hiddenLabel "主奏乐器" ;
                                  ctm:intactFragmentIdentifier "musicTypeHasPrincipalInstrumentOf" .
 
 
@@ -815,6 +816,7 @@ ctm:musicType_instrument rdf:type owl:ObjectProperty ;
                          rdfs:range ctm:OrientalMusicalInstrument ;
                          rdfs:comment "如果该乐种属于民族器乐类型，则该属性值不能为空。该属性也可反映乐种（器乐合奏）的乐队编制（乐器编制）信息" ;
                          rdfs:label "乐种使用…乐器" ;
+                         skos:hiddenLabel "使用乐器" ;
                          ctm:intactFragmentIdentifier "musicTypeUsesInstrumentOf" .
 
 
@@ -2182,6 +2184,7 @@ This concept(指Group这个类) is intentionally quite broad(非常宽泛), cove
 ###  http://purl.org/ontology/mo/SoloMusicArtist
 mo:SoloMusicArtist rdf:type owl:Class ;
                    rdfs:subClassOf foaf:Person ;
+                   rdfs:comment "Single person whose musical creative work shows sensitivity and imagination." ;
                    rdfs:label "音乐人" .
 
 
@@ -2807,7 +2810,7 @@ ctm:PieceWithPerformance rdf:type owl:Class ;
 这一个类的设计为权宜之计，即根据中华传统音乐馆藏资源库中提取的曲目（其内容表达是音乐表演）而构成的集合""" ;
                          rdfs:label "曲目的演出" ,
                                     "演出的曲目" ;
-                         ctm:deprecatedComment """建议把这里的“曲目的演出”对象看成一个关乎音乐演出的“事件”（event），这样的话，诸如电脑制作的音乐及其播放，虽可能不再涉及人为的表演，但其二次创作具有一个时间的过程，就也可视作曲目的演出
+                         ctm:deprecatedComment """建议把这里的“曲目的演出”对象看成一个关乎音乐演出的“事件”（event），这样的话，诸如电脑制作的音乐及其播放，虽可能不再涉及人为的表演，但其二次创作具有一个时间的过程，就也可视作曲目的演出(?)
 
 之所以如此界定，是为了能够嵌套其子类“曲目”（来自MusicBrainz）""" .
 
@@ -3743,7 +3746,8 @@ ctm:MusicType rdfs:comment "According to tips of Wikidata, there are other entit
                            """注意（2023年2月13日）：音乐类型(乐种)的子类的并集不能成为音乐类型的等价类：
 原因之一是，音乐类型(乐种)的名目中，有一部分名目既不是从（准）社会文化层面进行设置的，也不是从形态或体裁等层面设置的，而可能是从文化区、生态（学）层面或民族（学）层面进行设置的。具体可参考杨民康《音乐民族志方法导论》第九章“中西乐器和音乐分类法的多维关系比较”的第二节“中国传统音乐分类法的研究”pp.288-293
 此外，民间、文人、宫廷、宗教这些暗指的阶层，也不是互相排斥的""" ;
-              rdfs:label "音乐类型(乐种)" .
+              rdfs:label "音乐类型(乐种)" ;
+              skos:altLabel "音乐类型（乐种）" .
 
 
 #################################################################

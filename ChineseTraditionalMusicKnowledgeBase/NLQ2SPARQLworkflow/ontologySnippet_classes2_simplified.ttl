@@ -74,7 +74,8 @@ ctm:SizhuMusic rdfs:label "丝竹乐",
         "丝竹系乐种",
         "民族器乐-丝竹乐" .
 
-ctm:SpecialIndependentResource rdfs:label "特藏独立资源_作品",
+ctm:SpecialIndependentResource rdfs:label "Special Collection Resources"@en,
+        "特藏独立资源_作品",
         "特藏资源",
         "馆藏作品" .
 

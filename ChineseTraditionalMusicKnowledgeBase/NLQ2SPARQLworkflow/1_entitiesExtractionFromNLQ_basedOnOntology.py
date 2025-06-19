@@ -40,7 +40,7 @@ with open("ontologySnippet_objectProperties2_simplified.ttl", "r") as context4:
 with open("ontologySnippet_dataProperties_simplified.ttl", "r") as context5:
     context_ontology_dataProperty = context5.readlines()
 # The natural language question is read from a text file:
-with open("sampleQuestions/有啥曲牌.txt", 'r') as f:
+with open("sampleQuestions/question_random7.txt", 'r') as f:
     question = f.readlines()
 
 prompt0 = f"""
@@ -71,6 +71,8 @@ such as `["ex:class1", "ex:class2", "ex:class3"]`.
 5. As long as an entity(or class) in the natural language question exactly matches one value of the `rdfs:label` of a class in the ontology, that class must be extracted from the ontology.
 For the entity(or class) list, you can refer to {result0}. 
 6. 如果问句中涉及…类乐器，也不妨参考`wd:Q7403902 rdfs:label "乐器的类（声学）".`
+
+最后，你要学会根据自然语言中的实例推测它们可能对应的类，然后再从本体中寻找这些潜在的类。根据这个原则，请再复查一遍，把潜在的类补上
 """
 
 prompt2 = f"""
@@ -87,7 +89,9 @@ such as `["ex:class1", "ex:class2", "ex:class3"]`.
 3. Extract all classes that are even minimally relevant to the question.
 4. As long as any semantic fragment (such as a word, phrase, or expression) in the natural language question semantically matches the content of the `rdfs:label` of a class in the ontology, that class will be extracted from the ontology.
 5. As long as an entity(or class) in the natural language question exactly matches one value of the `rdfs:label` of a class in the ontology, that class must be extracted from the ontology.
-For the entity(or class) list, you can refer to {result0}
+For the entity(or class) list, you can refer to {result0}.
+
+最后，你要学会根据自然语言中的实例推测它们可能对应的类，然后再从本体中寻找这些潜在的类。根据这个原则，请再复查一遍，把潜在的类补上
 """
 
 prompt3 = f"""
@@ -305,6 +309,51 @@ def render_classes_with_prefix(sparql_results, class_list_str):
 # Later in your code, call the function, for example:
 merged_class_list = render_classes_with_prefix(sparql_results, class_list_str)
 print("Transformed PropertyList =", "{" + ", ".join(f'"{item}"' for item in property_list_str.split()) + "}")
+
+# Export the transformed lists to files
+def export_transformed_lists(class_list_str, property_list_str):
+    """
+    Export the transformed class list and property list to separate files.
+    Files will be saved as Python set format for easy importing.
+    """
+    import json
+    
+    # Process the class list (from merged_class_list which includes rdfs:Literal)
+    # Extract the actual class items from the merged string
+    merged_with_literal = merged_class_list + " rdfs:Literal"
+    class_items = merged_with_literal.split()
+    class_set = set(class_items)
+    
+    # Process the property list
+    property_items = property_list_str.split()
+    property_set = set(property_items)
+    
+    # Save class list to file
+    with open("transformed_class_list.txt", "w", encoding="utf-8") as f:
+        f.write("{\n")
+        for i, item in enumerate(sorted(class_set)):
+            if i < len(class_set) - 1:
+                f.write(f'    "{item}",\n')
+            else:
+                f.write(f'    "{item}"\n')
+        f.write("}")
+    
+    # Save property list to file  
+    with open("transformed_property_list.txt", "w", encoding="utf-8") as f:
+        f.write("{\n")
+        for i, item in enumerate(sorted(property_set)):
+            if i < len(property_set) - 1:
+                f.write(f'    "{item}",\n')
+            else:
+                f.write(f'    "{item}"\n')
+        f.write("}")
+    
+    print(f"\nTransformed lists exported to:")
+    print(f"  - transformed_class_list.txt ({len(class_set)} items)")
+    print(f"  - transformed_property_list.txt ({len(property_set)} items)")
+
+# Call the export function
+export_transformed_lists(class_list_str, property_list_str)
 
 
 

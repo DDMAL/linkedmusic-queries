@@ -9,13 +9,13 @@ from SPARQLWrapper import SPARQLWrapper, JSON # SPARQLWrapper is a Python wrappe
 # 1. SubGraph Extraction
 # Invoke the OpenAI API:
 client = OpenAI( # We initiatively set the model to "gpt-4o" for the first call so the function name is OpenAI
-    api_key="", # To check the consumption of the API key, please visit https://cx.xty.app/#/. Put "sk-" before the API key then query the consumption
+    api_key="LHAV5AoeevPPQ2iZKCIwCg2i9Jm5axE9mL5cJf0L71p6Iosl", # To check the consumption of the API key, please visit https://cx.xty.app/#/. Put "sk-" before the API key then query the consumption
     base_url="https://oneapi.xty.app/v1"
 )
 
 def callGPT(prompt): # We initiatively set the model to "gpt-4o" for the first call so the function name is callGPT
     completion = client.chat.completions.create(
-        model="gpt-4o", # We can use "gpt-4o" or "o1-preview" or "deepseek-r1" model (currently, it's not stable using "deepseek-r1" model and by using that, the final output of Transformed PropertyList is empty for unknown reason)
+        model="gpt-4.1-2025-04-14", # We can use "gpt-4o" or "o1-preview" or "deepseek-r1" model (currently, it's not stable using "deepseek-r1" model and by using that, the final output of Transformed PropertyList is empty for unknown reason)
         max_tokens=4096,
         temperature=0.1,
         messages=[
@@ -33,12 +33,14 @@ with open("ontologySnippet_classes1_simplified.ttl", "r") as context1:
 with open("ontologySnippet_classes2_simplified.ttl", "r") as context2: 
     context_ontology_class2 = context2.readlines()
 # The object and data properties ontology snippets are read separately:
-with open("ontologySnippet_objectProperties_simplified.ttl", "r") as context3: 
-    context_ontology_objectProperty = context3.readlines()
-with open("ontologySnippet_dataProperties_simplified.ttl", "r") as context4:
-    context_ontology_dataProperty = context4.readlines()
+with open("ontologySnippet_objectProperties1_simplified.ttl", "r") as context3: 
+    context_ontology_objectProperty3 = context3.readlines()
+with open("ontologySnippet_objectProperties2_simplified.ttl", "r") as context4: 
+    context_ontology_objectProperty4 = context4.readlines() # The `+=` operator appends the lines from the second file to the list of lines from the first file
+with open("ontologySnippet_dataProperties_simplified.ttl", "r") as context5:
+    context_ontology_dataProperty = context5.readlines()
 # The natural language question is read from a text file:
-with open("sampleQuestions/question_Instrument_Place_Instrument.txt", 'r') as f:
+with open("sampleQuestions/question_random7.txt", 'r') as f:
     question = f.readlines()
 
 prompt0 = f"""
@@ -67,7 +69,10 @@ such as `["ex:class1", "ex:class2", "ex:class3"]`.
 3. Extract all classes that are even minimally relevant to the question.
 4. As long as any semantic fragment (such as a word, phrase, or expression) in the natural language question semantically matches the content of the `rdfs:label` of a class in the ontology, that class will be extracted from the ontology.
 5. As long as an entity(or class) in the natural language question exactly matches one value of the `rdfs:label` of a class in the ontology, that class must be extracted from the ontology.
-For the entity(or class) list, you can refer to {result0}
+For the entity(or class) list, you can refer to {result0}. 
+6. 如果问句中涉及…类乐器，也不妨参考`wd:Q7403902 rdfs:label "乐器的类（声学）".`
+
+最后，你要学会根据自然语言中的实例推测它们可能对应的类，然后再从本体中寻找这些潜在的类。根据这个原则，请再复查一遍，把潜在的类补上
 """
 
 prompt2 = f"""
@@ -84,7 +89,9 @@ such as `["ex:class1", "ex:class2", "ex:class3"]`.
 3. Extract all classes that are even minimally relevant to the question.
 4. As long as any semantic fragment (such as a word, phrase, or expression) in the natural language question semantically matches the content of the `rdfs:label` of a class in the ontology, that class will be extracted from the ontology.
 5. As long as an entity(or class) in the natural language question exactly matches one value of the `rdfs:label` of a class in the ontology, that class must be extracted from the ontology.
-For the entity(or class) list, you can refer to {result0}
+For the entity(or class) list, you can refer to {result0}.
+
+最后，你要学会根据自然语言中的实例推测它们可能对应的类，然后再从本体中寻找这些潜在的类。根据这个原则，请再复查一遍，把潜在的类补上
 """
 
 prompt3 = f"""
@@ -92,7 +99,7 @@ prompt3 = f"""
 According to the given natural language question, extract relevant properties from the provided ontology and output them only in a json-formatted list (no adding redundant strings).
 such as `["ex:property1", "ex:property2", "ex:property3"]`.
 ### Ontology:
-{context_ontology_objectProperty}
+{context_ontology_objectProperty3}
 ### Given the Natural Language Question:
 {question}
 ### Instructions and Notes:
@@ -102,11 +109,29 @@ such as `["ex:property1", "ex:property2", "ex:property3"]`.
 4. Extract all properties that are even minimally relevant to the question.
 5. Examine each property with its label and comment, one by one.
 6. As long as an entity in the natural language question matches one value of the `rdfs:label` of a property in the ontology, that property must be extracted from the ontology.
-7. 句子中若存在形容词+名词的结构，也有可能从中提取出属性。
-For the entity list, you can refer to {result0}
+For the entity list, you can refer to {result0}.
 """
 
-prompt4 = f"""
+prompt4= f"""
+### Task:
+According to the given natural language question, extract relevant properties from the provided ontology and output them only in a json-formatted list (no adding redundant strings).
+such as `["ex:property1", "ex:property2", "ex:property3"]`.
+### Ontology:
+{context_ontology_objectProperty4}
+### Given the Natural Language Question:
+{question}
+### Instructions and Notes:
+1. Retrieve properties from the ontology as long as any literals in the natural language question match the semantic content of their rdfs:label or rdfs:comment.
+2. Analyze the semantic structure of the natural language question carefully to identify all relevant properties.
+3. Ensure each retrieved property is represented by its namespace prefix defined in the ontology.
+4. Extract all properties that are even minimally relevant to the question.
+5. Examine each property with its label and comment, one by one.
+6. As long as an entity in the natural language question matches one value of the `rdfs:label` of a property in the ontology, that property must be extracted from the ontology.
+7. 句子中若存在形容词+名词的结构，也有可能从中提取出属性，比如，“某地域有哪些拉弦类乐器？”，它就可能涉及属性“rdfs:label: "乐器类型（声学角度）"”。
+For the entity list, you can refer to {result0}.
+"""
+
+prompt5 = f"""
 ### Task:
 According to the given natural language question, extract relevant properties from the provided ontology and output them only in a json-formatted list (no adding redundant strings).
 such as `["ex:property1", "ex:property2", "ex:property3"]`.
@@ -124,7 +149,7 @@ For the entity list, you can refer to {result0}
 """
 
 # Retrieve the classes that are not explicitly stated in the question but are related to the entities extracted from the question.
-prompt5 = f"""
+prompt6 = f"""
 See the list of entities:
 {result0}
 
@@ -143,7 +168,7 @@ As to the extracted entities (or classes), do only provide one corresponding SPA
 """
 # --In the future, we may supplement the scope by updating `?entity rdfs:label ?label ;` to `?entity rdfs:lable|ctm:ethnicGroupAlias|ctm:musicianAlias|dbo:formerName|gn:alternateName ?label ;` to cover more cases
 
-response = callGPT(prompt5).strip()
+response = callGPT(prompt6).strip()
 # print('\n\n','response:', response)
 
 # Ensure only the SPARQL query is extracted from the response:
@@ -189,10 +214,12 @@ print('\n\nresult2(classes extracted):', result2)
 result3 = callGPT(prompt3)
 print('\n\nresult3(objectProperty extracted):', result3)
 result4 = callGPT(prompt4)
-print('\n\nresult4(dataProperty extracted):', result4)
+print('\n\nresult4(objectProperty extracted):', result4)
+result5 = callGPT(prompt5)
+print('\n\nresult5(dataProperty extracted):', result5)
 
 
-# Function to parse the result1-4 (to parse the JSON strings into lists):
+# Function to parse the result1-n (to parse the JSON strings into lists):
 def parse_result(result):
     # print(f"\n\nParsing result: {result}")
     if isinstance(result, str):
@@ -217,12 +244,14 @@ result1_list = parse_result(result1)
 result2_list = parse_result(result2)
 result3_list = parse_result(result3)
 result4_list = parse_result(result4)
+result5_list = parse_result(result5)
 
 # Combine upper results into a single list and remove duplicates
-combined_results = list(set(result1_list + result2_list + result3_list + result4_list)) # uses set(...) to remove duplicates before converting back to a list
+combined_results = list(set(result1_list + result2_list + result3_list + result4_list + result5_list)) # uses set(...) to remove duplicates before converting back to a list
+# Print('\n\ncombined_results:', combined_results) # This prints the combined results in a list format
 # Sort items into classes and properties, and arrange them in ascending order
-class_list = sorted([item for item in combined_results if item.split(":")[1][0].isupper()]) # `item.split(":")[1][0]`: The code splits the string “item” at the colon, takes the second part ([1]), then retrieves its first character ([0])
-property_list = sorted([item for item in combined_results if item.split(":")[1][0].islower()])
+class_list = sorted([item for item in combined_results if not item.startswith("wdt:") and item.split(":")[1][0].isupper()]) # `item.split(":")[1][0]`: The code splits the string “item” at the colon, takes the second part ([1]), then retrieves its first character ([0])
+property_list = sorted([item for item in combined_results if item.startswith("wdt:") or item.split(":")[1][0].islower()])
 # Print the sorted lists
     # print("ClassList =", class_list)
     # print("PropertyList =", property_list)
@@ -283,7 +312,7 @@ print("Transformed PropertyList =", "{" + ", ".join(f'"{item}"' for item in prop
 
 
 
-# 2025 early Mar
+# 2025 early March
 # 整体思路：类是肯定能找全的；属性不好找，没关系，核心思路是“以全概偏”。三个要点策略：
 # （1）“最坏的打算”就是，把一个类可能连接的所有属性都找到，然后拼装子图（可以用 Shapes等）
 # （2）即使子图很大，我们可以迭代、收敛——在已有子图的基础上，再提取它的子图

@@ -70,7 +70,7 @@ ctm:nameOfMusicTypeOrInstrument rdfs:label "音乐类型(乐种)或乐器的名�
     rdfs:comment "指一个\"音乐类型(乐种)\"的名称，或指一个\"乐器\"的名称。而对这二者，其名称则不用rdfs:label来表示" .
 
 ctm:originationPeriod rdfs:label "起源自…时期" ;
-    rdfs:comment "指一个乐种或音乐类型起源自某历史时期" .
+    rdfs:comment "指一个乐种或音乐类型起源自某历史时期（如历朝历代）" .
 
 ctm:representativePiece rdfs:label "有代表曲目或剧目" ;
     rdfs:comment "专指乐种或乐器的代表曲目（或剧目），一般用书名号表示（对于曲牌，则用半角中括号表示" .
