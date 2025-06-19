@@ -294,7 +294,7 @@ def callGPT(prompt):
     )
     return completion.choices[0].message.content
 
-with open("sampleQuestions/question_random2.txt", 'r') as f:
+with open("sampleQuestions/question_random5.txt", 'r') as f:
     question = f.readlines()
 
 
