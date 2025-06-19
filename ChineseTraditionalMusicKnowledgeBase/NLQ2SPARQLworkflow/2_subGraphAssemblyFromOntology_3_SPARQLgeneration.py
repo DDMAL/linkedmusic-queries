@@ -227,9 +227,9 @@ if __name__ == '__main__':
     # 获取初始配置
     owl_file_path = "/Users/caojunjun/WPS_Synchronized_Folder/McGill_DDMAL/GitHub/linkedmusic-queries/ChineseTraditionalMusicKnowledgeBase/3versionsOfOntology/ontologyForChineseTraditionalMusicKnowledgeBase_2025_withAdditionalAnnotationForLLM_extractingEntityFromOntology_simplifiedForOntologySegmentation.ttl"
     # Transformed ClassList
-    given_classes = {"bf:MusicInstrument", "cidoc-crm:E55_Type", "ctm:ChineseInstrument", "ctm:FolkMusicOrganization", "ctm:GenreOfPiece", "ctm:Guan", "ctm:GudiSystem", "ctm:MusicType", "ctm:MusicType_YueShengXi", "ctm:MusicType_YueWuXi", "ctm:NationalInstrumentalMusic", "ctm:OrientalMusicalInstrument", "ctm:PercussionMusicalInstrument", "ctm:PluckedStringInstrument", "ctm:ShengPipeAndGuanSystem", "ctm:SizhuMusic", "ctm:Surnay", "ctm:SurnaySystem", "ctm:TraditionalMusicBranch", "ctm:WindAndDrumMusic", "ctm:XiansuoMusic", "mo:Instrument", "ns1:b8784481", "wd:Q7403902", "rdfs:Literal"}
+    given_classes = {"bf:MusicInstrument", "cidoc-crm:E55_Type", "ctm:ChineseInstrument", "ctm:ForeignNation", "ctm:OrientalMusicalInstrument", "ctm:PieceWithPerformance", "ctm:SpecialIndependentResource", "mo:Instrument", "wd:Q7403902", "rdfs:Literal"}
     # Transformed PropertyList
-    given_properties = {"ctm:acousticClassification", "ctm:nameOfMusicTypeOrInstrument", "ctm:piecePrincipalInstrument", "ctm:relatesFolkMusicOrg", "ctm:relatesInstrument", "ctm:relatesMusicType", "ctm:representativePiece", "ctm:representativeQupai", "dbo:formerName", "wdt:P1762"}
+    given_properties = {"bf:instrument", "bf:subject", "ctm:hasFullNameOf", "ctm:hasShortNameOf", "ctm:hasVulgoNameOf", "ctm:instrumentAlternateName", "ctm:instrumentEvolvesFrom", "ctm:instrumentFormerName", "ctm:instrumentRepresentativeMusicType", "ctm:instrument_broaderTerm", "ctm:instrument_narrowerTerm", "ctm:nameOfMusicTypeOrInstrument", "ctm:piecePrincipalInstrument", "ctm:relatesInstrument", "ctm:relatesMusicType", "ctm:relatesMusician", "ctm:relatesPlace", "ctm:relatesWork", "ctm:representativePiece", "ctm:representativeQupai", "musicbrainz:title", "wdt:P1762"}
     
     # 统计给定实体的总数
     total_entities = len(given_classes) + len(given_properties)
