@@ -904,7 +904,7 @@ ctm:nameOfMusicTypeOrInstrument rdf:type owl:DatatypeProperty ;
 ctm:originationPeriod rdf:type owl:DatatypeProperty ;
                       rdfs:domain ctm:MusicType ;
                       rdfs:range rdfs:Literal ;
-                      rdfs:comment "指一个乐种或音乐类型起源自某历史时期" ;
+                      rdfs:comment "指一个乐种或音乐类型起源自某历史时期（如历朝历代）" ;
                       rdfs:label "起源自…时期" .
 
 
