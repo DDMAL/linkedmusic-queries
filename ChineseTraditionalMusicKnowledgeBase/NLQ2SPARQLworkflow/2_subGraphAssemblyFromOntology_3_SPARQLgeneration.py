@@ -419,7 +419,7 @@ print(f"\n\nQuery results have been saved to: {output_QueryResultInJson}")
 # print('\n\nsparql_results:', sparql_results) # rendered in JSON format
 
 
-def truncate_sparql_results_for_prompts(results, max_rows=1000):
+def truncate_sparql_results_for_prompts(results, max_rows=120):
     """
     Truncate(删节、截取) SPARQL results to approximately max_rows while maintaining JSON structure.
     
@@ -440,11 +440,11 @@ def truncate_sparql_results_for_prompts(results, max_rows=1000):
     if len(bindings) <= max_rows:
         return results
     
-    # 3. 如果数据量>1000行，Create truncated version
+    # 3. 如果数据量>120个 bindings，Create truncated version
     truncated_results = {
         'head': results.get('head', {}),
         'results': {
-            'bindings': bindings[:max_rows] # 只取前1000行
+            'bindings': bindings[:max_rows] # 只取前120 个bindings
         }
     }
     
@@ -457,8 +457,8 @@ def truncate_sparql_results_for_prompts(results, max_rows=1000):
     return truncated_results
 
 # Create truncated version for prompts
-sparql_results_for_prompts = truncate_sparql_results_for_prompts(sparql_results, 1000) # 这里的sparql_results是从SPARQL Endpoint查询得到的结果，sparql_results_for_prompts是“截取后的结果”（最多1000行）
-# ——sparql_results_for_prompts既包括如果文件大于 1000 行的截取后的结果，也包括如果文件小于 1000 行的即保留的原结果
+sparql_results_for_prompts = truncate_sparql_results_for_prompts(sparql_results) # 这里的sparql_results是从SPARQL Endpoint查询得到的结果，sparql_results_for_prompts是“截取后的结果”（最多120 个bindings）
+# ——sparql_results_for_prompts既包括如果文件大于120 个bindings的截取后的结果，也包括如果文件小于120 个bindings的即保留的原结果
 
 # Optional: Save truncated version to a separate file for inspection
 if sparql_results_for_prompts != sparql_results: # 如果截取（判别）后的数据与原始数据不相等（即发生了截取），就执行下面的代码块
