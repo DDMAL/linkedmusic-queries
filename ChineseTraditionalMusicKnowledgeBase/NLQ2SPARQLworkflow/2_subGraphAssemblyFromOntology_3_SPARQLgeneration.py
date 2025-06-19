@@ -226,10 +226,46 @@ def retrieve_specific_subset(owl_file_path, extracted_classes, extracted_propert
 if __name__ == '__main__':
     # 获取初始配置
     owl_file_path = "/Users/caojunjun/WPS_Synchronized_Folder/McGill_DDMAL/GitHub/linkedmusic-queries/ChineseTraditionalMusicKnowledgeBase/3versionsOfOntology/ontologyForChineseTraditionalMusicKnowledgeBase_2025_withAdditionalAnnotationForLLM_extractingEntityFromOntology_simplifiedForOntologySegmentation.ttl"
-    # Transformed ClassList
-    given_classes = {"bf:MusicInstrument", "cidoc-crm:E55_Type", "ctm:ChineseInstrument", "ctm:ForeignNation", "ctm:OrientalMusicalInstrument", "ctm:PieceWithPerformance", "ctm:SpecialIndependentResource", "mo:Instrument", "wd:Q7403902", "rdfs:Literal"}
-    # Transformed PropertyList
-    given_properties = {"bf:instrument", "bf:subject", "ctm:hasFullNameOf", "ctm:hasShortNameOf", "ctm:hasVulgoNameOf", "ctm:instrumentAlternateName", "ctm:instrumentEvolvesFrom", "ctm:instrumentFormerName", "ctm:instrumentRepresentativeMusicType", "ctm:instrument_broaderTerm", "ctm:instrument_narrowerTerm", "ctm:nameOfMusicTypeOrInstrument", "ctm:piecePrincipalInstrument", "ctm:relatesInstrument", "ctm:relatesMusicType", "ctm:relatesMusician", "ctm:relatesPlace", "ctm:relatesWork", "ctm:representativePiece", "ctm:representativeQupai", "musicbrainz:title", "wdt:P1762"}
+    
+    # Function to load set from file
+    def load_set_from_file(filename):
+        """Load a Python set from a text file."""
+        try:
+            with open(filename, 'r', encoding='utf-8') as f:
+                content = f.read().strip()
+                # Remove the outer braces and parse as set
+                content = content.strip('{}')
+                items = []
+                for line in content.split(',\n'):
+                    line = line.strip()
+                    if line:
+                        # Remove quotes and whitespace
+                        item = line.strip().strip('"').strip("'")
+                        if item:
+                            items.append(item)
+                return set(items)
+        except FileNotFoundError:
+            print(f"Warning: {filename} not found. Using default values.")
+            return set()
+        except Exception as e:
+            print(f"Error reading {filename}: {e}. Using default values.")
+            return set()
+    
+    # Try to load from files first, fallback to default values
+    given_classes = load_set_from_file("transformed_class_list.txt")
+    given_properties = load_set_from_file("transformed_property_list.txt")
+    
+    # If files don't exist or are empty, use default values
+    if not given_classes:
+        print("Using default class list since file is empty or not found.")
+        given_classes = {"bf:MusicInstrument", "cidoc-crm:E55_Type", "rdfs:Literal"}
+    
+    if not given_properties:
+        print("Using default property list since file is empty or not found.")
+        given_properties = {"bf:instrument", "bf:subject", "ctm:hasFullNameOf"}
+    
+    print(f"Loaded classes from file: {given_classes}")
+    print(f"Loaded properties from file: {given_properties}")
     
     # 统计给定实体的总数
     total_entities = len(given_classes) + len(given_properties)
