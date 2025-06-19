@@ -279,6 +279,18 @@ wdt:P1762 rdf:type owl:ObjectProperty ;
                      "声学分类" .
 
 
+###  http://xmlns.com/foaf/0.1/member
+foaf:member rdf:type owl:ObjectProperty ;
+            rdfs:domain [ rdf:type owl:Class ;
+                          owl:unionOf ( mo:MusicGroup
+                                        ctm:FolkMusicOrganization
+                                      )
+                        ] ;
+            rdfs:range ctm:FolkMusician ;
+            rdfs:comment "关联一个民间音乐组织和它包含的民间乐人" ;
+            rdfs:label "有…成员" .
+
+
 ###  https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#ethnicGroup
 ctm:ethnicGroup rdf:type owl:ObjectProperty ;
                 rdfs:domain [ rdf:type owl:Class ;
