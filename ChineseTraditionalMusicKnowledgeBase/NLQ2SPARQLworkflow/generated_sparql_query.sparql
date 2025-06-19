@@ -1,41 +1,20 @@
 # 有什么外族乐器，相对罕见，但在特藏资源或曲目中有收藏的？
-# define input:inference 'urn:owl.ccmusicrules0214'
-PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
-PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
+define input:inference 'urn:owl.ccmusicrules0214'
 PREFIX mo: <http://purl.org/ontology/mo/>
+PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT DISTINCT ?instrument ?instrumentLabel ?resource ?resourceLabel
-WHERE {
-    # 外族乐器：东方乐器但不是中华民族乐器
-    ?instrument a ctm:OrientalMusicalInstrument .
-    ?instrument rdfs:label ?instrumentLabel .
-    
-    FILTER NOT EXISTS {
-        ?instrument a ctm:ChineseInstrument
-    }
-    
-    # 在特藏资源或曲目中有收藏的
-    {
-        # 乐器涉及特藏独立资源
-        ?instrument ctm:relatesWork ?resource .
-        ?resource a ctm:SpecialIndependentResource .
-        ?resource rdfs:label ?resourceLabel .
-    }
-    UNION
-    {
-        # 曲目使用该乐器作为主奏乐器
-        ?piece ctm:piecePrincipalInstrument ?instrument .
-        ?piece a ctm:PieceWithPerformance .
-        ?piece rdfs:label ?resourceLabel .
-        BIND(?piece AS ?resource)
-    }
-    UNION
-    {
-        # 曲目的演出使用该乐器
-        ?piece bf:instrument ?instrument .
-        ?piece a ctm:PieceWithPerformance .
-        ?piece rdfs:label ?resourceLabel .
-        BIND(?piece AS ?resource)
-    }
+SELECT DISTINCT ?instrument ?instrumentLabel ?resource ?resourceLabel WHERE {
+  ?instrument a mo:Instrument .
+  ?instrument rdfs:label ?instrumentLabel .
+  
+  # 外族乐器 - 不是中华民族乐器
+  FILTER NOT EXISTS {
+    ?instrument a ctm:ChineseInstrument .
+  }
+  
+  # 在特藏资源中有收藏 - 使用正确的属性方向
+  ?instrument ctm:relatesWork ?resource .
+  ?resource a ctm:SpecialIndependentResource .
+  ?resource rdfs:label ?resourceLabel .
 }
