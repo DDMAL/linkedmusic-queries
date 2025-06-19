@@ -307,7 +307,7 @@ def callGPT(prompt):
     )
     return completion.choices[0].message.content
 
-with open("sampleQuestions/question_random5.txt", 'r') as f:
+with open("sampleQuestions/question_random7.txt", 'r') as f:
     question = f.readlines()
 
 
@@ -388,6 +388,15 @@ else:
 sparql_query = "define input:inference 'urn:owl.ccmusicrules0214'\n" + clean_response # The type of sparql_query is <class 'str'>
 
 print('\n\nThe sparql_query based on the ontology subgraph (verified):\n' + sparql_query)
+
+# Export SPARQL query to .sparql file with the natural language question as comment
+sparql_filename = "generated_sparql_query.sparql"
+with open(sparql_filename, 'w', encoding='utf-8') as f:
+    # Write the natural language question as a comment on the first line
+    question_text = ''.join(question).strip()  # Convert list to string and strip whitespace
+    f.write(f"# {question_text}\n")
+    f.write(sparql_query)
+print(f"\n\nSPARQL query has been saved to: {sparql_filename}")
 
 from SPARQLWrapper import SPARQLWrapper, JSON
 
