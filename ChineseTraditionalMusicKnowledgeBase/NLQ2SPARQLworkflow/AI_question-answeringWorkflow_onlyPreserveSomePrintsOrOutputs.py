@@ -464,7 +464,7 @@ def execute_sparql_and_process_results(sparql_query, turtle_output, question):
     sparql_query = final_query
 
     # Generate timestamp for unique filename
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now().strftime("%Y%m") # timestamp with year and month only
     output_QueryResultInJson = f"sparql_results_{timestamp}.json"
 
     # Write results to JSON file
@@ -657,7 +657,7 @@ def execute_sparql_with_retry(sparql_query, turtle_output, question, max_retries
             current_query = fix_sparql_query_with_error(current_query, error, turtle_output, question)
             
             # Save the corrected query attempt
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now().strftime("%Y%m") # timestamp with year and month only
             corrected_filename = f"generated_sparql_query_corrected_attempt{attempt + 2}_{timestamp}.sparql"
             with open(corrected_filename, 'w', encoding='utf-8') as f:
                 question_text = ''.join(question).strip()
