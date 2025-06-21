@@ -47,9 +47,9 @@ def extract_entities_from_nlq():
     Step 1: Extract entities, classes, and properties from natural language question.
     Returns the transformed class list and property list.
     """
-    print("="*80)
-    print("STEP 1: ENTITY EXTRACTION FROM NATURAL LANGUAGE QUESTION")
-    print("="*80)
+    # print("="*80)
+    # print("STEP 1: ENTITY EXTRACTION FROM NATURAL LANGUAGE QUESTION")
+    # print("="*80)
     
     # Read the context and question from the files:
     # The classes ontology snippets are divided into two parts to avoid exceeding the token limit of the OpenAI API:
@@ -82,7 +82,7 @@ def extract_entities_from_nlq():
     """
     
     result0 = callGPT(prompt0).replace("```json", "").replace("```", "").strip()
-    print('result0(entities or classes extracted):', result0)
+    # print('result0(entities or classes extracted):', result0)
     
     # Extract classes from ontology snippets
     prompt1 = f"""
@@ -208,7 +208,7 @@ def extract_entities_from_nlq():
         # Fallback if "define" isn't found
         sparql_query = response.replace("```sparql", "").replace("```", "").strip()
     sparql_query = sparql_query.strip("```")
-    print('\n\nsparql_query to identify the implicit classes:\n', sparql_query)
+    # print('\n\nsparql_query to identify the implicit classes:\n', sparql_query)
 
     # Query the SPARQL endpoint:
     sparql_endpoint = "http://www.usources.cn:8891/sparql"
@@ -217,23 +217,23 @@ def extract_entities_from_nlq():
     
     # Handle potential errors in entity extraction query (this is less critical than main query)
     if sparql_results is None:
-        print(f'Warning: Entity extraction query failed with error: {error}')
-        print('Continuing with empty sparql_results for entity extraction...')
+        # print(f'Warning: Entity extraction query failed with error: {error}')
+        # print('Continuing with empty sparql_results for entity extraction...')
         sparql_results = {'results': {'bindings': []}}  # Use empty results structure
-    else:
-        print('sparql_results:', sparql_results)
+    # else:
+        # print('sparql_results:', sparql_results)
 
     # Call the LLM to extract the classes and properties from the natural language question:
     result1 = callGPT(prompt1)
-    print('\n\nresult1(classes extracted):', result1)
+    # print('\n\nresult1(classes extracted):', result1)
     result2 = callGPT(prompt2)
-    print('\n\nresult2(classes extracted):', result2)
+    # print('\n\nresult2(classes extracted):', result2)
     result3 = callGPT(prompt3)
-    print('\n\nresult3(objectProperty extracted):', result3)
+    # print('\n\nresult3(objectProperty extracted):', result3)
     result4 = callGPT(prompt4)
-    print('\n\nresult4(objectProperty extracted):', result4)
+    # print('\n\nresult4(objectProperty extracted):', result4)
     result5 = callGPT(prompt5)
-    print('\n\nresult5(dataProperty extracted):', result5)
+    # print('\n\nresult5(dataProperty extracted):', result5)
 
     # Parse the JSON strings into lists
     def parse_result(result):
@@ -271,8 +271,8 @@ def extract_entities_from_nlq():
     # Process SPARQL results and merge with extracted classes
     merged_class_list = render_classes_with_prefix(sparql_results, class_list_str)
     
-    print("Transformed ClassList =", "{" + ", ".join(f'"{item}"' for item in merged_class_list.split()) + "}")
-    print("Transformed PropertyList =", "{" + ", ".join(f'"{item}"' for item in property_list_str.split()) + "}")
+    # print("Transformed ClassList =", "{" + ", ".join(f'"{item}"' for item in merged_class_list.split()) + "}")
+    # print("Transformed PropertyList =", "{" + ", ".join(f'"{item}"' for item in property_list_str.split()) + "}")
 
     # Export the transformed lists to files
     export_transformed_lists(merged_class_list, property_list_str)
@@ -298,8 +298,8 @@ def assemble_subgraph_and_generate_sparql(question, merged_class_list, property_
     given_classes = set(merged_class_list.split())
     given_properties = set(property_list_str.split())
     
-    print(f"Loaded classes: {given_classes}")
-    print(f"Loaded properties: {given_properties}")
+    # print(f"Loaded classes: {given_classes}")
+    # print(f"Loaded properties: {given_properties}")
     
     # 统计给定实体的总数
     total_entities = len(given_classes) + len(given_properties)
@@ -311,24 +311,24 @@ def assemble_subgraph_and_generate_sparql(question, merged_class_list, property_
         extracted_classes = given_classes
         extracted_properties = given_properties
         
-        print("Given Classes:")
-        for c in sorted(extracted_classes):
-            print("  ", c)
-        print("Given Properties:")
-        for p in sorted(extracted_properties):
-            print("  ", p)
+        # print("Given Classes:")
+        # for c in sorted(extracted_classes):
+        #     print("  ", c)
+        # print("Given Properties:")
+        # for p in sorted(extracted_properties):
+        #     print("  ", p)
     else:
         print("Entity count > 25: Using connectivity filtering first")
         owl_file_path, extracted_classes, extracted_properties = extract_connected_subgraph_from_owl(
             owl_file_path, given_classes, given_properties
         )
         
-        print("Extracted Classes (after connectivity filtering):")
-        for c in sorted(extracted_classes):
-            print("  ", c)
-        print("Extracted Properties (after connectivity filtering):")
-        for p in sorted(extracted_properties):
-            print("  ", p)
+        # print("Extracted Classes (after connectivity filtering):")
+        # for c in sorted(extracted_classes):
+        #     print("  ", c)
+        # print("Extracted Properties (after connectivity filtering):")
+        # for p in sorted(extracted_properties):
+        #     print("  ", p)
     
     # Extract subgraph triples
     triple_subset = retrieve_specific_subset(owl_file_path, extracted_classes, extracted_properties)
@@ -376,7 +376,7 @@ def assemble_subgraph_and_generate_sparql(question, merged_class_list, property_
     """
 
     sparql_query = callGPT(prompt6, "claude-sonnet-4-20250514").strip().replace("```sparql", "").strip("```")
-    print('\n\nThe sparql_query based on the ontology subgraph:\n', sparql_query)
+    # print('\n\nThe sparql_query based on the ontology subgraph:\n', sparql_query)
 
     # Verify the generated SPARQL query
     prompt6_verification = f"""
@@ -883,9 +883,9 @@ def retrieve_specific_subset(owl_file_path, extracted_classes, extracted_propert
             resolved_uri = resolve_curie(g, item)
             seeds.append(resolved_uri)
     
-    print(f"Debug: Total seeds found: {len(seeds)}")
-    for seed in seeds:
-        print(f"  Seed: {seed}")
+    # print(f"Debug: Total seeds found: {len(seeds)}")
+    # for seed in seeds:
+    #     print(f"  Seed: {seed}")
 
     visited = set()
     queue = list(seeds)
@@ -901,7 +901,7 @@ def retrieve_specific_subset(owl_file_path, extracted_classes, extracted_propert
                 if isinstance(o, BNode):
                     queue.append(o)
     
-    print(f"Debug: Total triples extracted: {len(subset_triples)}")
+    # print(f"Debug: Total triples extracted: {len(subset_triples)}")
     return subset_triples
 
 # =============================================================================
