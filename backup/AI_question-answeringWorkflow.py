@@ -17,7 +17,7 @@ from datetime import datetime
 
 # Invoke the OpenAI API:
 client = OpenAI(
-    api_key="", # To check the consumption of the API key, please visit https://cx.xty.app/#/. Put "sk-" before the API key then query the consumption
+    api_key="LHAV5AoeevPPQ2iZKCIwCg2i9Jm5axE9mL5cJf0L71p6Iosl", # To check the consumption of the API key, please visit https://cx.xty.app/#/. Put "sk-" before the API key then query the consumption
     base_url="https://oneapi.xty.app/v1"
 )
 
@@ -213,15 +213,8 @@ def extract_entities_from_nlq():
     # Query the SPARQL endpoint:
     sparql_endpoint = "http://www.usources.cn:8891/sparql"
     graph_iri = "https://lib.ccmusic.edu.cn/graph/music"
-    sparql_results, error = query_sparql(sparql_endpoint, sparql_query, graph_iri)
-    
-    # Handle potential errors in entity extraction query (this is less critical than main query)
-    if sparql_results is None:
-        print(f'Warning: Entity extraction query failed with error: {error}')
-        print('Continuing with empty sparql_results for entity extraction...')
-        sparql_results = {'results': {'bindings': []}}  # Use empty results structure
-    else:
-        print('sparql_results:', sparql_results)
+    sparql_results = query_sparql(sparql_endpoint, sparql_query, graph_iri)
+    print('sparql_results:', sparql_results)
 
     # Call the LLM to extract the classes and properties from the natural language question:
     result1 = callGPT(prompt1)
@@ -446,22 +439,16 @@ def assemble_subgraph_and_generate_sparql(question, merged_class_list, property_
 
 def execute_sparql_and_process_results(sparql_query, turtle_output, question):
     """
-    Step 3: Execute SPARQL query with error handling and process results with RAG and recommendations.
+    Step 3: Execute SPARQL query and process results with RAG and recommendations.
     """
     print("="*80)
     print("STEP 3: QUERY EXECUTION AND RESULTS PROCESSING")
     print("="*80)
     
-    # Execute SPARQL query with automatic retry mechanism
-    sparql_results, final_query, success = execute_sparql_with_retry(sparql_query, turtle_output, question, max_retries=3)
-    
-    if not success:
-        print("\n❌ SPARQL query execution failed after all retry attempts.")
-        print("Please check the query manually or adjust the ontology/question.")
-        return None, None
-    
-    # Update the query reference to the final working query
-    sparql_query = final_query
+    # Query the SPARQL endpoint
+    sparql_endpoint = "http://www.usources.cn:8891/sparql"
+    graph_iri = "https://lib.ccmusic.edu.cn/graph/music"
+    sparql_results = query_sparql(sparql_endpoint, sparql_query, graph_iri)
 
     # Generate timestamp for unique filename
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -487,7 +474,6 @@ def execute_sparql_and_process_results(sparql_query, turtle_output, question):
     print("RAG ANALYSIS")
     print("="*50)
     
-    # Retrieval Augmented Generation (RAG) prompt and simple recommendataion
     prompt7 = f"""
     Based on a natural language question: {question},
 
@@ -557,119 +543,14 @@ def execute_sparql_and_process_results(sparql_query, turtle_output, question):
 # =============================================================================
 
 def query_sparql(endpoint, sparql_query_parameter, graph_iri_parameter):
-    """Define a function to query the SPARQL endpoint with error handling."""
-    try:
-        sparql = SPARQLWrapper(endpoint)
-        sparql.setQuery(sparql_query_parameter)
-        sparql.setReturnFormat(JSON)
-        if graph_iri_parameter:
-            sparql.addParameter("default-graph-uri", graph_iri_parameter)
-        results = sparql.query().convert()
-        return results, None  # Return results and no error
-    except Exception as e:
-        error_message = str(e)
-        print(f"SPARQL Query Error: {error_message}")
-        return None, error_message  # Return None results and error message
-
-def fix_sparql_query_with_error(sparql_query, error_message, turtle_output, question, max_retries=3):
-    """
-    Fix SPARQL query based on error message using LLM.
-    Returns the corrected SPARQL query.
-    """
-    print(f"\n--- SPARQL Error Recovery (Attempt to fix query) ---")
-    print(f"Error: {error_message}")
-    
-    prompt_fix = f"""
-    The following SPARQL query failed with an error when executed against a Virtuoso SPARQL endpoint:
-
-    SPARQL Query:
-    {sparql_query}
-
-    Error Message:
-    {error_message}
-
-    Natural Language Question:
-    {question}
-
-    Related Ontology Snippet:
-    {turtle_output}
-
-    Please analyze the error and provide a corrected SPARQL query that:
-    1. Fixes the syntax or semantic issues causing the error
-    2. Maintains the original intent to answer the natural language question
-    3. Uses only classes and properties that exist in the ontology snippet
-    4. Follows proper SPARQL syntax for Virtuoso
-
-    Common Virtuoso SPARQL issues to consider:
-    - Incorrect PREFIX declarations
-    - Missing or incorrect namespace references
-    - Syntax errors in FILTER expressions
-    - Invalid property paths
-    - Incorrect use of OPTIONAL, UNION, or other keywords
-    - Type mismatches in comparisons
-
-    Return ONLY the corrected SPARQL query without any additional text or markdown formatting.
-    """
-    
-    corrected_query = callGPT(prompt_fix, "claude-sonnet-4-20250514").strip()
-    
-    # Clean the response
-    import re
-    corrected_query = re.sub(r'```(?:sparql)?', '', corrected_query)
-    corrected_query = corrected_query.strip()
-    
-    # Ensure the inference directive is present
-    if not corrected_query.startswith("define input:inference"):
-        prefix_index = corrected_query.find("PREFIX")
-        if prefix_index != -1:
-            corrected_query = "define input:inference 'urn:owl.ccmusicrules0214'\n" + corrected_query
-        else:
-            select_index = corrected_query.find("SELECT")
-            if select_index != -1:
-                corrected_query = "define input:inference 'urn:owl.ccmusicrules0214'\n" + corrected_query
-    
-    print(f"Corrected SPARQL Query:\n{corrected_query}")
-    return corrected_query
-
-def execute_sparql_with_retry(sparql_query, turtle_output, question, max_retries=3):
-    """
-    Execute SPARQL query with automatic retry and error correction.
-    Returns (results, final_query, success_flag).
-    """
-    sparql_endpoint = "http://www.usources.cn:8891/sparql"
-    graph_iri = "https://lib.ccmusic.edu.cn/graph/music"
-    
-    current_query = sparql_query
-    
-    for attempt in range(max_retries + 1):  # +1 for the initial attempt
-        print(f"\n--- SPARQL Execution Attempt {attempt + 1} ---")
-        
-        # Try to execute the query
-        results, error = query_sparql(sparql_endpoint, current_query, graph_iri)
-        
-        if results is not None:
-            print(f"✅ SPARQL query executed successfully on attempt {attempt + 1}")
-            return results, current_query, True
-        
-        if attempt < max_retries:
-            print(f"❌ Attempt {attempt + 1} failed, trying to fix the query...")
-            # Try to fix the query using LLM
-            current_query = fix_sparql_query_with_error(current_query, error, turtle_output, question)
-            
-            # Save the corrected query attempt
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            corrected_filename = f"generated_sparql_query_corrected_attempt{attempt + 2}_{timestamp}.sparql"
-            with open(corrected_filename, 'w', encoding='utf-8') as f:
-                question_text = ''.join(question).strip()
-                f.write(f"# {question_text}\n")
-                f.write(f"# Corrected attempt {attempt + 2} due to error: {error}\n")
-                f.write(current_query)
-            print(f"Corrected query saved to: {corrected_filename}")
-        else:
-            print(f"❌ All {max_retries + 1} attempts failed. Final error: {error}")
-            return None, current_query, False
-    
-    return None, current_query, False
+    """Define a function to query the SPARQL endpoint."""
+    sparql = SPARQLWrapper(endpoint)
+    sparql.setQuery(sparql_query_parameter)
+    sparql.setReturnFormat(JSON)
+    if graph_iri_parameter:
+        sparql.addParameter("default-graph-uri", graph_iri_parameter)
+    results = sparql.query().convert()
+    return results
 
 def shorten_uri(uri, graph):
     """Convert a full URI into a prefixed form using the graph's known namespaces."""
@@ -928,28 +809,18 @@ if __name__ == '__main__':
         sparql_query, turtle_output = assemble_subgraph_and_generate_sparql(question, merged_class_list, property_list_str)
         
         # Step 3: Query Execution and Results Processing
-        result = execute_sparql_and_process_results(sparql_query, turtle_output, question)
+        rag_result, recommendation_result = execute_sparql_and_process_results(sparql_query, turtle_output, question)
         
-        if result is None or result[0] is None:
-            print("="*80)
-            print("WORKFLOW FAILED - SPARQL EXECUTION ERROR")
-            print("="*80)
-            print("The SPARQL query could not be executed successfully after multiple attempts.")
-            print("Please check the generated query files and error messages above.")
-        else:
-            rag_result, recommendation_result = result
-            
-            print("="*80)
-            print("WORKFLOW COMPLETED SUCCESSFULLY")
-            print("="*80)
-            print("Generated files:")
-            print("  - transformed_class_list.txt")
-            print("  - transformed_property_list.txt") 
-            print("  - assembledSubgraphOfOntology.ttl")
-            print("  - generated_sparql_query.sparql")
-            print("  - sparql_results_[timestamp].json")
-            print("  - sparql_results_truncated_[timestamp].json (if applicable)")
-            print("  - generated_sparql_query_corrected_attempt[N]_[timestamp].sparql (if query needed correction)")
+        print("="*80)
+        print("WORKFLOW COMPLETED SUCCESSFULLY")
+        print("="*80)
+        print("Generated files:")
+        print("  - transformed_class_list.txt")
+        print("  - transformed_property_list.txt") 
+        print("  - assembledSubgraphOfOntology.ttl")
+        print("  - generated_sparql_query.sparql")
+        print("  - sparql_results_[timestamp].json")
+        print("  - sparql_results_truncated_[timestamp].json (if applicable)")
         print("="*80)
         
     except Exception as e:
