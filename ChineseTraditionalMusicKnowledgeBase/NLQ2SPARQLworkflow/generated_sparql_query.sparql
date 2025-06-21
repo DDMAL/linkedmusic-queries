@@ -1,24 +1,17 @@
-# 有没有什么来自中国唐、宋、元时期的资源，乐器等
+# 想看看同时属于 3 个民族或以上的乐种，并能返回它们的上位类（父类）。只返回 100 条数据
 #define input:inference 'urn:owl.ccmusicrules0214'
 PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX mo: <http://purl.org/ontology/mo/>
 
-SELECT DISTINCT ?resource ?resourceLabel ?instrument ?instrumentLabel WHERE {
-  # 查询特藏独立资源
-  ?resource a ctm:SpecialIndependentResource .
-  ?resource rdfs:label ?resourceLabel .
-  
-  # 可选地查询相关乐器
-  OPTIONAL {
-    ?resource ctm:relatesInstrument ?instrument .
-    ?instrument rdfs:label ?instrumentLabel .
-  }
-  
-  # 过滤包含唐、宋、元时期的资源
-  FILTER(
-    REGEX(?resourceLabel, "唐", "i") || 
-    REGEX(?resourceLabel, "宋", "i") || 
-    REGEX(?resourceLabel, "元", "i")
-  )
+SELECT ?musicType ?label ?parentType ?parentLabel WHERE {
+  # Select music types (乐种) with labels
+  ?musicType a ctm:MusicType ;
+             rdfs:label ?label ;
+             ctm:ethnicGroup ?ethnic1, ?ethnic2, ?ethnic3 ;
+             ctm:musicType_broaderTerm ?parentType .
+  # Get the label of the parent music type
+  ?parentType rdfs:label ?parentLabel .
+  # Ensure the three ethnic groups are distinct to confirm musicType belongs to at least 3 different ethnic groups
+  FILTER(?ethnic1 != ?ethnic2 && ?ethnic1 != ?ethnic3 && ?ethnic2 != ?ethnic3)
 }
+LIMIT 100

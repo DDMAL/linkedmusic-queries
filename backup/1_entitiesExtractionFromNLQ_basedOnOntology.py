@@ -9,7 +9,7 @@ from SPARQLWrapper import SPARQLWrapper, JSON # SPARQLWrapper is a Python wrappe
 # 1. SubGraph Extraction
 # Invoke the OpenAI API:
 client = OpenAI( # We initiatively set the model to "gpt-4o" for the first call so the function name is OpenAI
-    api_key="LHAV5AoeevPPQ2iZKCIwCg2i9Jm5axE9mL5cJf0L71p6Iosl", # To check the consumption of the API key, please visit https://cx.xty.app/#/. Put "sk-" before the API key then query the consumption
+    api_key="", # To check the consumption of the API key, please visit https://cx.xty.app/#/. Put "sk-" before the API key then query the consumption
     base_url="https://oneapi.xty.app/v1"
 )
 
