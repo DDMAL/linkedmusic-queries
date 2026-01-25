@@ -1,17 +1,57 @@
-# 想看看同时属于 3 个民族或以上的乐种，并能返回它们的上位类（父类）。只返回 100 条数据
+# 我想看看乐器中，哪些是涉及新疆维吾尔自治区（地域）或中国的大西北地区的，尤其是它的弹拨乐器（也可以考虑从霍萨分类法的角度来考察）。再如，这些乐器可能用在我们的哪些特藏资源或者演出的曲目中？
 #define input:inference 'urn:owl.ccmusicrules0214'
+PREFIX bf: <http://id.loc.gov/ontologies/bibframe/>
 PREFIX ctm: <https://lib.ccmusic.edu.cn/ontologies/chinese_traditional_music#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX gn: <http://www.geonames.org/ontology#>
+PREFIX musicbrainz: <http://musicbrainz.org/ns/mmd-2.0#>
 
-SELECT ?musicType ?label ?parentType ?parentLabel WHERE {
-  # Select music types (乐种) with labels
-  ?musicType a ctm:MusicType ;
-             rdfs:label ?label ;
-             ctm:ethnicGroup ?ethnic1, ?ethnic2, ?ethnic3 ;
-             ctm:musicType_broaderTerm ?parentType .
-  # Get the label of the parent music type
-  ?parentType rdfs:label ?parentLabel .
-  # Ensure the three ethnic groups are distinct to confirm musicType belongs to at least 3 different ethnic groups
-  FILTER(?ethnic1 != ?ethnic2 && ?ethnic1 != ?ethnic3 && ?ethnic2 != ?ethnic3)
+SELECT DISTINCT ?instrument ?instrumentLabel ?place ?placeLabel ?classification ?specialResource ?resourceLabel ?piece ?pieceTitle
+WHERE {
+  # Find plucked string instruments
+  ?instrument a ctm:PluckedStringInstrument .
+  ?instrument rdfs:label ?instrumentLabel .
+  
+  # Get the place distribution of the instrument
+  ?instrument bf:place ?place .
+  ?place rdfs:label ?placeLabel .
+  
+  # Filter for Xinjiang or Northwest China related places
+  {
+    FILTER(CONTAINS(?placeLabel, "新疆维吾尔自治区") || CONTAINS(?placeLabel, "西北") || CONTAINS(?placeLabel, "新疆") || CONTAINS(?placeLabel, "大西北"))
+  }
+  UNION
+  {
+    ?place gn:parentFeature ?parentPlace .
+    ?parentPlace rdfs:label ?parentPlaceLabel .
+    FILTER(CONTAINS(?parentPlaceLabel, "新疆维吾尔自治区") || CONTAINS(?parentPlaceLabel, "西北") || CONTAINS(?parentPlaceLabel, "新疆") || CONTAINS(?parentPlaceLabel, "大西北"))
+  }
+  
+  # Optional: Get Hornbostel-Sachs classification
+  OPTIONAL {
+    ?instrument wdt:P1762 ?classification .
+  }
+  
+  # Optional: Get related special resources
+  OPTIONAL {
+    ?instrument ctm:relatesWork ?specialResource .
+    ?specialResource rdfs:label ?resourceLabel .
+  }
+  
+  # Optional: Get sample pieces with performance
+  OPTIONAL {
+    ?instrument ctm:samplePieceWithPerformance ?piece .
+    ?piece musicbrainz:title ?pieceTitle .
+  }
+  
+  # Optional: Get pieces where this instrument is the principal instrument
+  OPTIONAL {
+    ?piece ctm:piecePrincipalInstrument ?instrument .
+    ?piece musicbrainz:title ?pieceTitle .
+    OPTIONAL {
+      ?piece bf:partOf ?specialResource .
+      ?specialResource rdfs:label ?resourceLabel .
+    }
+  }
 }
-LIMIT 100
