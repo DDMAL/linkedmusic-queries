@@ -17,8 +17,8 @@ Example questions:
 
 
 # Chinese Traditonal Music Culture Knowledge Base
-main/home page: http://101.201.37.120:8080/mcdemo/home
-SPARQL query page: http://101.201.37.120:8080/mcdemo/sparql
+- main/home page: http://101.201.37.120:8080/mcdemo/home
+- SPARQL query page: http://101.201.37.120:8080/mcdemo/sparql
 
 # SPARQL endpoint from open link virtuoso
 http://101.201.37.120:8890/sparql
