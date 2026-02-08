@@ -1,6 +1,7 @@
-# Interactive Semantic Intelligent QA Agent version 2
-URL: http://101.201.37.120/ (When running the workflow, there is some issue, to be repaired soon. Please check back later.)
-You may try the AI agent by entering your questions in the input box.
+# Interactive Semantic Intelligent QA Agent version 2 
+- URL: http://101.201.37.120/ (When running the workflow, there is some issue, to be repaired soon. Please check back later.)
+
+- You may try the AI agent by entering your questions in the input box.
 Example questions:
     1. 东不拉这种乐器分布在哪里？
     2. 东不拉分布在哪里？
@@ -15,10 +16,9 @@ Example questions:
     11. 属于藏缅语族的民族的乐器和属于壮侗语族的民族的乐器在声学特征（如霍萨分类方面）上可能有什么差异？
 
 
-
-# Chinese Traditonal Music Culture Knowledge Base
-main/home page: http://101.201.37.120:8080/mcdemo/home
-SPARQL query page: http://101.201.37.120:8080/mcdemo/sparql
+# Chinese Traditonal Music Culture Knowledge Base (中华传统音乐文化知识库：平台试用地址)
+- main/home page: http://101.201.37.120:8080/mcdemo/home
+- SPARQL query page: http://101.201.37.120:8080/mcdemo/sparql
 
 # SPARQL endpoint from open link virtuoso
 http://101.201.37.120:8890/sparql
